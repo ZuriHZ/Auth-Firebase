@@ -1,7 +1,19 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+    "files": [],
+    "references": [
+        { "path": "./tsconfig.app.json" },
+        { "path": "./tsconfig.node.json" }
+    ],
+    "compilerOptions": {
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": "./",
+        "strict": true,
+        "paths": {
+            "@Components/*": ["src/Components/*"],
+            "@Templates/*": ["src/Template/*"],
+            "@Utils/*": ["src/Utils/*"],
+            "@Hooks/*": ["src/Hooks/*"],
+            "@Services/*": ["src/Services/*"]
+        }
+    }
 }
