@@ -7,9 +7,9 @@ export const HomeTemplate = () => {
     return (
         <>
             <div className="flex flex-col justify-center items-center h-screen">
-                <section className="w-full px-8 grid grid-cols-1 md:grid-cols-2 items-center gap-8 py-62 mx-auto ">
+                <section className="w-full px-8 grid grid-cols-1 md:grid-cols-2 items-center gap-8 py-32 mx-auto">
                     <div>
-                        <h3 className="text-4xl md:text-6xl font-semibold">
+                        <h3 className="text-4xl md:text-9xl font-semibold">
                             Bienvenid@s
                         </h3>
                         <p className="text-base md:text-lg text-slate-700 my-4 md:my-6">
@@ -152,7 +152,7 @@ const ShuffleGrid = () => {
     };
 
     return (
-        <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-1">
+        <div className="grid grid-cols-4 grid-rows-4 h-[500px] gap-1">
             {squares.map((sq) => sq)}
         </div>
     );

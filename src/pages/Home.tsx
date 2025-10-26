@@ -5,9 +5,7 @@ import { HoverImageLinks } from "../components/HoverImageLinks";
 export const Home = () => {
     return (
         <div>
-            <div>
-                <Navbar />
-            </div>
+            <Navbar />
             <HomeTemplate />
             <HoverImageLinks />
         </div>

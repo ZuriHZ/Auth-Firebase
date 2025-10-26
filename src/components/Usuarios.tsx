@@ -101,7 +101,6 @@ export const TablaUsuarios = () => {
                     <thead>
                         <tr className="bg-gray-800 text-white">
                             <th className="p-2">Nombre</th>
-                            <th className="p-2">Email</th>
                             <th className="p-2">Rol</th>
                             <th className="p-2">Activo</th>
                         </tr>
@@ -110,7 +109,6 @@ export const TablaUsuarios = () => {
                         {Object.entries(usuarios).map(([uid, user]) => (
                             <tr key={uid} className="border-t border-gray-600">
                                 <td className="p-2">{user.nombre}</td>
-                                <td className="p-2">{user.email}</td>
                                 <td className="p-2">{user.rol}</td>
                                 <td className="p-2">
                                     {user.activo ? "Sí" : "No"}

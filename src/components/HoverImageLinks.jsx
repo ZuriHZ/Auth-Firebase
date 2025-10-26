@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export const HoverImageLinks = () => {
   return (
-    <section id="mas" className="w-full p-4 md:p-8 bg-black">
+    <section id="mas" className="w-full p-4 md:p-4 bg-black">
       <div className="flex flex-col justify-center w-full mx-auto">
         <Link
           heading="About"

@@ -4,7 +4,6 @@ function App() {
     return (
         <>
             <div className="scroll-smooth">
-                <div></div>
                 <AppRoutes />
             </div>
         </>
