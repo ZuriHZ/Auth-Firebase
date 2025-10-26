@@ -4,7 +4,7 @@ export { AboutTemplate } from "./Template/AboutTemplate.tsx";
 export { HomeTemplate } from "./Template/HomeTemplate.tsx";
 export { Dashboard } from "./components/Dashboard.jsx";
 export { Login } from "./components/Login.jsx";
-export { default as Navbar } from "./components/Navbar.jsx";
+export { Navbar } from "./components/Navbar.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Register } from "./components/Register.jsx";
 export { useAuth, AuthProvider } from "./context/AuthContext.jsx";
