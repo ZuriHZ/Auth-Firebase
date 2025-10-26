@@ -3,7 +3,7 @@ import { AppRoutes } from "./Routers/routes";
 function App() {
     return (
         <>
-            <div>
+            <div className="scroll-smooth">
                 <div></div>
                 <AppRoutes />
             </div>

@@ -5,49 +5,70 @@
 
 /* Usar el ancho del viewport del dispositivo y respetar áreas seguras */
 html {
-  -webkit-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
-  margin: 0;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  text-rendering: optimizeLegibility;
-  -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+        env(safe-area-inset-bottom) env(safe-area-inset-left);
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Tipografías responsivas con clamp para títulos */
 :root {
-  --fs-h1: clamp(1.75rem, 4vw + 1rem, 2.5rem);
-  --fs-h2: clamp(1.5rem, 3.5vw + 0.9rem, 2rem);
-  --fs-h3: clamp(1.25rem, 3vw + 0.8rem, 1.5rem);
+    --fs-h1: clamp(1.75rem, 4vw + 1rem, 2.5rem);
+    --fs-h2: clamp(1.5rem, 3.5vw + 0.9rem, 2rem);
+    --fs-h3: clamp(1.25rem, 3vw + 0.8rem, 1.5rem);
 }
 
-h1 { font-size: var(--fs-h1); }
-h2 { font-size: var(--fs-h2); }
-h3 { font-size: var(--fs-h3); }
+h1 {
+    font-size: var(--fs-h1);
+}
+h2 {
+    font-size: var(--fs-h2);
+}
+h3 {
+    font-size: var(--fs-h3);
+}
 
 /* Formularios: inputs y botones amigables en móvil */
-input, select, textarea, button {
-  font-size: 16px; /* evita zoom en iOS */
+input,
+select,
+textarea,
+button {
+    font-size: 16px; /* evita zoom en iOS */
 }
-button, input[type="submit"], input[type="button"] {
-  min-height: 44px; /* tamaño mínimo recomendado táctil */
+button,
+input[type="submit"],
+input[type="button"] {
+    min-height: 44px; /* tamaño mínimo recomendado táctil */
 }
 
 /* Utilidad: limitar anchura de contenedores en móvil */
 @media (max-width: 480px) {
-  .container,
-  [class*="max-w-"] {
-    width: 100%;
-    max-width: 100% !important;
-  }
+    .container,
+    [class*="max-w-"] {
+        width: 100%;
+        max-width: 100% !important;
+    }
 
-  /* Espaciado lateral cómodo en móvil */
-  .px-4, .px-6, .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+    /* Espaciado lateral cómodo en móvil */
+    .px-4,
+    .px-6,
+    .px-8 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
 }
 
 /* Corrección genérica para overlays fijos: evitar scroll horizontal */
-[class*="fixed"], [class*="inset-0"] {
-  max-width: 100vw;
-  overflow-x: hidden;
+[class*="fixed"],
+[class*="inset-0"] {
+    max-width: 100vw;
+    overflow-x: hidden;
 }
