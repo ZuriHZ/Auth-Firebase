@@ -27,7 +27,7 @@ export const Navbar = () => {
             icon: User,
             label: "Perfil",
             href: "/profile",
-            message: "Sin implementacion",
+            message: "",
         }, // Assuming a profile page
         {
             icon: Mail,
@@ -35,12 +35,6 @@ export const Navbar = () => {
             href: "/messages",
             message: "Sin implementacion",
         }, // Assuming a messages page
-        {
-            icon: Settings,
-            label: "Configuración",
-            href: "/settings",
-            message: "Sin implementacion",
-        }, // Assuming a settings page
         { icon: Info, label: "Acerca de", href: "/about" },
         {
             icon: User2,
@@ -119,9 +113,9 @@ export const Navbar = () => {
                                         <span className="text-2xl font-medium text-white group-hover:translate-x-2 transition-transform">
                                             {item.label}
                                         </span>
-                                    <span className="text-xl font-medium text-white group-hover:translate-x-2 transition-transform">
-                                        {item.message}
-                                    </span>
+                                        <span className="text-xl font-medium text-white group-hover:translate-x-2 transition-transform">
+                                            {item.message}
+                                        </span>
                                     </a>
                                 </li>
                             ))}

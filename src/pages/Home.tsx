@@ -1,14 +1,15 @@
 "use client";
 import { HomeTemplate } from "../index.ts";
 import { Navbar } from "../index.ts";
-
+import { HoverImageLinks } from "../components/HoverImageLinks";
 export const Home = () => {
     return (
-        <div className="flex flex-col justify-center items-center h-screen">
+        <div>
             <div>
                 <Navbar />
             </div>
             <HomeTemplate />
+            <HoverImageLinks />
         </div>
     );
 };
