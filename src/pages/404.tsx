@@ -1,5 +1,5 @@
 "use client";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export const PageNotFound = () => {
     return (

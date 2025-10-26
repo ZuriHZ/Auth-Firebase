@@ -1,7 +1,7 @@
 // src/components/VerifyEmail.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 export const VerifyEmail=()=> {
   const { user, logout, resendVerificationEmail } = useAuth();

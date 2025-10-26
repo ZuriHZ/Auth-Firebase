@@ -1,5 +1,5 @@
 // src/components/AdminRoute.jsx
-import { Navigate } from "react-router";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 // Componente para rutas que requieren solo ser admin

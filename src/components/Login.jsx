@@ -1,7 +1,9 @@
 // src/components/Login.jsx
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
+
+const key_captach = import.meta.env.VITE_SITE_KEY_CAPCHAT;
 
 export const Login = () => {
     const [formData, setFormData] = useState({

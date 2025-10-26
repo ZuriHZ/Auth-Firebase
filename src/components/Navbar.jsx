@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, X, Home, User, Settings, Mail, Info, User2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
