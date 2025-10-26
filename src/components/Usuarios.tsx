@@ -66,14 +66,14 @@ export const TablaUsuarios = () => {
                             onChange={handleInputChange}
                             className="p-2 border rounded bg-gray-700 text-white"
                         />
-                        <input
+                        {/* <input
                             type="email"
                             name="email"
                             placeholder="Email"
                             value={nuevoUsuario.email}
                             onChange={handleInputChange}
                             className="p-2 border rounded bg-gray-700 text-white"
-                        />
+                        /> */}
                         <select
                             title="rol"
                             name="rol"
@@ -101,6 +101,7 @@ export const TablaUsuarios = () => {
                             <th className="p-2">Nombre</th>
                             <th className="p-2">Rol</th>
                             <th className="p-2">Activo</th>
+                            <th className="p-2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
