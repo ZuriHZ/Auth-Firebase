@@ -1,4 +1,5 @@
 // src/components/Dashboard.jsx
+import { Home } from "../pages/Home";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 
@@ -22,7 +23,7 @@ export const Dashboard = () => {
                     <div className="flex justify-between h-16">
                         <div className="flex items-center">
                             <h1 className="text-xl font-bold text-gray-900">
-                                Dashboard
+                                Bienvendid@
                             </h1>
                         </div>
                         <div className="flex items-center space-x-4">
@@ -42,24 +43,7 @@ export const Dashboard = () => {
 
             <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div className="px-4 py-6 sm:px-0">
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                            ¡Bienvenido!
-                        </h2>
-                        <div className="space-y-2">
-                            <p className="text-gray-600">
-                                <strong>Email:</strong> {user?.email}
-                            </p>
-                            {user?.displayName && (
-                                <p className="text-gray-600">
-                                    <strong>Nombre:</strong> {user.displayName}
-                                </p>
-                            )}
-                            <p className="text-gray-600">
-                                <strong>ID:</strong> {user?.uid}
-                            </p>
-                        </div>
-                    </div>
+                    <Home />
                 </div>
             </main>
         </div>
