@@ -26,7 +26,6 @@ export const TablaUsuarios = () => {
 
     const [nuevoUsuario, setNuevoUsuario] = useState({
         nombre: "",
-        email: "",
         rol: "usuario",
         activo: true,
     });
@@ -39,7 +38,7 @@ export const TablaUsuarios = () => {
     };
 
     const agregarUsuario = () => {
-        if (!nuevoUsuario.nombre || !nuevoUsuario.email) {
+        if (!nuevoUsuario.nombre) {
             alert("Nombre y email son requeridos");
             return;
         }
@@ -47,7 +46,6 @@ export const TablaUsuarios = () => {
         push(usuariosRef, nuevoUsuario);
         setNuevoUsuario({
             nombre: "",
-            email: "",
             rol: "usuario",
             activo: true,
         });
