@@ -1,5 +1,11 @@
-import { DataBaseTemplate } from "../index.ts";
-
+import { DataBaseTemplate, Navbar } from "../index.ts";
 export const DataBase = () => {
-    return <DataBaseTemplate />;
+    return (
+        <>
+        <Navbar/>
+            <div className="mt-4">
+                <DataBaseTemplate />
+            </div>
+        </>
+    );
 };

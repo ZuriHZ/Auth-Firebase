@@ -1,7 +1,12 @@
 "use client";
 import { Route, Routes } from "react-router";
 import { lazy, Suspense } from "react";
-import { AuthProvider, ProtectedRoute, ProtectedDatabaseRoute } from "../index.ts";
+import {
+    AuthProvider,
+    ProtectedRoute,
+    ProtectedDatabaseRoute,
+    PublicRoute,
+} from "../index.ts";
 
 // const Home = lazy(() =>
 //     import("../pages/Home.tsx").then((m) => ({ default: m.Home }))
@@ -35,16 +40,49 @@ const DataBase = lazy(() =>
     }))
 );
 
+const Profile = lazy(() =>
+    import("../pages/Profile.tsx").then((m) => ({ default: m.Profile }))
+);
+
 export const AppRoutes = () => {
     return (
         <AuthProvider>
-            <Suspense fallback={<div></div>}>
+            <Suspense>
                 <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
                     <Route path="/about" element={<About />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route
+                        path="/register"
+                        element={
+                            <PublicRoute>
+                                <Register />
+                            </PublicRoute>
+                        }
+                    />
                     <Route path="/verify-email" element={<VerifyEmail />} />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
                     {/* Ruta protegida: usuarios pueden ver, solo admins pueden modificar */}
                     <Route
                         path="/database"
@@ -52,14 +90,6 @@ export const AppRoutes = () => {
                             <ProtectedDatabaseRoute>
                                 <DataBase />
                             </ProtectedDatabaseRoute>
-                        }
-                    />
-                    <Route
-                        path="/database"
-                        element={
-                            <ProtectedRoute>
-                                <DataBase />
-                            </ProtectedRoute>
                         }
                     />
                     <Route

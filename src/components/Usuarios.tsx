@@ -12,7 +12,7 @@ interface Usuario {
 }
 
 export const TablaUsuarios = () => {
-    const userRole = useAuth();
+    const { userRole } = useAuth();
     const [usuarios, setUsuarios] = useState<Record<string, Usuario>>({});
 
     useEffect(() => {

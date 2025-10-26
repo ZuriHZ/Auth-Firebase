@@ -58,9 +58,25 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const loginWithGoogle = () => {
+  const loginWithGoogle = async () => {
     const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider);
+    const result = await signInWithPopup(auth, googleProvider);
+    // Asegurar nodo de usuario en la base de datos en el primer login con Google
+    try {
+      const userRef = ref(db, `usuarios/${result.user.uid}`);
+      const snapshot = await get(userRef);
+      if (!snapshot.exists()) {
+        await set(userRef, {
+          nombre: result.user.displayName || '',
+          email: result.user.email || '',
+          rol: 'usuario',
+          activo: true,
+        });
+      }
+    } catch (e) {
+      console.error('Error creando nodo de usuario para Google:', e);
+    }
+    return result;
   };
 
   const logout = () => {
