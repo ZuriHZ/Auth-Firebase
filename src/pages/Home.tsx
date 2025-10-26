@@ -1,6 +1,10 @@
 "use client";
-import { HomeTemplate } from "../Template/homeTemplate";
+import { HomeTemplate } from "../index.ts";
 
 export const Home = () => {
-    return <HomeTemplate />;
+    return (
+        <div className="flex justify-center items-center h-screen">
+            <HomeTemplate />;
+        </div>
+    );
 };

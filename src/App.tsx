@@ -1,10 +1,11 @@
-
 import { AppRoutes } from "./Routers/routes";
 
 function App() {
     return (
         <>
-            <AppRoutes />
+            <div>
+                <AppRoutes />
+            </div>
         </>
     );
 }
