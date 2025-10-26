@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X, Home, User, Settings, Mail, Info } from "lucide-react";
+import { Menu, X, Home, User, Settings, Mail, Info, User2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 export const Navbar = () => {
@@ -23,10 +23,31 @@ export const Navbar = () => {
 
     const menuItems = [
         { icon: Home, label: "Inicio", href: "/dashboard" },
-        { icon: User, label: "Perfil", href: "/profile" }, // Assuming a profile page
-        { icon: Mail, label: "Mensajes", href: "/messages" }, // Assuming a messages page
-        { icon: Settings, label: "Configuración", href: "/settings" }, // Assuming a settings page
-        { icon: Info, label: "Acerca de", href: "/about" }, // Assuming an about page
+        {
+            icon: User,
+            label: "Perfil",
+            href: "/profile",
+            message: "Sin implementacion",
+        }, // Assuming a profile page
+        {
+            icon: Mail,
+            label: "Mensajes",
+            href: "/messages",
+            message: "Sin implementacion",
+        }, // Assuming a messages page
+        {
+            icon: Settings,
+            label: "Configuración",
+            href: "/settings",
+            message: "Sin implementacion",
+        }, // Assuming a settings page
+        { icon: Info, label: "Acerca de", href: "/about" },
+        {
+            icon: User2,
+            label: "Usuarios",
+            href: "/database",
+            message: "",
+        },
     ];
 
     return (
@@ -52,7 +73,7 @@ export const Navbar = () => {
                     <div
                         className={`mb-12 transition-all duration-700 delay-100 ${
                             isOpen
-                                ? "opacity-100 translate-y-0"
+                                ? "opacity-100 translate-y-4"
                                 : "opacity-0 -translate-y-10"
                         }`}
                     >
@@ -98,6 +119,9 @@ export const Navbar = () => {
                                         <span className="text-2xl font-medium text-white group-hover:translate-x-2 transition-transform">
                                             {item.label}
                                         </span>
+                                    <span className="text-xl font-medium text-white group-hover:translate-x-2 transition-transform">
+                                        {item.message}
+                                    </span>
                                     </a>
                                 </li>
                             ))}

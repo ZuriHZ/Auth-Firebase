@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router";
+import { ref, push } from "firebase/database";
+import { db } from "../firebase/firebase";
 
 export const Register = () => {
     const [formData, setFormData] = useState({
@@ -37,8 +39,18 @@ export const Register = () => {
         try {
             setError("");
             setLoading(true);
-            await signup(formData.email, formData.password, formData.name);
-            navigate("/verify-email"); // o la ruta que quieras
+            const result = await signup(formData.email, formData.password, formData.name);
+            
+            // Guardar usuario en la base de datos con rol por defecto
+            const usuariosRef = ref(db, "usuarios");
+            await push(usuariosRef, {
+                nombre: formData.name,
+                email: formData.email,
+                rol: "usuario", // Rol por defecto
+                activo: true,
+            });
+            
+            navigate("/verify-email");
         } catch (error) {
             console.error(error);
             if (error.code === "auth/email-already-in-use") {
@@ -59,7 +71,28 @@ export const Register = () => {
         try {
             setError("");
             setLoading(true);
-            await loginWithGoogle();
+            const result = await loginWithGoogle();
+            
+            // Verificar si el usuario ya existe en la base de datos
+            const usuariosRef = ref(db, "usuarios");
+            const { get } = await import("firebase/database");
+            const snapshot = await get(usuariosRef);
+            const usuarios = snapshot.val() || {};
+            
+            // Si el usuario no existe, agregarlo con rol por defecto
+            const userExists = Object.values(usuarios).some(
+                (u) => u.email === result.user.email
+            );
+            
+            if (!userExists) {
+                await push(usuariosRef, {
+                    nombre: result.user.displayName || "Usuario Google",
+                    email: result.user.email,
+                    rol: "usuario",
+                    activo: true,
+                });
+            }
+            
             navigate("/dashboard");
         } catch (error) {
             setError("Error al iniciar sesión con Google: " + error.message);
