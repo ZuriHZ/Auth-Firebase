@@ -1,0 +1,51 @@
+/* ===============================
+   Overrides específicos en móvil
+   - No cambies clases JSX; estos selectores son tolerantes
+   =============================== */
+
+/* Tarjetas de auth (Login / Register / VerifyEmail) */
+@media (max-width: 480px) {
+  /* Contenedor de card: clase utilitaria tailwind contiene max-w-md */
+  [class*="max-w-md"].w-full {
+    border-radius: 0.75rem; /* rounded-lg */
+    padding: 1.25rem !important; /* p-5 */
+  }
+
+  /* Títulos grandes dentro de las tarjetas */
+  [class*="max-w-md"] h2 {
+    line-height: 1.2;
+  }
+
+  /* Inputs ocupan todo el ancho y con mayor área táctil */
+  [class*="max-w-md"] input {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  /* Botones primarios y secundarios */
+  [class*="max-w-md"] button {
+    min-height: 44px;
+  }
+}
+
+/* Página 404: reducir tamaño del 404 gigante en móvil */
+@media (max-width: 480px) {
+  [class*="text-9xl"] {
+    font-size: clamp(3rem, 18vw, 5rem) !important;
+  }
+  /* Ajustar padding del panel central */
+  [class*="Página no encontrada"], /* fallback por si cambia estructura */
+  [class*="rounded-lg"].[class*="shadow"] {
+    padding: 1.25rem;
+  }
+}
+
+/* Navbar: botón hamburguesa con mayor área táctil en móvil */
+@media (max-width: 480px) {
+  /* Botón fijo arriba a la derecha */
+  button[class*="fixed"][class*="top-"][class*="right-"] {
+    padding: 0.85rem 0.9rem !important;
+  }
+  /* Items del overlay: aumentar separación vertical ligera */
+  nav ul li a { padding-top: 0.9rem; padding-bottom: 0.9rem; }
+}

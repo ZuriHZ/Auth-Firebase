@@ -37,8 +37,9 @@ export const Register = () => {
         try {
             setError("");
             setLoading(true);
-            await signup(formData.email, formData.password, formData.name);
-            navigate("/verify-email"); // o la ruta que quieras
+            const result = await signup(formData.email, formData.password, formData.name);
+            
+            navigate("/verify-email");
         } catch (error) {
             console.error(error);
             if (error.code === "auth/email-already-in-use") {

@@ -1,11 +1,16 @@
 "use client";
 import { Route, Routes } from "react-router";
 import { lazy, Suspense } from "react";
-import { AuthProvider, ProtectedRoute } from "../index.ts";
+import {
+    AuthProvider,
+    ProtectedRoute,
+    ProtectedDatabaseRoute,
+    PublicRoute,
+} from "../index.ts";
 
-const Home = lazy(() =>
-    import("../pages/Home.tsx").then((m) => ({ default: m.Home }))
-);
+// const Home = lazy(() =>
+//     import("../pages/Home.tsx").then((m) => ({ default: m.Home }))
+// );
 const About = lazy(() =>
     import("../pages/About.tsx").then((m) => ({ default: m.About }))
 );
@@ -29,23 +34,69 @@ const PageNotFound = lazy(() =>
     import("../pages/404.tsx").then((m) => ({ default: m.PageNotFound }))
 );
 
+const DataBase = lazy(() =>
+    import("../pages/DatabaseUsers.tsx").then((m) => ({
+        default: m.DataBase,
+    }))
+);
+
+const Profile = lazy(() =>
+    import("../pages/Profile.tsx").then((m) => ({ default: m.Profile }))
+);
+
 export const AppRoutes = () => {
     return (
         <AuthProvider>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense>
                 <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
                     <Route path="/about" element={<About />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route
+                        path="/register"
+                        element={
+                            <PublicRoute>
+                                <Register />
+                            </PublicRoute>
+                        }
+                    />
                     <Route path="/verify-email" element={<VerifyEmail />} />
-
-                    {/* Rutas protegidas */}
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
+                    {/* Ruta protegida: usuarios pueden ver, solo admins pueden modificar */}
+                    <Route
+                        path="/database"
+                        element={
+                            <ProtectedDatabaseRoute>
+                                <DataBase />
+                            </ProtectedDatabaseRoute>
+                        }
+                    />
                     <Route
                         path="/dashboard"
                         element={
                             <ProtectedRoute>
-                                <Home />
+                                <Dashboard />
                             </ProtectedRoute>
                         }
                     />

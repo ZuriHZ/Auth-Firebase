@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Navbar } from "../index.ts";
 
 export const HomeTemplate = () => {
     return (
         <>
-            <Navbar />
+            
 
             <section className="w-full px-8 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto">
                 <div>
