@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 export const HomeTemplate = () => {
     return (
         <>
-            <div className="flex flex-col justify-center items-center h-screen mt-64">
-                <section className="w-full px-8 grid grid-cols-1 md:grid-cols-2 items-center gap-8 py-96 mx-auto mt-44">
+            <div className="flex flex-col justify-center items-center h-screen">
+                <section className="w-full px-8 grid grid-cols-1 md:grid-cols-2 items-center gap-8 py-62 mx-auto ">
                     <div>
                         <h3 className="text-4xl md:text-6xl font-semibold">
                             Bienvenid@s
