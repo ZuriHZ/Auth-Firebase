@@ -26,11 +26,13 @@ dist-ssr
 *.sw?
 
 
-<<<<<<< HEAD
-=======
+
+# Environment variables
 .env
 .env.local
 .env.development
 .env.test
 .env.production
->>>>>>> 32210e66db1876476d7f5acab498b0a547b70967
+
+# Others
+Informes/
