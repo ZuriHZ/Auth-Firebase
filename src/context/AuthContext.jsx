@@ -41,12 +41,12 @@ export function AuthProvider({ children }) {
         await sendEmailVerification(result.user);
 
         // Crear nodo de usuario en la base de datos
-        await set(ref(db, `usuarios/${result.user.uid}`), {
-            nombre: displayName || "",
-            email,
-            rol: "usuario",
-            activo: true,
-        });
+        // await set(ref(db, `usuarios/${result.user.uid}`), {
+        //     nombre: displayName || "",
+        //     email,
+        //     rol: "usuario",
+        //     activo: true,
+        // });
 
         return result;
     };
