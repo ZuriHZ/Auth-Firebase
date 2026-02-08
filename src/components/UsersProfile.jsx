@@ -1,7 +1,8 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { ShinyButtonDemo } from "../components/ShinyButton";
+    
 export const UsersProfile = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -104,6 +105,9 @@ export const UsersProfile = () => {
                             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                 Mi Perfil
                             </h1>
+                            <a className="cursor-pointer text-blue-600 hover:text-blue-800" href="/" target="_blank" rel="noopener noreferrer">
+                                <ShinyButtonDemo />
+                            </a>
                         </div>
 
                         {/* Desktop menu */}
