@@ -1,19 +1,32 @@
 {
     "compilerOptions": {
         "target": "ESNext",
-        "lib": ["DOM", "ESNext"],
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
         "module": "ESNext",
-        "checkJs": false,
-        "esModuleInterop": true,
-        "moduleResolution": "Node",
         "skipLibCheck": true,
-        "baseUrl": "./",
-        "strict": true,
-        "allowJs": true,
-        "jsx": "react-jsx",
-        "noEmit": true,
+
+        /* Bundler mode */
+        "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,
-        "forceConsistentCasingInFileNames": true
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+
+        /* React 19 */
+        "types": ["vite/client", "react", "react/jsx-runtime"],
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     },
     "include": ["src"],
     "exclude": ["node_modules"]

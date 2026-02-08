@@ -1,159 +1,235 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-
-
+import { Link } from "react-router-dom";
 
 export const HomeTemplate = () => {
-    return (
-        <>
-            <div className="flex flex-col justify-center items-center h-screen">
-                <section className="w-full px-8 grid grid-cols-1 md:grid-cols-2 items-center gap-8 py-32 mx-auto">
-                    <div>
-                        <h3 className="text-4xl md:text-9xl font-semibold">
-                            Bienvenid@s
-                        </h3>
-                        <p className="text-base md:text-lg text-slate-700 my-4 md:my-6">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Nam nobis in error repellat voluptatibus ad.
-                        </p>
-                        <a
-                            href="#mas"
-                            className="bg-indigo-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95"
-                        >
-                            Conocer Mas
-                        </a>
-                    </div>
-                    <ShuffleGrid />
-                </section>
-              
-               
-            </div>
-        </>
-    );
-};
-
-const shuffle = (array: { id: number; src: string }[]) => {
-    let currentIndex = array.length,
-        randomIndex;
-
-    while (currentIndex != 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex],
-            array[currentIndex],
-        ];
-    }
-
-    return array;
-};
-
-const squareData = [
-    {
-        id: 1,
-        src: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    },
-    {
-        id: 2,
-        src: "https://images.unsplash.com/photo-1510925758641-869d353cecc7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-        id: 3,
-        src: "https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-        id: 4,
-        src: "https://images.unsplash.com/photo-1580238053495-b9720401fd45?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-        id: 5,
-        src: "https://images.unsplash.com/photo-1569074187119-c87815b476da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1325&q=80",
-    },
-    {
-        id: 6,
-        src: "https://images.unsplash.com/photo-1556817411-31ae72fa3ea0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    },
-    {
-        id: 7,
-        src: "https://images.unsplash.com/photo-1599586120429-48281b6f0ece?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    },
-    {
-        id: 8,
-        src: "https://plus.unsplash.com/premium_photo-1671436824833-91c0741e89c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    },
-    {
-        id: 9,
-        src: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    },
-    {
-        id: 10,
-        src: "https://images.unsplash.com/photo-1610768764270-790fbec18178?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    },
-    {
-        id: 11,
-        src: "https://images.unsplash.com/photo-1507034589631-9433cc6bc453?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=684&q=80",
-    },
-    {
-        id: 12,
-        src: "https://images.unsplash.com/photo-1533107862482-0e6974b06ec4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=882&q=80",
-    },
-    {
-        id: 13,
-        src: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    },
-    {
-        id: 14,
-        src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80",
-    },
-    {
-        id: 15,
-        src: "https://images.unsplash.com/photo-1606244864456-8bee63fce472?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=681&q=80",
-    },
-    {
-        id: 16,
-        src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1820&q=80",
-    },
-];
-
-const generateSquares = () => {
-    return shuffle(squareData).map((sq) => (
-        <motion.div
-            key={sq.id}
-            layout
-            transition={{ duration: 1.5, type: "spring" }}
-            className="w-full h-full"
-            style={{
-                backgroundImage: `url(${sq.src})`,
-                backgroundSize: "cover",
-            }}
-        ></motion.div>
-    ));
-};
-
-const ShuffleGrid = () => {
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const [squares, setSquares] = useState(generateSquares());
-
-    useEffect(() => {
-        shuffleSquares();
-
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
-    }, []);
-
-    const shuffleSquares = () => {
-        setSquares(generateSquares());
-
-        timeoutRef.current = setTimeout(shuffleSquares, 3000);
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+            },
+        },
     };
 
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5 },
+        },
+    };
+
+    const features = [
+        {
+            title: "Seguridad Robusta",
+            description:
+                "Protección de datos de nivel empresarial con Firebase Authentication.",
+            icon: (
+                <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                </svg>
+            ),
+        },
+        {
+            title: "Fácil Integración",
+            description:
+                "API intuitiva y documentación clara para empezar en minutos.",
+            icon: (
+                <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M11 4a2 2 0 114 0v1a2 2 0 11-4 0V4zM11 13a2 2 0 114 0v1a2 2 0 11-4 0v-1zM11 19a2 2 0 114 0v1a2 2 0 11-4 0v-1zM5 4a2 2 0 114 0v1a2 2 0 11-4 0V4zM5 13a2 2 0 114 0v1a2 2 0 11-4 0v-1zM5 19a2 2 0 114 0v1a2 2 0 11-4 0v-1z"
+                    />
+                </svg>
+            ),
+        },
+        {
+            title: "Escalabilidad Total",
+            description:
+                "Preparado para crecer desde pequeños proyectos hasta grandes empresas.",
+            icon: (
+                <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                    />
+                </svg>
+            ),
+        },
+    ];
+
+    const stats = [
+        { label: "Usuarios Activos", value: "50k+" },
+        { label: "Disponibilidad", value: "99.9%" },
+        { label: "Países", value: "25+" },
+    ];
+
     return (
-        <div className="grid grid-cols-4 grid-rows-4 h-[500px] gap-1">
-            {squares.map((sq) => sq)}
+        <div className="min-h-screen bg-white">
+            {/* Hero Section */}
+            <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-950">
+                <div className="absolute inset-0">
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                </div>
+
+                <div className="container mx-auto px-6 relative z-10 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight">
+                            Autenticación{" "}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
+                                Simplificada
+                            </span>
+                        </h1>
+                        <p className="text-xl md:text-2xl text-blue-100 mb-10 max-w-2xl mx-auto leading-relaxed">
+                            La plataforma más completa y segura para gestionar
+                            la identidad de tus usuarios en la nube.
+                        </p>
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                            <Link
+                                to="/register"
+                                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-lg"
+                            >
+                                Comenzar Gratis
+                            </Link>
+                            <Link
+                                to="/about"
+                                className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/30 rounded-full font-bold text-lg transition-all backdrop-blur-sm"
+                            >
+                                Saber Más
+                            </Link>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+                    <svg
+                        className="relative block w-full h-[100px]"
+                        data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 1200 120"
+                        preserveAspectRatio="none"
+                    >
+                        <path
+                            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C58,117.26,171.19,103.11,217.44,91C252.68,81.75,284.14,63.15,321.39,56.44Z"
+                            fill="#FFFFFF"
+                        ></path>
+                    </svg>
+                </div>
+            </section>
+
+            {/* Features Section */}
+            <section className="py-24 bg-white">
+                <div className="container mx-auto px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={containerVariants}
+                        className="grid md:grid-cols-3 gap-12"
+                    >
+                        {features.map((feature, idx) => (
+                            <motion.div
+                                key={idx}
+                                variants={itemVariants}
+                                className="p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-2xl transition-all border border-gray-100 group"
+                            >
+                                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    {feature.description}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Stats Bar */}
+            <section className="bg-gray-900 py-16">
+                <div className="container mx-auto px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                        {stats.map((stat, idx) => (
+                            <div key={idx} className="text-center">
+                                <div className="text-4xl md:text-5xl font-black text-blue-400 mb-2">
+                                    {stat.value}
+                                </div>
+                                <div className="text-gray-400 font-medium uppercase tracking-widest text-sm">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-24">
+                <div className="container mx-auto px-6">
+                    <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+
+                        <div className="relative z-10">
+                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                                ¿Listo para transformar tu app?
+                            </h2>
+                            <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+                                Únete a los miles de desarrolladores que ya
+                                están construyendo el futuro con nuestra
+                                infraestructura.
+                            </p>
+                            <button className="px-10 py-5 bg-white text-blue-600 hover:bg-gray-100 rounded-full font-black text-xl transition-all transform hover:scale-105 shadow-xl">
+                                Crear Cuenta Ahora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Footer-like simple area */}
+            <footer className="py-12 border-t border-gray-100">
+                <div className="container mx-auto px-6 text-center text-gray-500">
+                    <p>
+                        © 2026 Auth Solutions Inc. Todos los derechos
+                        reservados.
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 };
