@@ -1,14 +1,28 @@
-export { default as App } from "./App.tsx";
-export { default as routes } from "./Routers/routes.tsx";
-export { AboutTemplate } from "./Template/AboutTemplate.tsx";
-export { HomeTemplate } from "./Template/HomeTemplate.tsx";
-export { DataBaseTemplate } from "./Template/DataBaseTemplate.tsx";
-export { Navbar } from "./components/Navbar.jsx";
-export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
-export {
-    AdminRoute,
-    ProtectedDatabaseRoute,
-} from "./components/AdminRoute.jsx";
-export { PublicRoute } from "./components/PublicRoute.jsx";
-export { useAuth, AuthProvider } from "./context/AuthContext.jsx";
-export { app, auth } from "./firebase/firebase.jsx";
+export { default as App } from './App.tsx';
+export { default as routes } from './Routers/routes.tsx';
+export { AboutTemplate } from './Template/AboutTemplate.tsx';
+export { DataBaseTemplate } from './Template/DataBaseTemplate.tsx';
+export { HomeTemplate } from './Template/HomeTemplate.tsx';
+export { AdminRoute, ProtectedDatabaseRoute } from './components/AdminRoute.jsx';
+export { Dashboard } from './components/Dashboard.jsx';
+export { HoverImageLinks } from './components/HoverImageLinks.jsx';
+export { RevealLinks } from './components/Links.jsx';
+export { Loading } from './components/Loading.jsx';
+export { Login } from './components/Login.jsx';
+export { Navbar } from './components/Navbar.jsx';
+export { ProtectedRoute } from './components/ProtectedRoute.jsx';
+export { PublicRoute } from './components/PublicRoute.jsx';
+export { Register } from './components/Register.jsx';
+export { ShinyButtonDemo } from './components/ShinyButton.tsx';
+export { UsersProfile } from './components/UsersProfile.jsx';
+export { TablaUsuarios } from './components/Usuarios.tsx';
+export { ShinyButton } from './components/ui/shiny-button.tsx';
+export { useAuth, AuthProvider } from './context/AuthContext.jsx';
+export { VerifyEmail } from './context/VerifyEmail.jsx';
+export { app, auth, db } from './firebase/firebase.jsx';
+export { cn } from './lib/utils.ts';
+export { PageNotFound } from './pages/404.tsx';
+export { About } from './pages/About.tsx';
+export { DataBase } from './pages/DatabaseUsers.tsx';
+export { Home } from './pages/Home.tsx';
+export { Profile } from './pages/Profile.tsx';
