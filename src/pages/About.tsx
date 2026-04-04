@@ -1,6 +1,10 @@
 "use client";
-import { AboutTemplate } from "../index.ts";
-
+import { AboutTemplate, NavbarDesktop } from "../index.ts";
 export const About = () => {
-    return <AboutTemplate />;
+    return (
+        <>
+            <NavbarDesktop />
+            <AboutTemplate />
+        </>
+    );
 };

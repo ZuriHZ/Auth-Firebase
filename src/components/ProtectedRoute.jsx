@@ -14,7 +14,7 @@ export const ProtectedRoute = ({ children }) => {
     }
     // Si no hay usuario, redirige al login
     if (!user) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/" />;
     }
 
     // Si el usuario no ha verificado su email, redirige a verificación

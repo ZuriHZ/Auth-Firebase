@@ -2,7 +2,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ShinyButtonDemo } from "../components/ShinyButton";
-    
+import { Menu, X, Home, User, Settings, Mail, Info, User2 } from "lucide-react";
 export const UsersProfile = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const UsersProfile = () => {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-        })
+        }),
     );
 
     const handleLogout = async () => {
@@ -40,7 +40,7 @@ export const UsersProfile = () => {
                     hour: "2-digit",
                     minute: "2-digit",
                     second: "2-digit",
-                })
+                }),
             );
         }, 1000);
         return () => clearInterval(timer);
@@ -80,6 +80,17 @@ export const UsersProfile = () => {
         return `${Math.floor(diffDays / 365)} años`;
     };
 
+    const menuItems = [
+        { icon: Home, label: "Inicio", href: "/dashboard" },
+        { icon: Info, label: "Acerca de", href: "/about" },
+        {
+            icon: User2,
+            label: "Usuarios",
+            href: "/database",
+            message: "",
+        },
+    ];
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
             {/* Navbar */}
@@ -105,10 +116,18 @@ export const UsersProfile = () => {
                             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                 Mi Perfil
                             </h1>
-                            <a className="cursor-pointer text-blue-600 hover:text-blue-800" href="/" target="_blank" rel="noopener noreferrer">
-                                <ShinyButtonDemo />
-                            </a>
                         </div>
+
+                        {menuItems.map((item) => (
+                            <a
+                                key={item.label}
+                                href={item.href}
+                                className="hidden md:flex items-center space-x-2 px-4 hover:text-blue-600 transition-all shadow-md hover:shadow-lg"
+                            >
+                                <item.icon className="w-4 h-4" />
+                                <span>{item.label}</span>
+                            </a>
+                        ))}
 
                         {/* Desktop menu */}
                         <div className="hidden md:flex items-center space-x-4">
@@ -183,6 +202,9 @@ export const UsersProfile = () => {
                                 <p className="text-xs text-gray-500">
                                     {user?.email}
                                 </p>
+                            </div>
+                            <div className="flex items-center justify-center">
+                                <ShinyButtonDemo />
                             </div>
                             <button
                                 onClick={handleLogout}
@@ -351,7 +373,6 @@ export const UsersProfile = () => {
                                 </h4>
                             </div>
                             <div className="space-y-3">
-                               
                                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                                     <span className="text-gray-600 text-sm">
                                         Miembro desde

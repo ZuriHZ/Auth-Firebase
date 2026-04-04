@@ -92,6 +92,7 @@ export const HomeTemplate = () => {
 
     return (
         <div className="min-h-screen bg-white">
+            
             {/* Hero Section */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-950">
                 <div className="absolute inset-0">
