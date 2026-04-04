@@ -10,8 +10,22 @@ export const NavbarDesktop = () => {
     const menuItems = [
         { name: "Inicio", path: "/", icon: <Info size={16} /> },
         { name: "About", path: "/about", icon: <Info size={16} /> },
-        { name: "Database", path: "/database", icon: <Rocket size={16} /> },
+        {
+            name: "Quienes Somos",
+            path: "/quienes-somos",
+            icon: <Info size={16} />,
+        },
+        { name: "Contacto", path: "/contacto", icon: <Info size={16} /> },
+        { name: "Pricing", path: "/pricing", icon: <Info size={16} /> },
     ];
+
+    if (user) {
+        menuItems.push({
+            name: "Database",
+            path: "/database",
+            icon: <LayoutDashboard size={16} />,
+        });
+    }
 
     const handleLogout = async () => {
         try {
