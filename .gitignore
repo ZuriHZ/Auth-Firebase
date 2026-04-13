@@ -6,12 +6,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
 node_modules
 dist
 dist-ssr
 *.local
 *.env
+
 
 
 # Editor directories and files
@@ -26,14 +26,6 @@ dist-ssr
 *.sw?
 
 
-<<<<<<< HEAD
-=======
-.env
-.env.local
-.env.development
-.env.test
-.env.production
->>>>>>> 32210e66db1876476d7f5acab498b0a547b70967
 /Informes
 
 

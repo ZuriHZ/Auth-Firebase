@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ShinyButtonDemo } from "../components/ShinyButton";
 import { Menu, X, Home, User, Settings, Mail, Info, User2 } from "lucide-react";
+import { maskEmail } from "@/lib/mask-email";
 export const UsersProfile = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -302,7 +303,7 @@ export const UsersProfile = () => {
                                 {user?.displayName || "Usuario"}
                             </h3>
                             <p className="text-gray-500 mb-4 text-center break-all">
-                                {user?.email}
+                                {maskEmail(user?.email)}
                             </p>
 
                             {/* Badges */}
