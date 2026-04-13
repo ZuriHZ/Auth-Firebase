@@ -2,6 +2,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogOut, User, LayoutDashboard, Rocket, Info } from "lucide-react";
+import { maskEmail } from "@/lib/mask-email";
 
 export const NavbarDesktop = () => {
     const { user, logout } = useAuth();
@@ -92,7 +93,7 @@ export const NavbarDesktop = () => {
                             >
                                 <div className="flex-col items-end hidden lg:flex">
                                     <span className="text-xs font-bold text-white truncate max-w-[120px]">
-                                        {user.displayName || user.email}
+                                        {user.displayName || maskEmail(user.email)}
                                     </span>
                                     <span className="text-[10px] text-blue-300/80 font-medium capitalize">
                                         Empresa

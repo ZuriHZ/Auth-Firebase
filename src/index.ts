@@ -28,7 +28,7 @@ export { HomeTemplate } from "./components/HomeTemplate.tsx";
 export { Dashboard } from "./components/Dashboard.jsx";
 export { ShinyButtonDemo } from "./components/ShinyButton.tsx";
 export { TablaUsuarios } from "./components/Usuarios.tsx";
-export { UsersProfile } from "./components/UsersProfile.jsx";
+export { UsersProfile } from "./components/UsersProfile.tsx";
 
 // --- Context & Auth Logic ---
 export { AuthProvider, useAuth } from "./context/AuthContext.jsx";
@@ -50,3 +50,4 @@ export { ShinyButton } from "./components/ui/shiny-button.tsx";
 // --- Utilities ---
 export { cn } from "./lib/utils.ts";
 export { maskEmail } from "./lib/mask-email.ts";
+export { useToggleVisibility } from "./lib/mask-email.ts";
