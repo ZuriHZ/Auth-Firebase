@@ -227,7 +227,6 @@ export const Dashboard = () => {
                             <span className="material-symbols-outlined text-[18px]">
                                 auto_awesome
                             </span>
-                            <span className="text-label-md font-label-md uppercase tracking-wider">Nueva Versión 2.0</span>
                         </div>
                         <h1 className="text-[48px] leading-[1.1] font-display-lg text-on-surface max-w-4xl mx-auto mb-6" style={{ letterSpacing: "-0.02em" }}>
                             Autenticación <span className="text-secondary">Simplificada</span>
