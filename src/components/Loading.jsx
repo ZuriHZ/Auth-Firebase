@@ -1,47 +1,26 @@
-import { motion } from "framer-motion";
-
-
+// src/components/Loading.jsx
 
 export const Loading = () => {
     return (
-        <div className="flex justify-center items-center">
-            <BarLoader />
+        <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background">
+            <div className="relative flex flex-col items-center">
+                {/* Glow effect container */}
+                <div className="relative w-12 h-12">
+                    {/* Outer glow */}
+                    <div className="absolute inset-0 rounded-full bg-secondary/20 blur-xl"></div>
+                    {/* Spinner */}
+                    <div className="w-12 h-12 rounded-full border-4 border-secondary/10 border-t-secondary animate-spin"></div>
+                </div>
+                {/* Brand name */}
+                <div className="mt-8 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-secondary text-3xl">
+                        shield_lock
+                    </span>
+                    <span className="text-headline-md font-headline-lg tracking-tight text-on-surface">
+                        AuthPro
+                    </span>
+                </div>
+            </div>
         </div>
-    );
-};
-
-const variants = {
-    initial: {
-        scaleY: 0.5,
-        opacity: 0,
-    },
-    animate: {
-        scaleY: 1,
-        opacity: 1,
-        transition: {
-            repeat: Infinity,
-            repeatType: "mirror",
-            duration: 1,
-            ease: "circIn",
-        },
-    },
-};
-
-const BarLoader = () => {
-    return (
-        <motion.div
-            transition={{
-                staggerChildren: 0.25,
-            }}
-            initial="initial"
-            animate="animate"
-            className="flex gap-1 overflow-hidden"
-        >
-            <motion.div variants={variants} className="h-12 w-2 bg-white" />
-            <motion.div variants={variants} className="h-12 w-2 bg-white" />
-            <motion.div variants={variants} className="h-12 w-2 bg-white" />
-            <motion.div variants={variants} className="h-12 w-2 bg-white" />
-            <motion.div variants={variants} className="h-12 w-2 bg-white" />
-        </motion.div>
     );
 };

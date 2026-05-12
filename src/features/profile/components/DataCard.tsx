@@ -6,35 +6,28 @@ interface DataCardProps {
     icon: React.ReactNode;
     children: React.ReactNode;
     className?: string;
-    variant?: "white" | "gradient";
     delay?: number;
 }
 
-export const DataCard: React.FC<DataCardProps> = ({ 
-    title, 
-    icon, 
-    children, 
-    className = "", 
-    variant = "white",
-    delay = 0 
+export const DataCard: React.FC<DataCardProps> = ({
+    title,
+    icon,
+    children,
+    className = "",
+    delay = 0
 }) => {
-    const variants = {
-        white: "bg-white/80 border-gray-100",
-        gradient: "bg-gradient-to-br from-blue-600 to-indigo-700 text-white border-transparent"
-    };
-
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay }}
-            className={`rounded-3xl shadow-xl shadow-gray-100/50 p-6 border backdrop-blur-sm ${variants[variant]} ${className}`}
+            className={`bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-[0px_1px_3px_rgba(11,28,48,0.05)] ${className}`}
         >
-            <div className="flex items-center space-x-4 mb-6">
-                <div className={`${variant === 'white' ? 'bg-gray-50 text-blue-600' : 'bg-white/20 text-white'} p-3 rounded-2xl shadow-inner`}>
+            <div className="flex items-center gap-3 mb-6">
+                <div className="bg-secondary/10 p-3 rounded-lg text-secondary">
                     {icon}
                 </div>
-                <h4 className={`text-lg font-black tracking-tight ${variant === 'white' ? 'text-gray-900' : 'text-white'}`}>
+                <h4 className="text-[24px] leading-[1.3] font-headline-md text-on-surface" style={{ letterSpacing: "-0.01em" }}>
                     {title}
                 </h4>
             </div>

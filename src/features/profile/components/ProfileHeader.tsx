@@ -31,27 +31,25 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     const firstName = user?.displayName?.split(" ")[0] || "Usuario";
 
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-10"
+            className="mb-12"
         >
-            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+            <h2 className="text-[48px] leading-[1.1] font-display-lg text-on-surface mb-4" style={{ letterSpacing: "-0.02em" }}>
                 {greeting},{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    {firstName}
-                </span>! 👋
+                <span className="text-secondary">{firstName}</span>
             </h2>
-            
-            <div className="flex flex-wrap items-center gap-6 text-gray-500 font-medium">
-                <div className="flex items-center space-x-2.5 bg-white/50 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/50 shadow-sm">
-                    <Calendar className="w-4 h-4 text-blue-500" />
-                    <span className="capitalize text-sm">{formattedDate}</span>
+
+            <div className="flex flex-wrap items-center gap-4 text-on-surface-variant">
+                <div className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20">
+                    <Calendar className="w-4 h-4 text-secondary" />
+                    <span className="text-body-sm capitalize">{formattedDate}</span>
                 </div>
-                
-                <div className="flex items-center space-x-2.5 bg-white/50 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/50 shadow-sm">
-                    <Clock className="w-4 h-4 text-indigo-500" />
-                    <span className="font-mono text-sm tabular-nums tracking-wider text-gray-700">
+
+                <div className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20">
+                    <Clock className="w-4 h-4 text-secondary" />
+                    <span className="font-mono text-body-sm text-on-surface tabular-nums tracking-wider">
                         {currentTime}
                     </span>
                 </div>

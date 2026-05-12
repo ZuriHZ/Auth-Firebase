@@ -41,24 +41,24 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
 
     return (
         <div className="flex flex-col items-center gap-2">
-            <div className="flex items-center space-x-2 px-3 py-1.5 bg-gray-50 rounded-full border border-gray-100 group transition-all hover:bg-white hover:shadow-sm">
-                <span className="text-sm font-medium text-gray-600 transition-all font-mono">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-lg border border-outline-variant/30 group transition-all">
+                <span className="text-body-sm font-medium text-on-surface-variant transition-all font-mono">
                     {isVisible ? email : maskEmail(email)}
                 </span>
-                
-                <div className="flex items-center space-x-1 border-l border-gray-200 pl-2 ml-1">
+
+                <div className="flex items-center gap-1 border-l border-outline-variant/30 pl-2">
                     <button
                         onClick={toggleVisibility}
-                        className="p-1 hover:text-blue-600 text-gray-400 transition-colors focus:outline-none cursor-pointer"
+                        className="p-1 hover:text-secondary text-on-surface-variant transition-colors focus:outline-none cursor-pointer"
                         title={isVisible ? "Ocultar email" : "Ver email"}
                         aria-label="Toggle email visibility"
                     >
                         {isVisible ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
-                    
+
                     <button
                         onClick={copyToClipboard}
-                        className="p-1 hover:text-green-600 text-gray-400 transition-colors focus:outline-none relative cursor-pointer"
+                        className="p-1 hover:text-secondary text-on-surface-variant transition-colors focus:outline-none relative cursor-pointer"
                         title="Copiar email"
                         aria-label="Copy email"
                     >
@@ -86,12 +86,12 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
                     </button>
                 </div>
             </div>
-            
+
             {isVisible && (
-                <motion.span 
+                <motion.span
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-[10px] text-gray-400 italic"
+                    className="text-label-md text-on-surface-variant italic"
                 >
                     Se ocultará automáticamente en {autoHideSeconds}s
                 </motion.span>

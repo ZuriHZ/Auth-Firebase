@@ -181,15 +181,15 @@ export const HomeTemplate = () => {
             </section>
 
             {/* Stats Bar */}
-            <section className="bg-gray-900 py-16">
+            <section className="bg-foreground py-16">
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                         {stats.map((stat, idx) => (
                             <div key={idx} className="text-center">
-                                <div className="text-4xl md:text-5xl font-black text-blue-400 mb-2">
+                                <div className="text-4xl md:text-5xl font-black">
                                     {stat.value}
                                 </div>
-                                <div className="text-gray-400 font-medium uppercase tracking-widest text-sm">
+                                <div className="text-white font-medium uppercase tracking-widest text-sm">
                                     {stat.label}
                                 </div>
                             </div>
