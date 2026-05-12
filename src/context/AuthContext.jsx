@@ -140,7 +140,7 @@ export function AuthProvider({ children }) {
     return (
         <AuthContext.Provider value={value}>
             {loading || !minTimeElapsed ? (
-                <div className="grid place-content-center bg-violet-600 px-4 py-24 h-screen">
+                <div className="grid place-content-center bg-background px-4 py-24 h-screen">
                     <Loading />
                 </div>
             ) : (

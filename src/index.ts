@@ -1,6 +1,6 @@
 // --- App & Core ---
 export { default as App } from "./App.tsx";
-export { default as routes } from "./Routers/routes.tsx";
+export { default as routes } from "./routers/routes.tsx";
 
 // --- Components: Auth & Flow ---
 export {
@@ -15,8 +15,7 @@ export { Register } from "./components/Register.jsx";
 
 // --- Components: Navigation ---
 export { HoverImageLinks } from "./components/HoverImageLinks.jsx";
-export { Navbar } from "./components/NavbarMovil.jsx";
-export { NavbarDesktop } from "./components/NavbarDesktop.tsx";
+export { Navbar } from "./components/Navbar.tsx";
 export { RevealLinks } from "./components/Links.jsx";
 
 // --- Components: Templates ---

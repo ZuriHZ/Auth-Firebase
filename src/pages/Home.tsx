@@ -1,10 +1,11 @@
 "use client";
 import { HomeTemplate } from "../index.ts";
-import { NavbarDesktop } from "../components/NavbarDesktop";
+import { Navbar } from "../components/Navbar";
+
 export const Home = () => {
     return (
         <>
-            <NavbarDesktop />
+            <Navbar />
             <HomeTemplate />
         </>
     );
