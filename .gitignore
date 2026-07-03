@@ -16,6 +16,7 @@ dist-ssr
 
 # Editor directories and files
 .vscode/*
+.firebase/*
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -26,7 +27,10 @@ dist-ssr
 *.sw?
 
 
+
+# Docs
 /Informes
 /docs
 
 docs/data.ts
+.firebase/hosting.ZGlzdA.cache
