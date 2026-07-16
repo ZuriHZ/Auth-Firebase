@@ -1,0 +1,88 @@
+import type { CloudFunction } from "../types";
+
+export const mockFunctions: CloudFunction[] = [
+  {
+    id: "fn-1",
+    name: "sendWelcomeEmail",
+    description: "Envía un email de bienvenida al usuario después del registro.",
+    runtime: "Node.js 20",
+    status: "online",
+    trigger: "Auth",
+    lastRun: "2026-07-15 14:32:10",
+    lastDuration: "1.2s",
+    logs: [
+      { id: "log-1", timestamp: "2026-07-15 14:32:10", level: "info", message: "Function triggered by onUserCreate" },
+      { id: "log-2", timestamp: "2026-07-15 14:32:11", level: "info", message: "Email sent to user@example.com" },
+    ],
+  },
+  {
+    id: "fn-2",
+    name: "syncStripeData",
+    description: "Sincroniza suscripciones y pagos desde Stripe cada hora.",
+    runtime: "Node.js 20",
+    status: "online",
+    trigger: "Schedule",
+    lastRun: "2026-07-15 14:00:00",
+    lastDuration: "4.7s",
+    logs: [
+      { id: "log-3", timestamp: "2026-07-15 14:00:00", level: "info", message: "Scheduled execution started" },
+      { id: "log-4", timestamp: "2026-07-15 14:00:04", level: "info", message: "Synced 128 subscriptions" },
+    ],
+  },
+  {
+    id: "fn-3",
+    name: "processImageUpload",
+    description: "Redimensiona y optimiza imágenes subidas al storage.",
+    runtime: "Node.js 18",
+    status: "error",
+    trigger: "Database",
+    lastRun: "2026-07-15 13:45:22",
+    lastDuration: "0.8s",
+    logs: [
+      { id: "log-5", timestamp: "2026-07-15 13:45:22", level: "error", message: "Memory limit exceeded (512 MB)" },
+      { id: "log-6", timestamp: "2026-07-15 13:45:22", level: "warn", message: "Retry attempt 1/3" },
+    ],
+  },
+  {
+    id: "fn-4",
+    name: "cleanupExpiredSessions",
+    description: "Elimina sesiones expiradas de la base de datos cada 24h.",
+    runtime: "Node.js 20",
+    status: "online",
+    trigger: "Schedule",
+    lastRun: "2026-07-15 03:00:00",
+    lastDuration: "3.1s",
+    logs: [
+      { id: "log-7", timestamp: "2026-07-15 03:00:00", level: "info", message: "Scheduled cleanup started" },
+      { id: "log-8", timestamp: "2026-07-15 03:00:03", level: "info", message: "Deleted 47 expired sessions" },
+    ],
+  },
+  {
+    id: "fn-5",
+    name: "webhookStripeEvents",
+    description: "Procesa eventos entrantes de Stripe en tiempo real.",
+    runtime: "Node.js 20",
+    status: "offline",
+    trigger: "HTTP",
+    lastRun: "2026-07-14 22:15:00",
+    lastDuration: "0.9s",
+    logs: [
+      { id: "log-9", timestamp: "2026-07-14 22:15:00", level: "info", message: "POST /webhooks/stripe received" },
+      { id: "log-10", timestamp: "2026-07-14 22:15:00", level: "warn", message: "Signature verification skipped" },
+    ],
+  },
+  {
+    id: "fn-6",
+    name: "onUserDelete",
+    description: "Limpia datos del usuario al eliminar su cuenta.",
+    runtime: "Node.js 18",
+    status: "online",
+    trigger: "Auth",
+    lastRun: "2026-07-15 12:10:45",
+    lastDuration: "2.3s",
+    logs: [
+      { id: "log-11", timestamp: "2026-07-15 12:10:45", level: "info", message: "Triggered by onUserDelete" },
+      { id: "log-12", timestamp: "2026-07-15 12:10:46", level: "info", message: "Cleaned user data from 3 collections" },
+    ],
+  },
+];
