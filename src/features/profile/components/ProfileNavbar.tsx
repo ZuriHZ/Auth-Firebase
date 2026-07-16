@@ -33,7 +33,7 @@ export const ProfileNavbar: React.FC<ProfileNavbarProps> = ({ user, logout, menu
                             <UserIcon className="w-5 h-5 text-white" />
                         </div>
                         <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                            Account Center
+                            Centro de Cuenta
                         </h1>
                     </Link>
 
@@ -58,7 +58,7 @@ export const ProfileNavbar: React.FC<ProfileNavbarProps> = ({ user, logout, menu
                                 {user?.displayName || "Usuario"}
                             </span>
                             <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider mt-1">
-                                {user?.emailVerified ? "Verified Account" : "Standard Account"}
+                                {user?.emailVerified ? "Cuenta Verificada" : "Cuenta Estándar"}
                             </span>
                         </div>
                         

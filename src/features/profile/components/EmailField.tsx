@@ -51,7 +51,7 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
                         onClick={toggleVisibility}
                         className="p-1 hover:text-secondary text-on-surface-variant transition-colors focus:outline-none cursor-pointer"
                         title={isVisible ? "Ocultar email" : "Ver email"}
-                        aria-label="Toggle email visibility"
+                        aria-label="Alternar visibilidad del email"
                     >
                         {isVisible ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -60,7 +60,7 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
                         onClick={copyToClipboard}
                         className="p-1 hover:text-secondary text-on-surface-variant transition-colors focus:outline-none relative cursor-pointer"
                         title="Copiar email"
-                        aria-label="Copy email"
+                        aria-label="Copiar email"
                     >
                         <AnimatePresence mode="wait">
                             {isCopied ? (
