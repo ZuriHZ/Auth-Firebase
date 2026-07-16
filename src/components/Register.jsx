@@ -76,17 +76,17 @@ export const Register = () => {
                 <div className="text-center mb-8">
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <span className="material-symbols-outlined text-secondary text-4xl">
-                            shield_lock
+                            local_fire_department
                         </span>
-                        <span className="text-headline-lg font-headline-lg tracking-tight text-on-surface">
-                            AuthPro
+                        <span className="text-headline-lg font-headline-lg tracking-tight text-on-surface fire-text">
+                            FireLabs
                         </span>
                     </div>
                     <h2 className="text-headline-md font-headline-md text-on-surface">
                         Crear cuenta
                     </h2>
                     <p className="text-body-md text-on-surface-variant mt-2">
-                        Únete a AuthPro y sécuriza tu aplicación
+                        Únete a FireLabs y explora Firebase en un sandbox interactivo
                     </p>
                 </div>
 

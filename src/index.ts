@@ -7,6 +7,7 @@ export {
     AdminRoute,
     ProtectedDatabaseRoute,
 } from "./components/AdminRoute.jsx";
+export { ProtectedAdminRoute } from "./components/ProtectedAdminRoute.tsx";
 export { Loading } from "./components/Loading.jsx";
 export { Login } from "./components/Login.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";

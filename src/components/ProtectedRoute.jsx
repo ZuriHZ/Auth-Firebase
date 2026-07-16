@@ -1,6 +1,9 @@
 // src/components/ProtectedRoute.jsx
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { DEMO_ACCOUNTS } from "../lib/demoAuth";
+
+const demoEmails = DEMO_ACCOUNTS.map((a) => a.email);
 
 export const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -12,13 +15,12 @@ export const ProtectedRoute = ({ children }) => {
             </div>
         );
     }
-    // Si no hay usuario, redirige al login
     if (!user) {
         return <Navigate to="/" />;
     }
 
-    // Si el usuario no ha verificado su email, redirige a verificación
-    if (!user.emailVerified) {
+    const isDemo = user.email && demoEmails.includes(user.email);
+    if (!user.emailVerified && !isDemo) {
         return <Navigate to="/verify-email" />;
     }
 
