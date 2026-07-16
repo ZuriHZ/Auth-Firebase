@@ -50,7 +50,7 @@ export const Navbar = () => {
             <button
                 onClick={toggleMenu}
                 className="fixed top-2 right-6 z-50 p-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
-                aria-label="Toggle menu"
+                aria-label="Alternar menú"
             >
                 {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>

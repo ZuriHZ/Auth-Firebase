@@ -1,236 +1,401 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { Link } from "react-router-dom";
+import {
+  Shield,
+  Wifi,
+  Database,
+  Flame,
+  ChevronRight,
+  ExternalLink,
+  Server,
+  Cloud,
+} from "lucide-react";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const tools = [
+  {
+    title: "Authentication",
+    description:
+      "Test flujos de login, MFA, social providers y reglas de seguridad en un entorno sandbox controlado.",
+    icon: Shield,
+    gradient: "from-orange-500/20 to-amber-500/10",
+    borderColor: "border-orange-500/30 group-hover:border-orange-400/60",
+  },
+  {
+    title: "Firestore",
+    description:
+      "Explora colecciones, documentos y consultas en tiempo real. Edita datos y prueba reglas de seguridad.",
+    icon: Wifi,
+    gradient: "from-cyan-500/20 to-blue-500/10",
+    borderColor: "border-cyan-500/30 group-hover:border-cyan-400/60",
+  },
+  {
+    title: "Realtime Database",
+    description:
+      "Visualiza y simula operaciones en la base de datos en tiempo real con un editor JSON interactivo.",
+    icon: Database,
+    gradient: "from-emerald-500/20 to-teal-500/10",
+    borderColor: "border-emerald-500/30 group-hover:border-emerald-400/60",
+  },
+];
+
+const stats = [
+  { label: "Usuarios Activos", value: "50k+" },
+  { label: "Disponibilidad", value: "99.9%" },
+  { label: "Países", value: "25+" },
+];
+
+const footerLinks: Record<string, { name: string; href: string }[]> = {
+  Recursos: [
+    { name: "Documentación", href: "/docs" },
+    { name: "API Reference", href: "/docs" },
+    { name: "Precios", href: "/pricing" },
+    { name: "Soporte", href: "#" },
+  ],
+  Empresa: [
+    { name: "Nosotros", href: "/about" },
+    { name: "Blog", href: "#" },
+    { name: "Enterprise", href: "/enterprise" },
+    { name: "Contacto", href: "#" },
+  ],
+  Legal: [
+    { name: "Privacidad", href: "/privacy" },
+    { name: "Términos", href: "/terms" },
+    { name: "Seguridad", href: "#" },
+    { name: "Cookies", href: "#" },
+  ],
+};
 
 export const HomeTemplate = () => {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-            },
-        },
-    };
+  return (
+    <div className="min-h-screen bg-surface text-on-surface overflow-hidden">
+      {/* ============================================
+          Hero Section
+          ============================================ */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden circuit-pattern">
+        {/* Gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-secondary/10 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-fire-accent/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-b from-surface via-surface/50 to-surface pointer-events-none" />
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.5 },
-        },
-    };
-
-    const features = [
-        {
-            title: "Seguridad Robusta",
-            description:
-                "Protección de datos de nivel empresarial con Firebase Authentication.",
-            icon: (
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    />
-                </svg>
-            ),
-        },
-        {
-            title: "Fácil Integración",
-            description:
-                "API intuitiva y documentación clara para empezar en minutos.",
-            icon: (
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M11 4a2 2 0 114 0v1a2 2 0 11-4 0V4zM11 13a2 2 0 114 0v1a2 2 0 11-4 0v-1zM11 19a2 2 0 114 0v1a2 2 0 11-4 0v-1zM5 4a2 2 0 114 0v1a2 2 0 11-4 0V4zM5 13a2 2 0 114 0v1a2 2 0 11-4 0v-1zM5 19a2 2 0 114 0v1a2 2 0 11-4 0v-1z"
-                    />
-                </svg>
-            ),
-        },
-        {
-            title: "Escalabilidad Total",
-            description:
-                "Preparado para crecer desde pequeños proyectos hasta grandes empresas.",
-            icon: (
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                    />
-                </svg>
-            ),
-        },
-    ];
-
-    const stats = [
-        { label: "Usuarios Activos", value: "50k+" },
-        { label: "Disponibilidad", value: "99.9%" },
-        { label: "Países", value: "25+" },
-    ];
-
-    return (
-        <div className="min-h-screen bg-white">
-            
-            {/* Hero Section */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-950">
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-                </div>
-
-                <div className="container mx-auto px-6 relative z-10 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight">
-                            Autenticación{" "}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
-                                Simplificada
-                            </span>
-                        </h1>
-                        <p className="text-xl md:text-2xl text-blue-100 mb-10 max-w-2xl mx-auto leading-relaxed">
-                            La plataforma más completa y segura para gestionar
-                            la identidad de tus usuarios en la nube.
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <Link
-                                to="/register"
-                                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-lg"
-                            >
-                                Comenzar Gratis
-                            </Link>
-                            <Link
-                                to="/about"
-                                className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/30 rounded-full font-bold text-lg transition-all backdrop-blur-sm"
-                            >
-                                Saber Más
-                            </Link>
-                        </div>
-                    </motion.div>
-                </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-                    <svg
-                        className="relative block w-full h-[100px]"
-                        data-name="Layer 1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1200 120"
-                        preserveAspectRatio="none"
-                    >
-                        <path
-                            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C58,117.26,171.19,103.11,217.44,91C252.68,81.75,284.14,63.15,321.39,56.44Z"
-                            fill="#FFFFFF"
-                        ></path>
-                    </svg>
-                </div>
-            </section>
-
-            {/* Features Section */}
-            <section className="py-24 bg-white">
-                <div className="container mx-auto px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                        className="grid md:grid-cols-3 gap-12"
-                    >
-                        {features.map((feature, idx) => (
-                            <motion.div
-                                key={idx}
-                                variants={itemVariants}
-                                className="p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-2xl transition-all border border-gray-100 group"
-                            >
-                                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                    {feature.icon}
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    {feature.description}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Stats Bar */}
-            <section className="bg-foreground py-16">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                        {stats.map((stat, idx) => (
-                            <div key={idx} className="text-center">
-                                <div className="text-4xl md:text-5xl font-black">
-                                    {stat.value}
-                                </div>
-                                <div className="text-white font-medium uppercase tracking-widest text-sm">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-24">
-                <div className="container mx-auto px-6">
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
-
-                        <div className="relative z-10">
-                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-                                ¿Listo para transformar tu app?
-                            </h2>
-                            <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
-                                Únete a los miles de desarrolladores que ya
-                                están construyendo el futuro con nuestra
-                                infraestructura.
-                            </p>
-                            <button className="px-10 py-5 bg-white text-blue-600 hover:bg-gray-100 rounded-full font-black text-xl transition-all transform hover:scale-105 shadow-xl">
-                                Crear Cuenta Ahora
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Footer-like simple area */}
-            <footer className="py-12 border-t border-gray-100">
-                <div className="container mx-auto px-6 text-center text-gray-500">
-                    <p>
-                        © 2026 Auth Solutions Inc. Todos los derechos
-                        reservados.
-                    </p>
-                </div>
-            </footer>
+        {/* Decorative tech elements */}
+        <div className="absolute top-20 right-20 opacity-20 hidden lg:block">
+          <Server className="w-24 h-24 text-secondary" />
         </div>
-    );
+        <div className="absolute bottom-20 left-20 opacity-15 hidden lg:block">
+          <Cloud className="w-20 h-20 text-fire-accent" />
+        </div>
+
+        <div className="max-w-container-max mx-auto px-gutter md:px-margin-desktop relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-body-sm font-medium mb-8">
+              <Flame className="w-4 h-4" />
+              <span>Plataforma Sandbox para Firebase</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display-lg text-on-surface max-w-5xl mx-auto mb-6 leading-[1.05] tracking-tighter">
+              Domina tu{" "}
+              <span className="fire-text">Viaje con Firebase</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-body-lg md:text-headline-md text-on-surface-variant max-w-2xl mx-auto mb-10 leading-relaxed">
+              Una plataforma sandbox completa para probar, explorar y dominar
+              las herramientas y servicios de Firebase. Construye con confianza.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/register"
+                className="group relative inline-flex items-center gap-2 px-8 py-4 bg-secondary text-on-secondary rounded-xl text-label-md font-label-md overflow-hidden transition-all hover:shadow-lg hover:shadow-secondary/25 active:scale-[0.97]"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Explorar Sandbox
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </Link>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-surface-container-low text-on-surface border border-outline-variant/50 rounded-xl text-label-md font-label-md hover:bg-surface-container transition-all active:scale-[0.97]"
+              >
+                Saber Más
+                <ExternalLink className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Hero visual placeholder */}
+            <div className="mt-20 max-w-4xl mx-auto">
+              <div className="relative rounded-2xl overflow-hidden border border-outline-variant/30 bg-gradient-to-b from-surface-container to-surface-container-low shadow-level-2">
+                <div className="absolute inset-0 hero-pattern opacity-50" />
+                <div className="relative p-6 md:p-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                    </div>
+                    <span className="text-body-sm text-on-surface-variant font-mono">
+                      FireLabs Sandbox — Terminal
+                    </span>
+                  </div>
+                  <div className="space-y-3 font-mono text-body-sm text-left">
+                    <p className="text-on-surface-variant">
+                      <span className="text-secondary">$</span> firebase
+                      sandbox:init
+                    </p>
+                    <p className="text-fire-accent">
+                      {"//"} Inicializando entorno sandbox de Firebase...
+                    </p>
+                    <p className="text-emerald-400">
+                      ✓ Módulo de autenticación listo
+                    </p>
+                    <p className="text-emerald-400">
+                      ✓ Emulador de Firestore conectado
+                    </p>
+                    <p className="text-emerald-400">
+                      ✓ Realtime Database sincronizada
+                    </p>
+                    <p className="text-on-surface-variant">
+                      <span className="text-secondary">$</span>{" "}
+                      <span className="animate-blink">▊</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-surface to-transparent pointer-events-none" />
+      </section>
+
+      {/* ============================================
+          Tools We Support Section (Variante 1)
+          ============================================ */}
+      <section className="py-24 md:py-32 bg-surface-container-lowest">
+        <div className="max-w-container-max mx-auto px-gutter md:px-margin-desktop">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
+          >
+            {/* Section header */}
+            <motion.div variants={itemVariants} className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface-variant text-body-sm font-medium mb-6">
+                <Server className="w-4 h-4" />
+                <span>Impulsado por Firebase</span>
+              </div>
+              <h2 className="text-headline-lg md:text-display-lg font-display-lg text-on-surface mb-4">
+                Herramientas que{" "}
+                <span className="fire-text">Soportamos</span>
+              </h2>
+              <p className="text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Cada servicio de Firebase que necesitas, disponible en un solo
+                entorno sandbox para pruebas y experimentación.
+              </p>
+            </motion.div>
+
+            {/* Cards grid */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {tools.map((tool, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={itemVariants}
+                  className="group relative p-8 rounded-2xl bg-surface border border-outline-variant/30 hover:border-secondary/30 transition-all duration-500 overflow-hidden"
+                >
+                  {/* Gradient background on hover */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  />
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-6 text-secondary group-hover:bg-secondary/20 transition-colors">
+                      <tool.icon className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-headline-md font-headline-md text-on-surface mb-3">
+                      {tool.title}
+                    </h3>
+                    <p className="text-body-md text-on-surface-variant leading-relaxed">
+                      {tool.description}
+                    </p>
+                  </div>
+                  {/* Corner glow */}
+                  <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-secondary/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ============================================
+          Stats Section (Variante 1)
+          ============================================ */}
+      <section className="py-20 bg-surface border-y border-outline-variant/20">
+        <div className="max-w-container-max mx-auto px-gutter md:px-margin-desktop">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-3 gap-12"
+          >
+            {stats.map((stat, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="text-center"
+              >
+                <div className="text-5xl md:text-6xl font-display-lg fire-text mb-3 font-bold">
+                  {stat.value}
+                </div>
+                <div className="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ============================================
+          CTA Section
+          ============================================ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-container-max mx-auto px-gutter md:px-margin-desktop">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-secondary via-secondary-container to-error/80 p-12 md:p-20 text-center"
+          >
+            {/* Decorative blobs */}
+            <div className="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full -mr-36 -mt-36 blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/5 rounded-full -ml-36 -mb-36 blur-3xl" />
+
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl font-display-lg text-white mb-6">
+                ¿Listo para Transformar tu App?
+              </h2>
+              <p className="text-body-lg md:text-headline-md text-white/80 max-w-2xl mx-auto mb-10">
+                Únete a miles de desarrolladores que ya están construyendo el
+                futuro con Firebase. Empieza a probar en tu sandbox hoy.
+              </p>
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-2 px-10 py-4 bg-white text-secondary rounded-xl text-label-md font-label-md hover:bg-white/90 active:scale-[0.97] transition-all shadow-xl hover:shadow-2xl"
+              >
+                Crear Cuenta Ahora
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ============================================
+          Footer (Variante 1)
+          ============================================ */}
+      <footer className="bg-surface-container-lowest border-t border-outline-variant/20 py-16">
+        <div className="max-w-container-max mx-auto px-gutter md:px-margin-desktop">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            {/* Brand column */}
+            <div className="col-span-2 md:col-span-1">
+              <Link
+                to="/"
+                className="flex items-center gap-2.5 mb-4 group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-secondary/15 flex items-center justify-center group-hover:bg-secondary/25 transition-colors">
+                  <Flame className="w-6 h-6 text-secondary" />
+                </div>
+                <span className="text-headline-md font-headline-lg text-on-surface fire-text">
+                  FireLabs
+                </span>
+              </Link>
+              <p className="text-body-sm text-on-surface-variant max-w-xs leading-relaxed">
+                Una plataforma sandbox completa para que los desarrolladores
+                prueben, exploren y dominen herramientas cloud.
+              </p>
+            </div>
+
+            {/* Link columns */}
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category}>
+                <h4 className="text-label-md font-label-md text-on-surface mb-4 uppercase tracking-wider">
+                  {category}
+                </h4>
+                <ul className="space-y-3">
+                  {links.map((link) => (
+                    <li key={link.name}>
+                      {link.href.startsWith("/") ? (
+                        <Link
+                          to={link.href}
+                          className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
+                        >
+                          {link.name}
+                        </Link>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
+                        >
+                          {link.name}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom bar */}
+          <div className="pt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-body-sm text-on-surface-variant">
+              &copy; 2026 FireLabs. Todos los derechos reservados.
+            </p>
+            <div className="flex items-center gap-4">
+              <a
+                href="#"
+                className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
+              >
+                Política de Privacidad
+              </a>
+              <a
+                href="#"
+                className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
+              >
+                Términos del Servicio
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 };

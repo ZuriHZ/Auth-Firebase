@@ -10,19 +10,19 @@ export const NavbarDesktop = () => {
 
     const menuItems = [
         { name: "Inicio", path: "/", icon: <Info size={16} /> },
-        { name: "About", path: "/about", icon: <Info size={16} /> },
+        { name: "Nosotros", path: "/about", icon: <Info size={16} /> },
         {
             name: "Quienes Somos",
             path: "/quienes-somos",
             icon: <Info size={16} />,
         },
         { name: "Contacto", path: "/contacto", icon: <Info size={16} /> },
-        { name: "Pricing", path: "/pricing", icon: <Info size={16} /> },
+        { name: "Precios", path: "/pricing", icon: <Info size={16} /> },
     ];
 
     if (user) {
         menuItems.push({
-            name: "Database",
+            name: "Base de Datos",
             path: "/database",
             icon: <LayoutDashboard size={16} />,
         });

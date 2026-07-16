@@ -103,7 +103,7 @@ export const AboutTemplate = () => {
     ];
 
     const stats = [
-        { number: "99.9%", label: "Uptime" },
+        { number: "99.9%", label: "Disponibilidad" },
         { number: "10k+", label: "Usuarios" },
         { number: "24/7", label: "Soporte" },
         { number: "5★", label: "Calificación" },
@@ -112,7 +112,7 @@ export const AboutTemplate = () => {
     const team = [
         {
             name: "María García",
-            role: "CEO & Fundadora",
+            role: "CEO y Fundadora",
             image: "https://ui-avatars.com/api/?name=Maria+Garcia&background=0058be&color=fff&size=200",
         },
         {

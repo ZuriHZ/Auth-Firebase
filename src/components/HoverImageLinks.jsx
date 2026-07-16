@@ -7,32 +7,32 @@ export const HoverImageLinks = () => {
     <section id="mas" className="w-full p-4 md:p-4 bg-black">
       <div className="flex flex-col justify-center w-full mx-auto">
         <Link
-          heading="About"
-          subheading="Learn what we do here"
+          heading="Nosotros"
+          subheading="Conoce lo que hacemos"
           imgSrc="/imgs/random/11.jpg"
           href="#"
         />
         <Link
-          heading="Clients"
-          subheading="We work with great people"
+          heading="Clientes"
+          subheading="Trabajamos con grandes personas"
           imgSrc="/imgs/random/6.jpg"
           href="#"
         />
         <Link
-          heading="Portfolio"
-          subheading="Our work speaks for itself"
+          heading="Portafolio"
+          subheading="Nuestro trabajo habla por sí solo"
           imgSrc="/imgs/random/4.jpg"
           href="#"
         />
         <Link
-          heading="Careers"
-          subheading="We want cool people"
+          heading="Carreras"
+          subheading="Buscamos gente cool"
           imgSrc="/imgs/random/5.jpg"
           href="#"
         />
         <Link
-          heading="Fun"
-          subheading="Incase you're bored"
+          heading="Diversión"
+          subheading="Por si te aburres"
           imgSrc="/imgs/random/10.jpg"
           href="#"
         />
@@ -124,7 +124,7 @@ const Link = ({ heading, imgSrc, subheading, href }) => {
         transition={{ type: "spring" }}
         src={imgSrc}
         className="absolute z-0 h-24 w-32 rounded-lg object-cover md:h-48 md:w-64"
-        alt={`Image representing a link for ${heading}`}
+        alt={`Imagen representando un enlace para ${heading}`}
       />
 
       <motion.div
