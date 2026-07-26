@@ -120,13 +120,13 @@ const ToggleRow: React.FC<ToggleRowProps> = ({
     </div>
     <button
       onClick={() => onChange(!checked)}
-      className={`w-10 h-6 rounded-full relative cursor-pointer shrink-0 transition-colors ${
-        checked ? "bg-secondary" : "bg-outline-variant/30"
+      className={`w-11 h-6 rounded-full flex items-center shrink-0 transition-colors cursor-pointer ${
+        checked ? "bg-secondary" : "bg-outline-variant/50"
       }`}
     >
       <span
-        className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-transform ${
-          checked ? "translate-x-5" : "translate-x-1"
+        className={`w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform duration-200 ease-in-out ${
+          checked ? "translate-x-5.5" : "translate-x-0.5"
         }`}
       />
     </button>
