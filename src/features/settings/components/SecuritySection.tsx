@@ -58,12 +58,10 @@ export const SecuritySection: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-body-xs px-2 py-0.5 rounded-full bg-warning/10 text-warning font-medium">
-                Próximamente
-              </span>
               <button
                 onClick={() => setTwoFactor(!twoFactor)}
-                className={`w-10 h-6 rounded-full relative cursor-pointer transition-colors ${
+                disabled
+                className={`w-10 h-6 rounded-full relative transition-colors opacity-50 cursor-not-allowed ${
                   twoFactor ? "bg-secondary" : "bg-outline-variant/30"
                 }`}
               >
@@ -73,6 +71,9 @@ export const SecuritySection: React.FC = () => {
                   }`}
                 />
               </button>
+              <span className="text-body-xs px-2 py-0.5 rounded-full bg-warning/10 text-warning font-medium">
+                Próximamente
+              </span>
             </div>
           </div>
         </SubCard>

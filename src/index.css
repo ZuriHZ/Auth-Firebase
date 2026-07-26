@@ -1,7 +1,6 @@
 /* Carga Tailwind y hojas adicionales */
 @import "tailwindcss";
 @import "./styles/global.css";
-@import "./style.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 

@@ -73,8 +73,13 @@ export const ProfileSection: React.FC = () => {
       </div>
 
       <button
-        disabled
-        className="mt-6 bg-secondary text-on-secondary rounded-xl px-4 py-2.5 text-body-sm font-medium opacity-50 cursor-not-allowed"
+        onClick={() => {
+          setProfile(profile);
+          const btn = document.activeElement as HTMLButtonElement;
+          btn.textContent = "✓ Guardado";
+          setTimeout(() => { btn.textContent = "Guardar Cambios"; }, 2000);
+        }}
+        className="mt-6 bg-secondary text-on-secondary rounded-xl px-4 py-2.5 text-body-sm font-medium hover:opacity-90 active:scale-[0.97] transition-all"
       >
         Guardar Cambios
       </button>

@@ -66,9 +66,52 @@ input[type="button"] {
     }
 }
 
-/* Corrección genérica para overlays fijos: evitar scroll horizontal */
-[class*="fixed"],
-[class*="inset-0"] {
+/* Overlay backdrop: evitar scroll horizontal solo en overlays de modal/drawer */
+.backdrop-overlay,
+[class*="inset-0"][class*="fixed"] {
     max-width: 100vw;
     overflow-x: hidden;
+}
+
+/* ===============================
+   Overrides específicos en móvil
+   =============================== */
+
+/* Tarjetas de auth (Login / Register / VerifyEmail) */
+@media (max-width: 480px) {
+    [class*="max-w-md"].w-full {
+        border-radius: 0.75rem;
+        padding: 1.25rem !important;
+    }
+    [class*="max-w-md"] h2 {
+        line-height: 1.2;
+    }
+    [class*="max-w-md"] input {
+        width: 100%;
+        min-height: 44px;
+    }
+    [class*="max-w-md"] button {
+        min-height: 44px;
+    }
+}
+
+/* Página 404: reducir tamaño del 404 gigante en móvil */
+@media (max-width: 480px) {
+    [class*="text-9xl"] {
+        font-size: clamp(3rem, 18vw, 5rem) !important;
+    }
+    [class*="rounded-lg"][class*="shadow"] {
+        padding: 1.25rem;
+    }
+}
+
+/* Navbar: botón hamburguesa con mayor área táctil en móvil */
+@media (max-width: 480px) {
+    button[class*="fixed"][class*="top-"][class*="right-"] {
+        padding: 0.85rem 0.9rem !important;
+    }
+    nav ul li a {
+        padding-top: 0.9rem;
+        padding-bottom: 0.9rem;
+    }
 }

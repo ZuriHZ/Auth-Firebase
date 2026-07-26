@@ -1,10 +1,10 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
-import { Navbar } from "../../components/Navbar";
 import { ProfileHeader } from "./components/ProfileHeader";
 import { ProfileSidebarCard } from "./components/ProfileSidebarCard";
 import { ProfileInfoGrid } from "./components/ProfileInfoGrid";
 import { ProfileUser } from "./types";
+import { DashboardLayout } from "../../components/layout/DashboardLayout";
 
 export const ProfileFeature: React.FC = () => {
     const { user } = useAuth();
@@ -22,13 +22,11 @@ export const ProfileFeature: React.FC = () => {
     } : null;
 
     return (
-        <div className="min-h-screen bg-background text-on-background">
-            <Navbar />
-
-            <main className="max-w-[1280px] mx-auto px-[40px] pt-28 pb-20">
+        <DashboardLayout>
+            <div className="max-w-[1280px] mx-auto">
                 <ProfileHeader user={profileUser} />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
                     <div className="lg:col-span-4">
                         <ProfileSidebarCard user={profileUser} />
                     </div>
@@ -37,7 +35,7 @@ export const ProfileFeature: React.FC = () => {
                         <ProfileInfoGrid user={profileUser} />
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </DashboardLayout>
     );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Palette } from "lucide-react";
 import type { ThemeMode, AccentColor } from "../types";
@@ -12,14 +12,37 @@ const ACCENT_COLORS: { key: AccentColor; color: string }[] = [
   { key: "pink", color: "#ec4899" },
 ];
 
+const STORAGE_KEY = "firelabs-appearance";
+
+const loadSaved = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved) as Appearance;
+  } catch {}
+  return mockAppearance;
+};
+
+interface Appearance {
+  theme: ThemeMode;
+  accentColor: AccentColor;
+  sidebarCollapsed: boolean;
+}
+
 export const AppearanceSection: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>(mockAppearance.theme);
-  const [accentColor, setAccentColor] = useState<AccentColor>(
-    mockAppearance.accentColor
-  );
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(
-    mockAppearance.sidebarCollapsed
-  );
+  const [appearance, setAppearance] = useState<Appearance>(loadSaved);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appearance));
+    if (appearance.theme === "light") {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+  }, [appearance]);
+
+  const update = (partial: Partial<Appearance>) => {
+    setAppearance((prev) => ({ ...prev, ...partial }));
+  };
 
   return (
     <motion.div
@@ -41,9 +64,9 @@ export const AppearanceSection: React.FC = () => {
         <p className="text-body-sm text-on-surface-variant mb-3">Tema</p>
         <div className="grid grid-cols-2 gap-4">
           <button
-            onClick={() => setTheme("dark")}
+            onClick={() => update({ theme: "dark" })}
             className={`bg-gray-900 text-white rounded-xl p-4 text-center text-body-sm font-medium transition-all ${
-              theme === "dark" ? "ring-2 ring-secondary" : ""
+              appearance.theme === "dark" ? "ring-2 ring-secondary" : ""
             }`}
           >
             <div className="w-6 h-6 rounded bg-white/20 mx-auto mb-2" />
@@ -52,9 +75,9 @@ export const AppearanceSection: React.FC = () => {
             <p className="mt-2">Oscuro</p>
           </button>
           <button
-            onClick={() => setTheme("light")}
+            onClick={() => update({ theme: "light" })}
             className={`bg-white text-gray-900 rounded-xl p-4 border border-outline-variant/30 text-center text-body-sm font-medium transition-all ${
-              theme === "light" ? "ring-2 ring-secondary" : ""
+              appearance.theme === "light" ? "ring-2 ring-secondary" : ""
             }`}
           >
             <div className="w-6 h-6 rounded bg-gray-200 mx-auto mb-2" />
@@ -73,9 +96,9 @@ export const AppearanceSection: React.FC = () => {
           {ACCENT_COLORS.map((accent) => (
             <button
               key={accent.key}
-              onClick={() => setAccentColor(accent.key)}
+              onClick={() => update({ accentColor: accent.key })}
               className={`w-8 h-8 rounded-full cursor-pointer transition-all ${
-                accentColor === accent.key
+                appearance.accentColor === accent.key
                   ? "ring-2 ring-white ring-offset-2 ring-offset-surface-container-lowest"
                   : ""
               }`}
@@ -96,14 +119,14 @@ export const AppearanceSection: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            onClick={() => update({ sidebarCollapsed: !appearance.sidebarCollapsed })}
             className={`w-10 h-6 rounded-full relative cursor-pointer shrink-0 transition-colors ${
-              sidebarCollapsed ? "bg-secondary" : "bg-outline-variant/30"
+              appearance.sidebarCollapsed ? "bg-secondary" : "bg-outline-variant/30"
             }`}
           >
             <span
               className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-transform ${
-                sidebarCollapsed ? "translate-x-5" : "translate-x-1"
+                appearance.sidebarCollapsed ? "translate-x-5" : "translate-x-1"
               }`}
             />
           </button>

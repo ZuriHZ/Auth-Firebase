@@ -12,7 +12,7 @@ import {
     sendEmailVerification,
 } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
-import { Loading } from "../components/Loading";
+import { Loading } from "../components/shared/Loading";
 import { ref, set, get } from "firebase/database";
 
 const AuthContext = createContext();

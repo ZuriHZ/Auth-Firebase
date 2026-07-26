@@ -27,7 +27,9 @@ export const DEMO_ACCOUNTS = [
   },
 ] as const;
 
-export async function loginDemo(account: typeof DEMO_ACCOUNTS[number]) {
+export type DemoAccount = typeof DEMO_ACCOUNTS[number];
+
+export async function loginDemo(account: DemoAccount) {
   try {
     const result = await createUserWithEmailAndPassword(
       auth,
