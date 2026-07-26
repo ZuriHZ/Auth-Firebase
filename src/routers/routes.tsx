@@ -1,4 +1,39 @@
-"use client";
+// ------------------------------------------------
+// CONFIGURACIÓN DE RUTAS (React Router + Lazy Loading)
+// ------------------------------------------------
+//
+// ACÁ SE DEFINE TODO EL MAPA DE NAVEGACIÓN DE LA APP.
+//
+// Cada página se importa con React.lazy() en vez de
+// import normal. Esto hace que el archivo de la página
+// SOLO se descargue cuando el usuario navega a esa ruta.
+// Sin lazy loading, las 20 páginas se descargarían al
+// iniciar la app, haciendo el bundle enorme (~500KB+).
+//
+// CÓMO FUNCIONA EL LAZY LOADING:
+//   1. const Home = lazy(() => import("./HomePage"))
+//      Crea un componente que NO existe hasta que se renderiza
+//   2. Cuando React necesita mostrar <Home /> (porque la ruta
+//      coincide), EJECUTA la función import() -> descarga el archivo
+//   3. Mientras se descarga, <Suspense> muestra un fallback
+//      (vacío por ahora, podría ser un spinner)
+//   4. Al terminar la descarga, React renderiza el componente
+//
+// .then((m) => ({ default: m.Home })):
+//   Los componentes se exportan como export const Home, no
+//   como export default. lazy() espera un objeto con "default",
+//   así que re-mapeamos la exportación.
+//
+// COMPORTAMIENTO DE RUTAS:
+//   - "/" -> Home (pública)
+//   - "/login", "/register" -> envueltas en PublicRoute
+//     (si ya estás logueado, te redirige al dashboard)
+//   - "/dashboard", "/profile", etc. -> envueltas en
+//     ProtectedRoute (si no estás logueado, redirige al home)
+//   - "/admin/*" -> envueltas en ProtectedAdminRoute
+//     (además, requiere rol admin)
+//   - "*" -> 404
+
 import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "../context/AuthContext";
@@ -6,6 +41,7 @@ import { ProtectedRoute } from "../guards/ProtectedRoute";
 import { ProtectedAdminRoute } from "../guards/ProtectedAdminRoute";
 import { ProtectedDatabaseRoute } from "../guards/ProtectedDatabaseRoute";
 import { PublicRoute } from "../guards/PublicRoute";
+
 const Home = lazy(() =>
     import("../pages/public/HomePage").then((m) => ({ default: m.Home }))
 );
@@ -58,7 +94,7 @@ const Privacy = lazy(() =>
     import("../pages/public/PrivacyPage").then((m) => ({ default: m.Privacy }))
 );
 const AdminUsers = lazy(() =>
-    import("../pages/app/AdminUsersPage").then((m) => ({ default: m.AdminUsers }))
+    import("../features/admin/components/UsersTable").then((m) => ({ default: m.UsersTable }))
 );
 const ProjectsPage = lazy(() =>
     import("../pages/app/ProjectsPage").then((m) => ({ default: m.ProjectsPage }))
