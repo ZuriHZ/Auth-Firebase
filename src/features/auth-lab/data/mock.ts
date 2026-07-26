@@ -1,3 +1,14 @@
+// ------------------------------------------------
+// DATOS SIMULADOS — Auth Lab
+// ------------------------------------------------
+//
+// Estos datos son 100% mock (no vienen de Firebase).
+// Se usan para mostrar cómo se vería la información
+// de sesión, token, claims y providers en una UI real.
+//
+// No expone datos reales de usuarios. Es seguro para
+// el portafolio.
+
 import type { SessionInfo, AuthToken, UserClaims, ProviderInfo } from "../types";
 
 export const mockSession: SessionInfo = {

@@ -1,3 +1,11 @@
+// ------------------------------------------------
+// DATOS SIMULADOS — Settings
+// ------------------------------------------------
+//
+// Datos de perfil y preferencias de ejemplo para
+// mostrar la interfaz de ajustes. Algunas funciones
+// (tema oscuro) son reales, los datos de perfil son mock.
+
 import type { UserProfile, SecurityInfo, UserPreferences, Appearance } from "../types";
 
 export const mockProfile: UserProfile = {

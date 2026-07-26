@@ -1,3 +1,11 @@
+// ------------------------------------------------
+// DATOS SIMULADOS — Cloud Functions
+// ------------------------------------------------
+//
+// Las Cloud Functions no están desplegadas en Firebase.
+// Estos son datos de ejemplo para mostrar la interfaz
+// de administración de funciones en el portafolio.
+
 import type { CloudFunction } from "../types";
 
 export const mockFunctions: CloudFunction[] = [

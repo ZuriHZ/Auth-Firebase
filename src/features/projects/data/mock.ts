@@ -1,3 +1,11 @@
+// ------------------------------------------------
+// DATOS SIMULADOS — Proyectos
+// ------------------------------------------------
+//
+// Proyectos de ejemplo para mostrar en el portafolio.
+// No están conectados a ninguna base de datos real.
+// Solo son datos de muestra para demostrar la UI.
+
 import type { Project } from "../types";
 
 export const mockProjects: Project[] = [
