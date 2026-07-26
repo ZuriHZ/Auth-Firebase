@@ -1,13 +1,24 @@
-// Import the functions you need from the SDKs you need
+// ------------------------------------------------
+// CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE
+// ------------------------------------------------
+//
+// Este archivo es el punto de entrada a Firebase.
+// Toma las variables de entorno (VITE_FIREBASE_*) y
+// crea las instancias de los servicios que usamos:
+//   - app: la app de Firebase en sí
+//   - auth: autenticación (email/password, Google, etc.)
+//   - db: Realtime Database (guardar usuarios, roles, etc.)
+//   - analytics: estadísticas de uso (opcional)
+//
+// Las variables están en .env y empiezan con VITE_ porque
+// Vite expone las env vars con ese prefijo al frontend.
+// Import.meta.env es la forma de Vite de leer variables de entorno.
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -19,7 +30,6 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);

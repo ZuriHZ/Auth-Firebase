@@ -1,13 +1,12 @@
 /* Carga Tailwind y hojas adicionales */
 @import "tailwindcss";
 @import "./styles/global.css";
-@import "./style.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
-*{
+* {
     scroll-behavior: smooth;
 }
 
@@ -19,26 +18,43 @@
     --radius-xl: 1.5rem;
     --radius-full: 9999px;
 
-    /* AuthPro Colors */
-    --color-surface: #f8f9ff;
-    --color-surface-container-lowest: #ffffff;
-    --color-surface-container-low: #eff4ff;
-    --color-surface-container: #e5eeff;
-    --color-surface-container-high: #dce9ff;
-    --color-surface-container-highest: #d3e4fe;
-    --color-on-surface: #0b1c30;
-    --color-on-surface-variant: #45464d;
-    --color-inverse-surface: #213145;
-    --color-outline: #76777d;
-    --color-outline-variant: #c6c6cd;
-    --color-primary: #000000;
-    --color-secondary: #0058be;
-    --color-on-secondary: #ffffff;
-    --color-secondary-container: #2170e4;
-    --color-on-secondary-container: #fefcff;
-    --color-error: #ba1a1a;
-    --color-background: #f8f9ff;
-    --color-on-background: #0b1c30;
+    /* ========================================
+       FireLabs Design System — Dark + Fire
+       ======================================== */
+
+    /* Surface colors — Improved Dark theme (more contrast between layers) */
+    --color-surface: #1a1a2e;
+    --color-surface-container-lowest: #121220;
+    --color-surface-container-low: #24243a;
+    --color-surface-container: #2c2c44;
+    --color-surface-container-high: #353551;
+    --color-surface-container-highest: #3d3d5a;
+    --color-on-surface: #f0eff5;
+    --color-on-surface-variant: #b8b6cc;
+    --color-inverse-surface: #f0eff5;
+    --color-outline: #5a5880;
+    --color-outline-variant: #3d3b5a;
+
+    /* Primary — Fire/Orange */
+    --color-primary: #ff6b1a;
+    --color-primary-foreground: #000000;
+
+    /* Secondary — Amber glow */
+    --color-secondary: #fb923c;
+    --color-on-secondary: #000000;
+    --color-secondary-container: #c2410c;
+    --color-on-secondary-container: #fff7ed;
+
+    /* Accent — Cyan/teal for contrast */
+    --color-fire-accent: #22d3ee;
+    --color-fire-accent-dim: #0891b2;
+
+    /* Error */
+    --color-error: #ef4444;
+
+    /* Backgrounds — slightly different from surface for depth */
+    --color-background: #0d0d18;
+    --color-on-background: #f0eff5;
 
     /* Spacing */
     --spacing-container-max: 1280px;
@@ -54,6 +70,7 @@
     --font-body-md: "Inter", sans-serif;
     --font-body-sm: "Inter", sans-serif;
     --font-label-md: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
 
     /* Font sizes */
     --text-display-lg: 3rem;
@@ -64,22 +81,20 @@
     --text-body-sm: 0.875rem;
     --text-label-md: 0.75rem;
 
-    /* Shadcn theme */
-    --color-background: var(--background);
+    /* Shadcn semantic tokens (mapped from :root vars) */
     --color-foreground: var(--foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
@@ -88,56 +103,89 @@
     --color-chart-3: var(--chart-3);
     --color-chart-4: var(--chart-4);
     --color-chart-5: var(--chart-5);
+
+    /* Sidebar tokens map to CSS vars */
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ========================================
+   Root — FireLabs Dark Theme (default)
+   ======================================== */
 :root {
     --radius: 0.5rem;
-    --background: #f8f9ff;
-    --foreground: #0b1c30;
-    --card: #ffffff;
-    --card-foreground: #0b1c30;
-    --popover: #ffffff;
-    --popover-foreground: #0b1c30;
-    --primary: #000000;
-    --primary-foreground: #ffffff;
-    --secondary: #0058be;
-    --secondary-foreground: #ffffff;
-    --muted: #eff4ff;
-    --muted-foreground: #45464d;
-    --accent: #dce9ff;
-    --accent-foreground: #0b1c30;
-    --destructive: #ba1a1a;
+    --background: #0d0d18;
+    --foreground: #f0eff5;
+    --card: #1a1a2e;
+    --card-foreground: #f0eff5;
+    --popover: #24243a;
+    --popover-foreground: #f0eff5;
+    --primary: #fb923c;
+    --primary-foreground: #000000;
+    --secondary: #24243a;
+    --secondary-foreground: #f0eff5;
+    --muted: #24243a;
+    --muted-foreground: #b8b6cc;
+    --accent: #24243a;
+    --accent-foreground: #f0eff5;
+    --destructive: #ef4444;
     --destructive-foreground: #ffffff;
-    --border: #c6c6cd;
-    --input: #c6c6cd;
-    --ring: #0058be;
-    --chart-1: #0058be;
-    --chart-2: #2170e4;
-    --chart-3: #d3e4fe;
-    --chart-4: #0b1c30;
-    --chart-5: #76777d;
+    --border: #3d3b5a;
+    --input: #3d3b5a;
+    --ring: #fb923c;
+    --chart-1: #fb923c;
+    --chart-2: #22d3ee;
+    --chart-3: #a855f7;
+    --chart-4: #10b981;
+    --chart-5: #f43f5e;
+
+    /* Sidebar vars */
+    --sidebar: #121220;
+    --sidebar-foreground: #b8b6cc;
+    --sidebar-primary: #fb923c;
+    --sidebar-primary-foreground: #000000;
+    --sidebar-accent: #24243a;
+    --sidebar-accent-foreground: #f0eff5;
+    --sidebar-border: #3d3b5a;
+    --sidebar-ring: #fb923c;
+
+    /* FireLabs custom vars */
+    --fire-glow: rgba(251, 146, 60, 0.15);
+    --fire-glow-strong: rgba(251, 146, 60, 0.3);
+    --fire-gradient: linear-gradient(135deg, #fb923c, #ea580c, #dc2626);
+    --fire-gradient-subtle: linear-gradient(135deg, rgba(251, 146, 60, 0.1), rgba(234, 88, 12, 0.05));
+    --cyan-glow: rgba(34, 211, 238, 0.15);
+    --glass-bg: rgba(26, 26, 46, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.08);
 }
 
-.dark {
-    --background: #0b1c30;
-    --foreground: #f8f9ff;
-    --card: #213145;
-    --card-foreground: #f8f9ff;
-    --popover: #213145;
-    --popover-foreground: #f8f9ff;
-    --primary: #d3e4fe;
-    --primary-foreground: #0b1c30;
-    --secondary: #2170e4;
-    --secondary-foreground: #ffffff;
-    --muted: #213145;
-    --muted-foreground: #dce9ff;
-    --accent: #2170e4;
-    --accent-foreground: #ffffff;
-    --destructive: #ffdad6;
-    --destructive-foreground: #93000a;
-    --border: #45464d;
-    --input: #45464d;
-    --ring: #2170e4;
+/* Light mode override (optional, if needed in future) */
+.light {
+    --background: #fafafa;
+    --foreground: #0a0a0f;
+    --card: #ffffff;
+    --card-foreground: #0a0a0f;
+    --popover: #ffffff;
+    --popover-foreground: #0a0a0f;
+    --primary: #ea580c;
+    --primary-foreground: #ffffff;
+    --secondary: #f5f5f4;
+    --secondary-foreground: #0a0a0f;
+    --muted: #f5f5f4;
+    --muted-foreground: #78716c;
+    --accent: #f5f5f4;
+    --accent-foreground: #0a0a0f;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e7e5e4;
+    --input: #e7e5e4;
+    --ring: #ea580c;
 }
 
 @layer base {
@@ -149,37 +197,160 @@
     }
 }
 
-/* Material Symbols Outlined */
+/* ========================================
+   Material Symbols
+   ======================================== */
 .material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
-/* Hero pattern - subtle dot background */
+/* ========================================
+   FireLabs — Custom Utilities
+   ======================================== */
+
+/* Glass card effect */
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Fire glow border effect */
+.fire-border {
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.05),
+        inset 0 0 15px rgba(249, 115, 22, 0.02);
+}
+
+.fire-border:hover {
+    border-color: rgba(249, 115, 22, 0.4);
+    box-shadow: 0 0 25px rgba(249, 115, 22, 0.1),
+        inset 0 0 25px rgba(249, 115, 22, 0.03);
+}
+
+/* Cyan glow border for secondary cards */
+.cyan-border {
+    border: 1px solid rgba(34, 211, 238, 0.15);
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.03);
+}
+
+.cyan-border:hover {
+    border-color: rgba(34, 211, 238, 0.3);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
+}
+
+/* Hero dot pattern — dark variant */
 .hero-pattern {
-    background-image: radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.05) 1px, transparent 0);
+    background-image: radial-gradient(
+        circle at 2px 2px,
+        rgba(249, 115, 22, 0.06) 1px,
+        transparent 0
+    );
     background-size: 32px 32px;
 }
 
-/* Shadow level 1 - cards */
+/* Circuit board pattern for backgrounds */
+.circuit-pattern {
+    background-image:
+        linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Shadow levels — adapted for dark theme */
 .shadow-level-1 {
-    box-shadow: 0px 1px 3px rgba(11, 28, 48, 0.05);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4),
+        0px 0px 1px rgba(249, 115, 22, 0.05);
 }
 
-/* Shadow level 2 - popovers */
 .shadow-level-2 {
-    box-shadow: 0px 10px 15px -3px rgba(11, 28, 48, 0.1);
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5),
+        0px 0px 2px rgba(249, 115, 22, 0.08);
 }
 
-/* Spin animation */
+/* Fire text gradient */
+.fire-text {
+    background: linear-gradient(135deg, #f97316, #fb923c, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Monospace text for code/devtools sections */
+.font-mono {
+    font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+/* Spin */
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
-
 .animate-spin {
     animation: spin 1s ease-in-out infinite;
+}
+
+/* Pulse glow — for status indicators */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(249, 115, 22, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.6),
+            0 0 40px rgba(249, 115, 22, 0.2);
+    }
+}
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Heartbeat — for health monitor */
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.05); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.03); }
+    56% { transform: scale(1); }
+}
+.animate-heartbeat {
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* Float — subtle floating for decorative elements */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Shimmer — loading or highlight effect */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(249, 115, 22, 0.08) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Terminal cursor blink */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+.animate-blink {
+    animation: blink 1s step-end infinite;
 }

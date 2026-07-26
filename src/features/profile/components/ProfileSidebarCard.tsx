@@ -33,7 +33,7 @@ export const ProfileSidebarCard: React.FC<ProfileSidebarCardProps> = ({ user }) 
                     {user?.photoURL ? (
                         <img
                             src={user.photoURL}
-                            alt="Profile"
+                            alt="Perfil"
                             className="relative w-32 h-32 rounded-full border-4 border-surface-container-high shadow-xl object-cover"
                         />
                     ) : (

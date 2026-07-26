@@ -1,3 +1,23 @@
+// ------------------------------------------------
+// PROFILE HEADER — Encabezado del perfil
+// ------------------------------------------------
+//
+// Saludo dinámico según la hora del día (Buenos días/tardes/noches)
+// más el nombre del usuario. Incluye:
+//   - Fecha actual formateada en español
+//   - Reloj en vivo (useClock hook) con formato de 24h
+//
+// useMemo:
+//   El saludo y la fecha se calculan con useMemo porque:
+//   1. greeting solo depende de la hora, no cambia hasta el
+//      día siguiente
+//   2. formattedDate solo cambia una vez por día
+//   useMemo evita recalcularlos en cada render innecesario.
+//
+// motion.div (Framer Motion):
+//   Animación de entrada: aparece deslizándose desde abajo
+//   (y: 20 -> 0) con fade in. Le da un toque de polish.
+
 import React, { useMemo } from "react";
 import { Calendar, Clock } from "lucide-react";
 import { useClock } from "../hooks/useClock";

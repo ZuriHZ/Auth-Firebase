@@ -1,3 +1,26 @@
+// ------------------------------------------------
+// EmailField — Componente para mostrar email con privacidad
+// ------------------------------------------------
+//
+// Muestra el email del usuario con dos funciones de seguridad:
+//
+// 1. MÁSCARA: por defecto el email se ve parcialmente oculto
+//    (usuario***@gmail.com). El usuario puede hacer clic en
+//    el ojo para verlo completo.
+//
+// 2. AUTO-OCULTAR: después de 5 segundos de ver el email
+//    completo, se vuelve a ocultar automáticamente. Esto
+//    evita que alguien vea el email si te alejás de la pantalla.
+//
+// 3. COPIAR: botón para copiar el email al portapapeles.
+//    Muestra un check animado (Framer Motion) cuando se copia.
+//
+// navegador.clipboard.writeText():
+//   API moderna de JavaScript para copiar texto. No requiere
+//   el viejo truco de crear un textarea oculto + execCommand.
+//   Puede fallar en algunos contextos (HTTP, iframes), por
+//   eso tiene try/catch.
+
 import React, { useState, useEffect, useCallback } from "react";
 import { Eye, EyeOff, Copy, Check } from "lucide-react";
 import { maskEmail } from "@/lib/mask-email";
@@ -27,6 +50,7 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
         }
     };
 
+    // Auto-oculta el email después de autoHideSeconds
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
         if (isVisible && autoHideSeconds > 0) {
@@ -51,7 +75,7 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
                         onClick={toggleVisibility}
                         className="p-1 hover:text-secondary text-on-surface-variant transition-colors focus:outline-none cursor-pointer"
                         title={isVisible ? "Ocultar email" : "Ver email"}
-                        aria-label="Toggle email visibility"
+                        aria-label="Alternar visibilidad del email"
                     >
                         {isVisible ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -60,7 +84,7 @@ export const EmailField: React.FC<EmailFieldProps> = ({ email, autoHideSeconds =
                         onClick={copyToClipboard}
                         className="p-1 hover:text-secondary text-on-surface-variant transition-colors focus:outline-none relative cursor-pointer"
                         title="Copiar email"
-                        aria-label="Copy email"
+                        aria-label="Copiar email"
                     >
                         <AnimatePresence mode="wait">
                             {isCopied ? (

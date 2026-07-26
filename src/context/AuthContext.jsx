@@ -1,4 +1,23 @@
-// src/context/AuthContext.jsx
+// ------------------------------------------------
+// CONTEXTO DE AUTENTICACIÓN (AuthProvider)
+// ------------------------------------------------
+//
+// Este archivo es el CORAZÓN del sistema de auth.
+// Usando React Context, provee a TODA la app de:
+//   - user: el objeto de Firebase Auth (o null)
+//   - userRole: "admin" | "usuario" | null (desde DB)
+//   - loading: mientras Firebase verifica la sesión
+//
+// Cualquier componente que necesite saber quién es el
+// usuario usa el hook useAuth() en vez de importar Firebase
+// directamente. Esto centraliza la lógica de auth.
+//
+// PATRÓN CONTEXT:
+//   1. createContext() crea el "conducto" de React
+//   2. AuthProvider es el componente que envuelve la app
+//      y pone los valores en el contexto
+//   3. useAuth() es el hook para consumir el contexto
+
 import { createContext, useContext, useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
@@ -12,7 +31,7 @@ import {
     sendEmailVerification,
 } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
-import { Loading } from "../components/Loading";
+import { Loading } from "../components/shared/Loading";
 import { ref, set, get } from "firebase/database";
 
 const AuthContext = createContext();
@@ -27,8 +46,15 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(true);
+    // minTimeElapsed fuerza un mínimo de 2 segundos de splash
+    // antes de mostrar la app. Así evitamos un flash de contenido
+    // si Firebase responde muy rápido (o hay un error instantáneo).
     const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
+    // ----- SIGNUP (registro con email/password) -----
+    // Crea el usuario en Firebase Auth, le asigna un nombre si
+    // lo dió, envía email de verificación y guarda un nodo en
+    // la Realtime DB con su rol inicial ("usuario").
     const signup = async (email, password, displayName) => {
         const result = await createUserWithEmailAndPassword(
             auth,
@@ -40,7 +66,6 @@ export function AuthProvider({ children }) {
         }
         await sendEmailVerification(result.user);
 
-        // Crear nodo de usuario en la base de datos
         await set(ref(db, `usuarios/${result.user.uid}`), {
             nombre: displayName || "",
             email,
@@ -58,14 +83,18 @@ export function AuthProvider({ children }) {
         throw new Error("No hay usuario autenticado");
     };
 
+    // ----- LOGIN (email/password) -----
     const login = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password);
     };
 
+    // ----- LOGIN CON GOOGLE -----
+    // Usa un popup de Google. En el primer login, también crea
+    // el nodo en la DB (igual que signup), pero usando get() para
+    // verificar si ya existe (evita sobrescribir).
     const loginWithGoogle = async () => {
         const googleProvider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth, googleProvider);
-        // Asegurar nodo de usuario en la base de datos en el primer login con Google
         try {
             const userRef = ref(db, `usuarios/${result.user.uid}`);
             const snapshot = await get(userRef);
@@ -91,6 +120,7 @@ export function AuthProvider({ children }) {
         return sendPasswordResetEmail(auth, email);
     };
 
+    // Timer de 2 segundos para el splash mínimo
     useEffect(() => {
         const timer = setTimeout(() => {
             setMinTimeElapsed(true);
@@ -99,6 +129,20 @@ export function AuthProvider({ children }) {
         return () => clearTimeout(timer);
     }, []);
 
+    // ----- OBSERVER DE SESIÓN -----
+    // onAuthStateChanged es un listener de Firebase que se
+    // ejecuta CADA VEZ que el estado de auth cambia:
+    //   - al iniciar la app (restaura sesión si hay token)
+    //   - al hacer login/logout
+    //   - al refrescar la página
+    //
+    // Cuando hay usuario, buscamos su rol en la Realtime DB
+    // en el nodo usuarios/{uid}/rol. Si no existe, asumimos
+    // "usuario" por defecto.
+    //
+    // El return () => unsubscribe() es crucial: limpia el
+    // listener cuando el componente se desmonta para evitar
+    // memory leaks.
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
