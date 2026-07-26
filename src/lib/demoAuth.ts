@@ -1,3 +1,25 @@
+// ------------------------------------------------
+// CUENTAS DEMO PARA EL PORTFOLIO
+// ------------------------------------------------
+//
+// Como este proyecto va a estar en un portafolio público,
+// necesitamos que cualquiera pueda probarlo sin registrarse.
+// Estas cuentas demo permiten entrar como admin o usuario
+// con un solo click.
+//
+// LOGICA DE loginDemo():
+//   1. Intenta CREAR la cuenta con createUserWithEmailAndPassword
+//   2. Si se crea bien, guarda el nodo en la DB con demo: true
+//   3. Si la cuenta YA EXISTE (auth/email-already-in-use),
+//      directamente hace login (signInWithEmailAndPassword)
+//
+// Esto es clave porque Firebase no permite crear una cuenta
+// que ya existe. Así que en el primer uso se crea, y en los
+// siguientes se loguea nomás.
+//
+// La flag "demo: true" se guarda en la DB para identificar
+// visualmente qué usuarios son demo en la tabla de admin.
+
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,

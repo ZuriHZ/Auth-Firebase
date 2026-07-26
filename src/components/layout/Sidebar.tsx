@@ -1,3 +1,27 @@
+// ------------------------------------------------
+// SIDEBAR — Panel de navegación lateral
+// ------------------------------------------------
+//
+// Sidebar colapsable con animación de Framer Motion.
+// Se muestra siempre en desktop y como overlay en mobile.
+//
+// FUNCIONAMIENTO:
+//   - isOpen: controla si está expandida (256px) o contraída (64px)
+//   - En mobile (< md): cuando está abierta, un overlay
+//     semitransparente cubre el fondo. Al tocarlo, se cierra.
+//   - En desktop: tiene un botón toggle con icono de chevron
+//     que rota 180° cuando está contraída
+//
+// FILTRO POR ROL:
+//   El array navItems tiene adminOnly: true/false. Si el usuario
+//   NO es admin, se filtran los items adminOnly=true.
+//   Así un usuario común ve Dashboard, Proyectos, Auth Lab, etc.
+//   pero NO ve Base de Datos, Funciones ni Usuarios.
+//
+// ACTIVE STATE:
+//   Compara location.pathname con item.path. Maneja el caso de
+//   rutas hijas (ej: /dashboard/docs coincide con el item Dashboard).
+
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -37,6 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
 
   return (
     <>
+      {/* Overlay semitransparente para mobile cuando el sidebar está abierto */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -113,6 +138,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
           })}
         </nav>
 
+        {/* Botón toggle para colapsar/expandir el sidebar */}
         <button
           onClick={onToggle}
           className="hidden md:flex items-center justify-center h-12 border-t border-sidebar-border text-sidebar-foreground hover:text-sidebar-primary hover:bg-sidebar-accent/50 transition-colors"

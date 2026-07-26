@@ -1,3 +1,28 @@
+// ------------------------------------------------
+// DASHBOARD LAYOUT — Estructura base del dashboard
+// ------------------------------------------------
+//
+// Layout principal para todas las páginas protegidas.
+// Estructura: Sidebar | TopBar + Content (flex row)
+//
+// COMPONENTES:
+//   - Sidebar: navegación lateral (colapsable)
+//   - TopBar: barra superior con logo mobile + avatar + dropdown
+//   - main: área de contenido donde se renderiza children
+//
+// DROPDOWN DE USUARIO:
+//   - Muestra avatar (foto de Google o icono por defecto)
+//   - Nombre, email, rol
+//   - Links a Perfil, Ajustes, Documentación
+//   - Botón de Cerrar Sesión
+//   - Se cierra al hacer clic fuera (useRef + event listener)
+//
+// CLICK OUTSIDE PATTERN:
+//   Se usa un useRef para el dropdown y un event listener en
+//   document que verifica si el clic fue fuera del dropdown.
+//   Si fue fuera, cierra el menú. El cleanup en el useEffect
+//   remueve el listener al desmontar.
+
 import { useState, useRef, useEffect } from "react";
 import { Menu, LogOut, Flame, User as UserIcon, Settings, BookOpen } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
@@ -22,7 +47,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
   const isAdmin = userRole === "admin";
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -38,7 +62,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top bar */}
         <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
           <div className="flex items-center justify-between h-16 px-4 md:px-6">
             <div className="flex items-center gap-3">
@@ -86,7 +109,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                     </div>
                   </button>
 
-                  {/* Dropdown Menu */}
                   {dropdownOpen && (
                     <div className="absolute right-0 mt-2 w-56 bg-surface-container-lowest border border-outline-variant/20 rounded-xl shadow-lg py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                       <div className="px-4 py-2 border-b border-outline-variant/10 mb-2">
@@ -138,7 +160,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           </div>
         </header>
 
-        {/* Content */}
         <main className="flex-1 min-h-0 p-6 md:p-8 overflow-y-auto overflow-x-hidden">
           {children}
         </main>

@@ -1,4 +1,27 @@
-import { useEffect, useState } from "react";
+// ------------------------------------------------
+// USERS TABLE — CRUD de usuarios (VERSIÓN RECOMENDADA)
+// ------------------------------------------------
+//
+// Gestiona usuarios desde la Realtime Database. A diferencia de
+// AdminUsersPage (pages/app/), esta versión NO crea usuarios
+// en Firebase Auth, solo escribe en la DB con push().
+//
+// DIFERENCIAS CLAVE con AdminUsersPage:
+//   ✅ Usa push() — genera IDs únicos en la DB, no UIDs de Auth
+//   ✅ No requiere re-login del admin
+//   ✅ Tiene toggle de activo/inactivo
+//   ✅ Tiene toast notifications
+//   ✅ Loading states deshabilitan botones durante acciones
+//
+// push() vs set():
+//   push(ref(db, "usuarios"), data) genera una clave única
+//   automática (-Nabcdef123...). Con set() tenés que especificar
+//   la ruta exacta (ej: usuarios/{uid}).
+//
+//   push() es mejor cuando no necesitás controlar el ID.
+//   set() es mejor cuando el ID es significativo (como el UID).
+
+import { useEffect, useState, useCallback } from "react";
 import { ref, get, set, remove, push } from "firebase/database";
 import { db } from "../../../firebase/firebase";
 import { useAuth } from "../../../context/AuthContext";
@@ -34,17 +57,21 @@ export const UsersTable = () => {
 
   const isAdmin = userRole === "admin";
 
-  const showToast = (message: string, type: "success" | "error") => {
+  // showToast: muestra una notificación temporal (3s) en la
+  // esquina inferior derecha. Maneja success/error visualmente.
+  const showToast = useCallback((message: string, type: "success" | "error") => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
-  };
+  }, []);
 
-  const fetchUsers = async () => {
+  // fetchUsers: lee TODOS los nodos hijos de /usuarios y los
+  // convierte de objeto { uid: {data} } a array [{ uid, ...data }].
+  const fetchUsers = useCallback(async () => {
     try {
       const snapshot = await get(ref(db, "usuarios"));
       if (snapshot.exists()) {
-        const data = snapshot.val();
-        const list = Object.entries(data).map(([uid, val]: [string, any]) => ({
+        const data = snapshot.val() as Record<string, Omit<Usuario, 'uid'>>;
+        const list = Object.entries(data).map(([uid, val]) => ({
           uid,
           ...val,
         }));
@@ -58,11 +85,11 @@ export const UsersTable = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,3 +1,15 @@
+// ------------------------------------------------
+// LOADING — Pantalla de carga inicial
+// ------------------------------------------------
+//
+// Se muestra mientras Firebase Auth verifica la sesión
+// y mientras el timer mínimo de 2 segundos no haya pasado.
+//
+// Tiene un spinner circular con glow, el logo de FireLabs
+// con gradiente naranja y un texto "Cargando..." animado.
+// El uso de blur-2xl y múltiples capas crea un efecto de
+// brillo detrás del spinner (glow effect).
+
 export const Loading = () => {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background">
