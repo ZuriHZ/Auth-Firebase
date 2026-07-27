@@ -24,7 +24,7 @@
 //   remueve el listener al desmontar.
 
 import { useState, useRef, useEffect } from "react";
-import { Menu, LogOut, Flame, User as UserIcon, Settings, BookOpen } from "lucide-react";
+import { PanelLeftClose, PanelLeft, LogOut, Flame, User as UserIcon, Settings, BookOpen } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { useAuth } from "../../context/AuthContext";
@@ -70,7 +70,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                 className="p-2 rounded-lg hover:bg-surface-container-low transition-colors"
                 title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}
               >
-                <Menu className="w-6 h-6 text-on-surface" />
+                {sidebarOpen ? (
+                  <PanelLeftClose className="w-5 h-5 text-on-surface-variant" />
+                ) : (
+                  <PanelLeft className="w-5 h-5 text-on-surface-variant" />
+                )}
               </button>
               <div className="flex items-center gap-2 md:hidden">
                 <Flame className="w-5 h-5 text-secondary" />

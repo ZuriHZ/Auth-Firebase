@@ -31,7 +31,6 @@ import {
   Code2,
   Settings,
   BookOpen,
-  ChevronLeft,
   Flame,
   Users,
 } from "lucide-react";
@@ -75,14 +74,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       </AnimatePresence>
 
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen max-h-screen bg-sidebar border-r border-sidebar-border flex flex-col shrink-0 self-start ${
-          isOpen ? "w-64" : "w-0 md:w-16"
-        } overflow-hidden transition-[width] duration-300`}
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen max-h-screen bg-sidebar border-r border-sidebar-border flex flex-col shrink-0 self-start ${isOpen ? "w-64" : "w-0 md:w-16"
+          } overflow-hidden transition-[width] duration-300`}
       >
         <div
-          className={`flex items-center h-20 border-b border-sidebar-border ${
-            !isOpen ? "md:px-0 md:justify-center" : "px-4"
-          }`}
+          className={`flex items-center h-20 border-b border-sidebar-border ${!isOpen ? "md:px-0 md:justify-center" : "px-4"
+            }`}
         >
           <Link
             to="/"
@@ -93,9 +90,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
               <Flame className="w-5 h-5 text-sidebar-primary" />
             </div>
             <span
-              className={`text-headline-md font-headline-lg text-sidebar-foreground whitespace-nowrap ${
-                !isOpen ? "md:hidden" : ""
-              }`}
+              className={`text-headline-md font-headline-lg text-sidebar-foreground whitespace-nowrap ${!isOpen ? "md:hidden" : ""
+                }`}
             >
               FireLabs
             </span>
@@ -112,24 +108,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 py-2.5 rounded-lg transition-all group ${
-                  isActive
+                className={`flex items-center gap-3 py-2.5 rounded-lg transition-all group ${isActive
                     ? "bg-sidebar-accent text-sidebar-accent-foreground border border-sidebar-border"
                     : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-                } ${!isOpen ? "md:px-0 md:justify-center md:gap-0" : "px-3"}`}
+                  } ${!isOpen ? "md:px-0 md:justify-center md:gap-0" : "px-3"}`}
                 title={item.name}
               >
                 <item.icon
-                  className={`w-5 h-5 flex-shrink-0 ${
-                    isActive
+                  className={`w-5 h-5 shrink-0 ${isActive
                       ? "text-sidebar-primary"
                       : "group-hover:text-sidebar-primary"
-                  } transition-colors`}
+                    } transition-colors`}
                 />
                 <span
-                  className={`text-body-sm font-medium whitespace-nowrap ${
-                    !isOpen ? "md:hidden" : ""
-                  }`}
+                  className={`text-body-sm font-medium whitespace-nowrap ${!isOpen ? "md:hidden" : ""
+                    }`}
                 >
                   {item.name}
                 </span>
@@ -139,16 +132,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         </nav>
 
         {/* Botón toggle para colapsar/expandir el sidebar */}
-        <button
-          onClick={onToggle}
-          className="hidden md:flex items-center justify-center h-12 border-t border-sidebar-border text-sidebar-foreground hover:text-sidebar-primary hover:bg-sidebar-accent/50 transition-colors"
-        >
-          <ChevronLeft
-            className={`w-5 h-5 transition-transform duration-300 ${
-              !isOpen && "rotate-180"
-            }`}
-          />
-        </button>
+        {/* <button */}
+        {/*   onClick={onToggle} */}
+        {/*   className="hidden md:flex items-center justify-center h-12 border-t border-sidebar-border text-sidebar-foreground hover:text-sidebar-primary hover:bg-sidebar-accent/50 transition-colors" */}
+        {/* > */}
+        {/*   <ChevronLeft */}
+        {/*     className={`w-5 h-5 transition-transform duration-300 ${ */}
+        {/*       !isOpen && "rotate-180" */}
+        {/*     }`} */}
+        {/*   /> */}
+        {/* </button> */}
       </aside>
     </>
   );
