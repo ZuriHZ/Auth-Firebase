@@ -67,7 +67,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden p-2 rounded-lg hover:bg-surface-container-low transition-colors"
+                className="p-2 rounded-lg hover:bg-surface-container-low transition-colors"
+                title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}
               >
                 <Menu className="w-6 h-6 text-on-surface" />
               </button>
