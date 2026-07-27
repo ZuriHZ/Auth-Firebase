@@ -97,6 +97,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                 FireLabs
               </span>
             </div>
+            {/* Spacer en desktop para equilibrar el botón flotante y mantener avatar a la derecha */}
+            <div className="hidden md:block w-10 shrink-0" />
 
             <div className="flex items-center gap-4">
               {user && (
