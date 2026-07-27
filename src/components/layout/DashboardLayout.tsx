@@ -23,7 +23,7 @@
 //   Si fue fuera, cierra el menú. El cleanup en el useEffect
 //   remueve el listener al desmontar.
 
-import { ArrowLeft, ArrowRight, BookOpen, Flame, LogOut, PanelLeft, PanelLeftClose, PanelLeftCloseIcon, PanelRight, PanelRightClose, PanelRightOpen, Settings, User as UserIcon } from "lucide-react";
+import { BookOpen, Flame, LogOut, PanelLeft, PanelLeftClose, PanelRightClose, PanelRightOpen, Settings, User as UserIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
