@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "usuarios": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() === 'admin' || auth.uid === $uid)",
+        ".validate": "newData.hasChildren(['email', 'nombre', 'rol', 'activo']) && newData.child('email').isString() && newData.child('nombre').isString() && newData.child('nombre').val().length > 0",
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[^@]+@[^@]+\\./)"
+        },
+        "nombre": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "rol": {
+          ".validate": "newData.val() === 'admin' || newData.val() === 'usuario'"
+        },
+        "activo": {
+          ".validate": "newData.isBoolean()"
+        },
+        "demo": {
+          ".validate": "newData.isBoolean()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}
