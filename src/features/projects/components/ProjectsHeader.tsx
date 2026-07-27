@@ -4,7 +4,7 @@ export const ProjectsHeader: React.FC = () => {
   return (
     <div className="flex items-center justify-between mb-8">
       <div>
-        <h1 className="text-headline-lg md:text-display-lg font-display-lg bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fbbf24] bg-clip-text text-transparent">
+        <h1 className="text-headline-lg md:text-display-lg font-display-lg fire-text">
           Proyectos
         </h1>
         <p className="text-body-lg text-on-surface-variant mt-1">

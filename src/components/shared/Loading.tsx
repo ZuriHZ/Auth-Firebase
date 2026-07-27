@@ -33,7 +33,7 @@ export const Loading = () => {
           </div>
         </div>
         <div className="mt-6 flex items-center gap-2">
-          <span className="text-headline-md font-display-lg bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fbbf24] bg-clip-text text-transparent">
+          <span className="text-headline-md font-display-lg fire-text">
             FireLabs
           </span>
         </div>

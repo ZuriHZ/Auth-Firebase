@@ -37,10 +37,9 @@
 
     /* Primary — Fire/Orange */
     --color-primary: #ff6b1a;
-    --color-primary-foreground: #000000;
 
     /* Secondary — Amber glow */
-    --color-secondary: #fb923c;
+    --color-secondary: var(--secondary);
     --color-on-secondary: #000000;
     --color-secondary-container: #c2410c;
     --color-on-secondary-container: #fff7ed;
@@ -51,6 +50,9 @@
 
     /* Error */
     --color-error: #ef4444;
+    --color-warning: #f59e0b;
+    --color-on-warning: #000000;
+    --color-on-error: #ffffff;
 
     /* Backgrounds — slightly different from surface for depth */
     --color-background: #0d0d18;
@@ -126,10 +128,10 @@
     --card-foreground: #f0eff5;
     --popover: #24243a;
     --popover-foreground: #f0eff5;
-    --primary: #fb923c;
+    --primary: #ff6b1a;
     --primary-foreground: #000000;
-    --secondary: #24243a;
-    --secondary-foreground: #f0eff5;
+    --secondary: #fb923c;
+    --secondary-foreground: #000000;
     --muted: #24243a;
     --muted-foreground: #b8b6cc;
     --accent: #24243a;
@@ -186,6 +188,15 @@
     --border: #e7e5e4;
     --input: #e7e5e4;
     --ring: #ea580c;
+    /* Sidebar */
+    --sidebar: #f5f5f4;
+    --sidebar-foreground: #0a0a0f;
+    --sidebar-primary: #ea580c;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #e7e5e4;
+    --sidebar-accent-foreground: #0a0a0f;
+    --sidebar-border: #d6d3d1;
+    --sidebar-ring: #ea580c;
 }
 
 @layer base {
@@ -261,7 +272,7 @@
 /* Shadow levels — adapted for dark theme */
 .shadow-level-1 {
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4),
-        0px 0px 1px rgba(249, 115, 22, 0.05);
+        0px 0px 1px var(--fire-glow);
 }
 
 .shadow-level-2 {
@@ -275,11 +286,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
-
-/* Monospace text for code/devtools sections */
-.font-mono {
-    font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
 }
 
 /* ========================================
