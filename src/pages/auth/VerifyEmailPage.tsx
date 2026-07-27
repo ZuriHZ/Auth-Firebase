@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-export const VerifyEmail=()=> {
+export const VerifyEmail = () => {
   const { user, logout, resendVerificationEmail } = useAuth();
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -20,7 +20,7 @@ export const VerifyEmail=()=> {
           navigate('/dashboard');
         }
       }
-    }, 3000); // Verifica cada 3 segundos
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [user, navigate]);
@@ -40,8 +40,8 @@ export const VerifyEmail=()=> {
       setLoading(true);
       setError('');
       await resendVerificationEmail();
-      setMessage('✅ Email de verificación enviado. Revisa tu bandeja de entrada.');
-      setCountdown(60); // Esperar 60 segundos antes de poder reenviar
+      setMessage('Email de verificación enviado. Revisa tu bandeja de entrada.');
+      setCountdown(60);
     } catch (error: unknown) {
       console.error(error);
       const msg = error instanceof Error ? error.message : "Error desconocido";
@@ -71,7 +71,7 @@ export const VerifyEmail=()=> {
       if (user?.emailVerified) {
         navigate('/dashboard');
       } else {
-        setMessage('⚠️ Tu email aún no ha sido verificado. Por favor revisa tu correo.');
+        setMessage('Tu email aún no ha sido verificado. Revisa tu correo o entrá al dashboard si usaste un email falso.');
       }
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "Error desconocido";
@@ -80,109 +80,107 @@ export const VerifyEmail=()=> {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
-        {/* Icono de email */}
-        <div className="flex justify-center">
-          <div className="bg-blue-100 rounded-full p-6">
-            <svg
-              className="w-16 h-16 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
+    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 hero-pattern">
+      <div className="max-w-md w-full bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 shadow-level-1">
+
+        {/* Icono */}
+        <div className="flex justify-center mb-6">
+          <div className="w-20 h-20 rounded-full bg-secondary/15 flex items-center justify-center">
+            <span className="material-symbols-outlined text-secondary text-4xl">
+              mark_email_read
+            </span>
           </div>
         </div>
 
         {/* Título */}
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">
+        <div className="text-center mb-6">
+          <h2 className="text-headline-md font-headline-md text-on-surface">
             Verifica tu email
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Hemos enviado un email de verificación a:
+          <p className="text-body-sm text-on-surface-variant mt-2">
+            Enviamos un email de verificación a:
           </p>
-          <p className="mt-1 text-base font-medium text-blue-600">
+          <p className="text-body-md font-medium text-secondary mt-1">
             {user?.email}
           </p>
         </div>
 
         {/* Mensajes */}
         {message && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          <div className="mb-4 p-3 rounded-lg bg-secondary/10 border border-secondary/20 text-secondary text-body-sm">
             {message}
           </div>
         )}
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <div className="mb-4 p-3 rounded-lg bg-error/10 border border-error/20 text-error text-body-sm">
             {error}
           </div>
         )}
 
-        {/* Instrucciones */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 mb-2">
-            📋 Instrucciones:
+        {/* Botón principal: Entrar al dashboard */}
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="w-full flex justify-center items-center gap-2 py-3 px-4 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all"
+        >
+          <span className="material-symbols-outlined text-xl">rocket_launch</span>
+          Entrar al dashboard
+        </button>
+
+        <p className="text-center text-body-xs text-on-surface-variant/60 mt-2 mb-6">
+          Si usaste un email real, verificalo después. Si fue falso, entrá directo.
+        </p>
+
+        {/* Instrucciones para email real */}
+        <div className="bg-surface-container-low rounded-lg p-4 mb-4">
+          <h3 className="text-label-md font-label-md text-on-surface mb-2">
+            Si tu email es real:
           </h3>
-          <ol className="text-sm text-gray-700 space-y-2 list-decimal list-inside">
+          <ol className="text-body-sm text-on-surface-variant space-y-1.5 list-decimal list-inside">
             <li>Abre tu correo electrónico</li>
-            <li>Busca el email de verificación</li>
+            <li>Busca el email de FireLabs</li>
             <li>Haz clic en el enlace de verificación</li>
-            <li>Regresa a esta página y haz clic en "Ya verifiqué mi email"</li>
+            <li>Volvé acá y presioná "Ya verifiqué"</li>
           </ol>
         </div>
 
-        {/* Portfolio note */}
-        <div className="bg-secondary-container/10 border border-secondary/20 rounded-lg p-4 mt-4">
-          <p className="text-body-sm text-on-surface-variant">
-            Si usaste un email de prueba/falso, no te preocupes. Podés ignorar esta página, ir al <button onClick={() => navigate('/dashboard')} className="text-secondary hover:underline font-medium cursor-pointer">dashboard</button> y usar la app igual. La verificación es solo demostrativa.
-          </p>
-        </div>
-
-        {/* Botones de acción */}
-        <div className="space-y-3">
+        {/* Botones secundarios */}
+        <div className="space-y-2">
           <button
             onClick={handleRefresh}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-outline-variant/50 bg-surface-container-low text-on-surface rounded-lg text-body-sm font-medium hover:bg-surface-container transition-all active:scale-[0.98]"
           >
-            ✓ Ya verifiqué mi email
+            <span className="material-symbols-outlined text-lg">refresh</span>
+            Ya verifiqué mi email
           </button>
 
           <button
             onClick={handleResendEmail}
             disabled={loading || countdown > 0}
-            className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-outline-variant/50 bg-surface-container-low text-on-surface rounded-lg text-body-sm font-medium hover:bg-surface-container transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
           >
+            <span className="material-symbols-outlined text-lg">mail</span>
             {countdown > 0
               ? `Reenviar en ${countdown}s`
               : loading
               ? 'Enviando...'
-              : '📧 Reenviar email de verificación'}
+              : 'Reenviar email de verificación'}
           </button>
 
           <button
             onClick={handleLogout}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="w-full flex justify-center items-center gap-2 py-2.5 px-4 text-on-surface-variant text-body-sm hover:text-on-surface transition-all"
           >
+            <span className="material-symbols-outlined text-lg">logout</span>
             Cerrar sesión
           </button>
         </div>
 
-        {/* Nota sobre spam */}
-        <div className="text-center">
-          <p className="text-xs text-gray-500">
-            💡 Si no ves el email, revisa tu carpeta de spam o correo no deseado
-          </p>
-        </div>
+        {/* Nota spam */}
+        <p className="text-center text-body-xs text-on-surface-variant/40 mt-4">
+          Si no ves el email, revisá tu carpeta de spam
+        </p>
       </div>
     </div>
   );
-}
+};

@@ -12,6 +12,7 @@ export const Register = () => {
     });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [registered, setRegistered] = useState(false);
 
     const { signup, loginWithGoogle } = useAuth();
     const navigate = useNavigate();
@@ -38,8 +39,7 @@ export const Register = () => {
             setError("");
             setLoading(true);
             await signup(formData.email, formData.password, formData.name);
-
-            navigate("/verify-email");
+            setRegistered(true);
         } catch (error: unknown) {
             console.error(error);
             const msg = error instanceof Error ? error.message : "Error desconocido";
@@ -71,6 +71,50 @@ export const Register = () => {
             setLoading(false);
         }
     };
+
+    if (registered) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-surface py-12 px-4 hero-pattern">
+                <div className="max-w-md w-full bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 shadow-level-1 text-center">
+                    <div className="flex justify-center mb-4">
+                        <div className="w-20 h-20 rounded-full bg-secondary/15 flex items-center justify-center">
+                            <span className="material-symbols-outlined text-secondary text-4xl">
+                                check_circle
+                            </span>
+                        </div>
+                    </div>
+                    <h2 className="text-headline-md font-headline-md text-on-surface mb-2">
+                        ¡Cuenta creada!
+                    </h2>
+                    <p className="text-body-sm text-on-surface-variant mb-6">
+                        Te enviamos un email de verificación a <span className="font-medium text-secondary">{formData.email}</span>
+                    </p>
+
+                    <div className="space-y-3">
+                        <button
+                            onClick={() => navigate("/dashboard")}
+                            className="w-full flex justify-center items-center gap-2 py-3 px-4 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all"
+                        >
+                            <span className="material-symbols-outlined text-xl">rocket_launch</span>
+                            Entrar al dashboard
+                        </button>
+
+                        <button
+                            onClick={() => navigate("/verify-email")}
+                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-outline-variant/50 bg-surface-container-low text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container transition-all active:scale-[0.98]"
+                        >
+                            <span className="material-symbols-outlined text-xl">mark_email_read</span>
+                            Verificar email
+                        </button>
+                    </div>
+
+                    <p className="text-body-xs text-on-surface-variant/60 mt-4">
+                        Si tu email es real, verificalo después. Si fue falso, entrá directo al dashboard.
+                    </p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-surface py-12 px-4 sm:px-6 lg:px-8 hero-pattern">
