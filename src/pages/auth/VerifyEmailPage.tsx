@@ -140,6 +140,13 @@ export const VerifyEmail=()=> {
           </ol>
         </div>
 
+        {/* Portfolio note */}
+        <div className="bg-secondary-container/10 border border-secondary/20 rounded-lg p-4 mt-4">
+          <p className="text-body-sm text-on-surface-variant">
+            Si usaste un email de prueba/falso, no te preocupes. Podés ignorar esta página, ir al <button onClick={() => navigate('/dashboard')} className="text-secondary hover:underline font-medium cursor-pointer">dashboard</button> y usar la app igual. La verificación es solo demostrativa.
+          </p>
+        </div>
+
         {/* Botones de acción */}
         <div className="space-y-3">
           <button

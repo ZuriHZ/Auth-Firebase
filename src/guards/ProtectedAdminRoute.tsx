@@ -9,10 +9,9 @@
 // FLUJO COMPLETO:
 //   1. ¿Cargando? -> spinner
 //   2. ¿No hay sesión? -> redirect al home
-//   3. ¿Email no verificado (y no es demo)? -> /verify-email
-//   4. ¿Rol NO es "admin"? -> redirect al dashboard
+//   3. ¿Rol NO es "admin"? -> redirect al dashboard
 //      (el usuario común no puede ver páginas admin)
-//   5. Todo ok -> renderiza children
+//   4. Todo ok -> renderiza children
 //
 // El rol se lee de la Realtime Database en AuthContext
 // (usuarios/{uid}/rol), por lo que esta verificación
@@ -20,9 +19,6 @@
 
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { DEMO_ACCOUNTS } from "../lib/demoAuth";
-
-const demoEmails = DEMO_ACCOUNTS.map((a) => a.email);
 
 export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, userRole, loading } = useAuth();
@@ -39,12 +35,9 @@ export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode })
     return <Navigate to="/" />;
   }
 
-  const isDemo = user.email && demoEmails.includes(user.email);
-  if (!user.emailVerified && !isDemo) {
-    return <Navigate to="/verify-email" />;
-  }
+    // La verificación de email no bloquea el acceso para portafolio.
 
-  if (userRole !== "admin") {
+    if (userRole !== "admin") {
     return <Navigate to="/dashboard" />;
   }
 

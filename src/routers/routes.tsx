@@ -93,6 +93,9 @@ const Terms = lazy(() =>
 const Privacy = lazy(() =>
     import("../pages/public/PrivacyPage").then((m) => ({ default: m.Privacy }))
 );
+const Contact = lazy(() =>
+    import("../pages/public/ContactPage").then((m) => ({ default: m.Contact }))
+);
 const AdminUsers = lazy(() =>
     import("../features/admin/components/UsersTable").then((m) => ({ default: m.UsersTable }))
 );
@@ -137,6 +140,7 @@ export const AppRoutes = () => {
                     <Route path="/enterprise" element={<Enterprise />} />
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/contact" element={<Contact />} />
                     <Route
                         path="/projects"
                         element={

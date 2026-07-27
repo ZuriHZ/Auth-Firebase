@@ -9,10 +9,11 @@
 //      -> spinner de carga (evita flash de redirect)
 //   2. ¿No hay usuario logueado?
 //      -> redirect a "/" (home)
-//   3. ¿Hay usuario pero email NO verificado?
-//      -> redirect a "/verify-email"
-//      (excepto cuentas demo, que no pueden verificar email)
-//   4. Todo ok -> renderiza el contenido (children)
+//   3. Todo ok -> renderiza el contenido (children)
+//
+// NOTA: La verificación de email se envía al registrarse,
+// pero no bloquea el acceso. Así los visitantes del portafolio
+// pueden probar la app sin verificar un email real.
 //
 // PATRÓN COMPOUND COMPONENT:
 // ProtectedRoute envuelve a su hijo. No agrega UI propia,
@@ -22,9 +23,6 @@
 
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { DEMO_ACCOUNTS } from "../lib/demoAuth";
-
-const demoEmails = DEMO_ACCOUNTS.map((a) => a.email);
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { user, loading } = useAuth();
@@ -40,10 +38,8 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         return <Navigate to="/" />;
     }
 
-    const isDemo = user.email && demoEmails.includes(user.email);
-    if (!user.emailVerified && !isDemo) {
-        return <Navigate to="/verify-email" />;
-    }
-
+    // La verificación de email se envía al registrarse (sendEmailVerification),
+    // pero NO bloqueamos el acceso. Así los visitantes del portafolio pueden
+    // probar la app sin necesidad de verificar un email real.
     return children;
 };

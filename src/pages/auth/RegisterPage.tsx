@@ -266,7 +266,7 @@ export const Register = () => {
                                 info
                             </span>
                             <p className="text-body-sm text-on-surface-variant">
-                                Después de registrarte, recibirás un email de verificación. Debes verificar tu correo antes de acceder al dashboard.
+                                Te enviaremos un email de verificación para confirmar tu correo. Si usás un email de prueba, no importa: igual podés acceder al dashboard y probar todo. La verificación es solo para demostrar la funcionalidad.
                             </p>
                         </div>
                     </div>
