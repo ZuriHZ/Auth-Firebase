@@ -45,11 +45,12 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [userRole, setUserRole] = useState(null);
-    const [loading, setLoading] = useState(true);
-    // minTimeElapsed fuerza un mínimo de 2 segundos de splash
-    // antes de mostrar la app. Así evitamos un flash de contenido
-    // si Firebase responde muy rápido (o hay un error instantáneo).
-    const [minTimeElapsed, setMinTimeElapsed] = useState(false);
+    // Solo mostramos splash en la PRIMERA carga de la app.
+    // Usamos sessionStorage para que al navegar entre páginas
+    // o volver a la pestaña NO se vuelva a mostrar el splash.
+    const [loading, setLoading] = useState(() => {
+        return !sessionStorage.getItem("firelabs-auth-loaded");
+    });
 
     // ----- SIGNUP (registro con email/password) -----
     // Crea el usuario en Firebase Auth, le asigna un nombre si
@@ -120,15 +121,6 @@ export function AuthProvider({ children }) {
         return sendPasswordResetEmail(auth, email);
     };
 
-    // Timer de 2 segundos para el splash mínimo
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setMinTimeElapsed(true);
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, []);
-
     // ----- OBSERVER DE SESIÓN -----
     // onAuthStateChanged es un listener de Firebase que se
     // ejecuta CADA VEZ que el estado de auth cambia:
@@ -165,6 +157,7 @@ export function AuthProvider({ children }) {
             }
 
             setLoading(false);
+            sessionStorage.setItem("firelabs-auth-loaded", "1");
         });
 
         return () => unsubscribe();
@@ -183,7 +176,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={value}>
-            {loading || !minTimeElapsed ? (
+            {loading ? (
                 <div className="grid place-content-center bg-background px-4 py-24 h-screen">
                     <Loading />
                 </div>
