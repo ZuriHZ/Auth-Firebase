@@ -11,6 +11,7 @@ import {
   Cloud,
 } from "lucide-react";
 import { Navbar } from "../../components/layout/Navbar";
+import { useAuth } from "../../context/AuthContext";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -84,6 +85,7 @@ const footerLinks: Record<string, { name: string; href: string }[]> = {
 };
 
 export const Home = () => {
+  const { user } = useAuth();
   return (
     <>
       <Navbar />
@@ -124,7 +126,7 @@ export const Home = () => {
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
-                  to="/register"
+                  to={user ? "/dashboard" : "/register"}
                   className="group relative inline-flex items-center gap-2 px-8 py-4 bg-secondary text-on-secondary rounded-xl text-label-md font-label-md overflow-hidden transition-all hover:shadow-lg hover:shadow-secondary/25 active:scale-[0.97]"
                 >
                   <span className="relative z-10 flex items-center gap-2">
