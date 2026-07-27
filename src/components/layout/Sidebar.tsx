@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         } overflow-hidden transition-[width] duration-300`}
       >
         <div
-          className={`flex items-center h-20 border-b border-sidebar-border ${
+          className={`flex items-center h-20 border-b border-sidebar-border shrink-0 ${
             !isOpen ? "md:px-0 md:justify-center" : "px-4"
           }`}
         >
@@ -102,7 +102,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
           </Link>
         </div>
 
-        <nav className={`flex-1 py-4 space-y-1 overflow-y-auto ${!isOpen ? "md:px-0" : "px-2"}`}>
+        <nav className="flex-1 py-4 space-y-1 overflow-y-auto overflow-x-hidden min-h-0">
           {navItems.map((item) => {
             const isActive =
               location.pathname === item.path ||
@@ -141,7 +141,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         {/* Botón toggle para colapsar/expandir el sidebar */}
         <button
           onClick={onToggle}
-          className="hidden md:flex items-center justify-center h-12 border-t border-sidebar-border text-sidebar-foreground hover:text-sidebar-primary hover:bg-sidebar-accent/50 transition-colors"
+          className="hidden md:flex items-center justify-center h-12 shrink-0 border-t border-sidebar-border text-sidebar-foreground hover:text-sidebar-primary hover:bg-sidebar-accent/50 transition-colors"
         >
           <ChevronLeft
             className={`w-5 h-5 transition-transform duration-300 ${
