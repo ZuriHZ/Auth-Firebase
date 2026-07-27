@@ -84,7 +84,9 @@ export const Contact = () => {
               const email = data.get("email");
               const message = data.get("message");
               window.open(
-                `mailto:hassamzuriel01@gmail.com?subject=FireLabs - Mensaje de ${name}&body=${encodeURIComponent(
+                `mailto:hassamzuriel01@gmail.com?subject=${encodeURIComponent(
+                  `FireLabs - Mensaje de ${name}`
+                )}&body=${encodeURIComponent(
                   `Nombre: ${name}\nEmail: ${email}\n\n${message}`
                 )}`,
                 "_blank"

@@ -4,8 +4,9 @@
 //
 // Se muestra solo en la PRIMERA carga de la app
 // mientras Firebase Auth verifica la sesión.
-// Una vez verificada, sessionStorage evita que
-// se vuelva a mostrar al navegar o cambiar de pestaña.
+// La lógica está en AuthContext: loading se mantiene
+// true hasta que onAuthStateChanged resuelva, y
+// showSplash (sessionStorage) evita repetirlo.
 //
 // Tiene un spinner circular con glow, el logo de FireLabs
 // con gradiente naranja y un texto "Cargando..." animado.

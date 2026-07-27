@@ -45,12 +45,14 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [userRole, setUserRole] = useState(null);
-    // Solo mostramos splash en la PRIMERA carga de la app.
-    // Usamos sessionStorage para que al navegar entre páginas
-    // o volver a la pestaña NO se vuelva a mostrar el splash.
-    const [loading, setLoading] = useState(() => {
-        return !sessionStorage.getItem("firelabs-auth-loaded");
-    });
+    // showSplash: solo muestra el splash en la PRIMERA carga.
+    // loading: se mantiene true hasta que onAuthStateChanged resuelva.
+    // Si loading fuera false antes de tiempo, ProtectedRoute vería
+    // user=null y redirigiría a / antes de que Firebase restaure la sesión.
+    const [showSplash] = useState(
+        () => !sessionStorage.getItem("firelabs-auth-loaded")
+    );
+    const [loading, setLoading] = useState(true);
 
     // ----- SIGNUP (registro con email/password) -----
     // Crea el usuario en Firebase Auth, le asigna un nombre si
@@ -176,7 +178,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={value}>
-            {loading ? (
+            {loading && showSplash ? (
                 <div className="grid place-content-center bg-background px-4 py-24 h-screen">
                     <Loading />
                 </div>
