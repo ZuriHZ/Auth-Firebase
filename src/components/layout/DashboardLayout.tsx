@@ -23,11 +23,11 @@
 //   Si fue fuera, cierra el menú. El cleanup en el useEffect
 //   remueve el listener al desmontar.
 
-import { useState, useRef, useEffect } from "react";
-import { PanelLeftClose, PanelLeft, LogOut, Flame, User as UserIcon, Settings, BookOpen } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
-import { Sidebar } from "./Sidebar";
+import { BookOpen, Flame, LogOut, PanelLeft, PanelLeftClose, Settings, User as UserIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { Sidebar } from "./Sidebar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -61,11 +61,27 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
     <div className="h-screen bg-background flex overflow-hidden">
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
+      {/* Toggle button - flota en la orilla entre sidebar y contenido */}
+      <button
+        type="button"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="hidden md:flex fixed z-[70] p-2 rounded-lg bg-surface border border-outline-variant/20 shadow-md hover:bg-surface-container-low transition-all"
+        style={{ left: sidebarOpen ? '16rem' : '4rem', top: '20px' }}
+        title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}
+      >
+        {sidebarOpen ? (
+          <PanelLeftClose className="w-5 h-5 text-on-surface-variant" />
+        ) : (
+          <PanelLeft className="w-5 h-5 text-on-surface-variant" />
+        )}
+      </button>
+
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+        <header className="sticky top-0 z-[60] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
           <div className="flex items-center justify-between h-16 px-4 md:px-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 md:hidden">
               <button
+                 type="button"
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="p-2 rounded-lg hover:bg-surface-container-low transition-colors"
                 title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}
@@ -76,18 +92,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                   <PanelLeft className="w-5 h-5 text-on-surface-variant" />
                 )}
               </button>
-              <div className="flex items-center gap-2 md:hidden">
-                <Flame className="w-5 h-5 text-secondary" />
-                <span className="text-headline-md font-headline-lg text-on-surface">
-                  FireLabs
-                </span>
-              </div>
+              <Flame className="w-5 h-5 text-secondary" />
+              <span className="text-headline-md font-headline-lg text-on-surface">
+                FireLabs
+              </span>
             </div>
 
             <div className="flex items-center gap-4">
               {user && (
                 <div className="relative" ref={dropdownRef}>
-                  <button 
+                  <button
+                    type="button"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center gap-3 hover:bg-surface-container-low p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-outline-variant/20"
                   >
@@ -120,36 +135,37 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                         <p className="text-sm font-medium text-on-surface truncate">{user.displayName || "Usuario"}</p>
                         <p className="text-xs text-on-surface-variant truncate">{user.email}</p>
                       </div>
-                      
-                      <Link 
-                        to="/profile" 
+
+                      <Link
+                        to="/profile"
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-3 px-4 py-2 text-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
                       >
                         <UserIcon className="w-4 h-4" />
                         Mi Perfil
                       </Link>
-                      <Link 
-                        to="/settings" 
+                      <Link
+                        to="/settings"
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-3 px-4 py-2 text-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
                       >
                         <Settings className="w-4 h-4" />
                         Ajustes
                       </Link>
-                      <Link 
-                        to="/dashboard/docs" 
+                      <Link
+                        to="/dashboard/docs"
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-3 px-4 py-2 text-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
                       >
                         <BookOpen className="w-4 h-4" />
                         Documentación
                       </Link>
-                      
+
                       <div className="h-px bg-outline-variant/10 my-2"></div>
-                      
+
                       <div className="px-2 pb-2">
-                      <button
+                        <button
+                           type="button"
                         onClick={handleLogout}
                         className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 rounded-lg hover:bg-red-500/10 transition-colors"
                       >
