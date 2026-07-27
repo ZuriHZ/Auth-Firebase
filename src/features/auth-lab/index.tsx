@@ -8,7 +8,7 @@ export const AuthLabPage: React.FC = () => {
   return (
     <div className="min-h-[calc(100vh-8rem)]">
       <div className="mb-8">
-        <h1 className="text-headline-lg md:text-display-lg font-display-lg bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fbbf24] bg-clip-text text-transparent">
+        <h1 className="text-headline-lg md:text-display-lg font-display-lg fire-text">
           Auth Lab
         </h1>
         <p className="text-body-lg text-on-surface-variant mt-1">
