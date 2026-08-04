@@ -31,6 +31,6 @@ dist-ssr
 # Docs
 /Informes
 /docs
-
+/.firebase
 docs/data.ts
 .firebase/hosting.ZGlzdA.cache
