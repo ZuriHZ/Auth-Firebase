@@ -9,9 +9,40 @@ import {
   Shield,
   Database,
   Activity,
-  ArrowUpRight,
+  Plus,
   ChevronRight,
+  Clock,
+  FolderKanban,
+  Key,
+  LogIn,
+  Rocket,
+  UserPlus,
 } from "lucide-react";
+
+const timeAgo = (date: Date) => {
+  const diff = Date.now() - date.getTime();
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  if (mins < 60) return `hace ${mins} min`;
+  if (hours < 24) return `hace ${hours}h`;
+  return `hace ${days}d`;
+};
+
+interface ActivityItem {
+  icon: React.ComponentType<{ className?: string }>;
+  text: string;
+  time: Date;
+  color: string;
+}
+
+const recentActivity: ActivityItem[] = [
+  { icon: FolderKanban, text: "Nuevo proyecto creado", time: new Date(Date.now() - 3 * 3600000), color: "text-secondary" },
+  { icon: UserPlus, text: "Nuevo usuario registrado", time: new Date(Date.now() - 5 * 3600000), color: "text-cyan-400" },
+  { icon: Key, text: "API Key generada", time: new Date(Date.now() - 24 * 3600000), color: "text-emerald-400" },
+  { icon: LogIn, text: "Inicio de sesión desde nueva ubicación", time: new Date(Date.now() - 26 * 3600000), color: "text-purple-400" },
+  { icon: Rocket, text: "Deploy realizado en producción", time: new Date(Date.now() - 48 * 3600000), color: "text-amber-400" },
+];
 
 export const Dashboard = () => {
   const { user, userRole } = useAuth();
@@ -23,8 +54,7 @@ export const Dashboard = () => {
       try {
         const snapshot = await get(ref(db, "usuarios"));
         if (snapshot.exists()) {
-          const data = snapshot.val();
-          setTotalUsers(Object.keys(data).length);
+          setTotalUsers(Object.keys(snapshot.val()).length);
         }
       } catch {
         /* no-op */
@@ -34,164 +64,147 @@ export const Dashboard = () => {
   }, [isAdmin]);
 
   const adminStats = [
-    {
-      label: "Usuarios Registrados",
-      value: totalUsers ?? "—",
-      icon: Users,
-      color: "text-secondary",
-      bg: "bg-secondary/10",
-    },
-    {
-      label: "Métodos de Auth",
-      value: "3",
-      icon: Shield,
-      color: "text-cyan-400",
-      bg: "bg-cyan-500/10",
-    },
-    {
-      label: "Servicios Firebase",
-      value: "6",
-      icon: Database,
-      color: "text-emerald-400",
-      bg: "bg-emerald-500/10",
-    },
-    {
-      label: "Sesiones Activas",
-      value: "—",
-      icon: Activity,
-      color: "text-purple-400",
-      bg: "bg-purple-500/10",
-    },
+    { label: "Usuarios", value: totalUsers ?? "—", icon: Users, color: "text-secondary", bg: "bg-secondary/10" },
+    { label: "Auth Methods", value: "3", icon: Shield, color: "text-cyan-400", bg: "bg-cyan-500/10" },
+    { label: "Firebase Services", value: "6", icon: Database, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+    { label: "Active Sessions", value: "—", icon: Activity, color: "text-purple-400", bg: "bg-purple-500/10" },
   ];
 
   const userStats = [
-    {
-      label: "Proyectos",
-      value: "1",
-      icon: Database,
-      color: "text-secondary",
-      bg: "bg-secondary/10",
-    },
-    {
-      label: "Auth Requests",
-      value: "—",
-      icon: Shield,
-      color: "text-cyan-400",
-      bg: "bg-cyan-500/10",
-    },
+    { label: "Proyectos", value: "1", icon: Database, color: "text-secondary", bg: "bg-secondary/10" },
+    { label: "Auth Requests", value: "—", icon: Shield, color: "text-cyan-400", bg: "bg-cyan-500/10" },
   ];
 
   const stats = isAdmin ? adminStats : userStats;
 
-  const adminActions = [
-    {
-      label: "Gestionar Usuarios",
-      desc: "Ver, agregar y eliminar usuarios de Firebase",
-      href: "/admin/usuarios",
-      icon: Users,
-    },
-    {
-      label: "Base de Datos",
-      desc: "Explorar y administrar la Realtime Database",
-      href: "/database",
-      icon: Database,
-    },
-  ];
+  const quickActions = isAdmin
+    ? [
+        { label: "Gestionar Usuarios", desc: "Ver y administrar usuarios", href: "/admin/usuarios", icon: Users },
+        { label: "Base de Datos", desc: "Explorar Realtime Database", href: "/database", icon: Database },
+        { label: "Auth Lab", desc: "Probar métodos de autenticación", href: "/auth-lab", icon: Shield },
+        { label: "Configuración", desc: "Ajustes de la plataforma", href: "/settings", icon: Activity },
+      ]
+    : [
+        { label: "Auth Lab", desc: "Probar métodos de autenticación", href: "/auth-lab", icon: Shield },
+        { label: "Configuración", desc: "Ajustes de tu cuenta", href: "/settings", icon: Activity },
+      ];
 
   return (
     <DashboardLayout>
-      {/* Welcome */}
-      <div className="mb-10">
-        <h1 className="text-headline-lg md:text-display-lg font-display-lg text-on-surface mb-2">
-          Bienvenido,{" "}
-          <span className="fire-text">{user?.displayName || "Usuario"}</span>
-        </h1>
-        <p className="text-body-lg text-on-surface-variant">
-          {isAdmin
-            ? "Panel de administración de FireLabs"
-            : "Tu panel de control en FireLabs"}
-        </p>
+      {/* Page header */}
+      <div className="mb-8">
+        <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-on-surface-variant/50 mb-1.5 block">
+          Dashboard
+        </span>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-headline-lg md:text-display-lg font-display-lg text-on-surface mb-1.5">
+              Bienvenido,{" "}
+              <span className="fire-text">{user?.displayName || "Usuario"}</span>
+            </h1>
+            <p className="text-body-md text-on-surface-variant">
+              {isAdmin
+                ? "Panel de administración de FireLabs"
+                : "Tu panel de control en FireLabs"}
+            </p>
+          </div>
+          <Link
+            to="/projects"
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-150 shadow-sm shadow-primary/20 shrink-0"
+          >
+            <Plus className="w-4 h-4" />
+            Nuevo Proyecto
+          </Link>
+        </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
+      {/* Stats bar */}
+      <div className={`grid grid-cols-2 ${isAdmin ? "md:grid-cols-4" : "md:grid-cols-2"} gap-3 mb-8`}>
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 p-5 md:p-6 hover:border-outline-variant/40 transition-all"
+            className="bg-surface-container-lowest rounded-xl border border-outline-variant/20 px-4 py-3.5 hover:border-outline-variant/40 hover:-translate-y-0.5 transition-all duration-200"
           >
-            <div
-              className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-4`}
-            >
-              <stat.icon className={`w-5 h-5 ${stat.color}`} />
-            </div>
-            <div className="text-2xl md:text-3xl font-display-lg text-on-surface mb-1">
-              {stat.value}
-            </div>
-            <div className="text-body-sm text-on-surface-variant">
-              {stat.label}
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-lg ${stat.bg} flex items-center justify-center shrink-0`}>
+                <stat.icon className={`w-4 h-4 ${stat.color}`} />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xl leading-none font-display-lg text-on-surface mb-0.5">
+                  {stat.value}
+                </div>
+                <div className="text-[11px] text-on-surface-variant font-medium truncate">
+                  {stat.label}
+                </div>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Admin Quick Actions */}
-      {isAdmin && (
-        <div className="mb-10">
-          <h2 className="text-headline-md font-headline-md text-on-surface mb-6 flex items-center gap-2">
-            <ArrowUpRight className="w-5 h-5 text-secondary" />
-            Acciones Rápidas
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            {adminActions.map((action) => (
-              <Link
-                key={action.label}
-                to={action.href}
-                className="flex items-start gap-4 p-5 bg-surface-container-lowest rounded-2xl border border-outline-variant/20 hover:border-secondary/30 transition-all group"
+      {/* Two-column layout */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Recent Activity */}
+        <div className="lg:col-span-2">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/20 overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-outline-variant/10">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-secondary" />
+                <h2 className="text-sm font-semibold text-on-surface">Actividad Reciente</h2>
+              </div>
+              <button
+                type="button"
+                className="text-xs font-medium text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
               >
-                <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
-                  <action.icon className="w-6 h-6 text-secondary" />
+                Ver todo
+              </button>
+            </div>
+            <div className="p-2">
+              {recentActivity.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-container transition-all duration-150 cursor-pointer group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-150">
+                    <item.icon className={`w-4 h-4 ${item.color}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-on-surface truncate">{item.text}</p>
+                  </div>
+                  <span className="text-[11px] text-on-surface-variant/50 whitespace-nowrap font-medium">
+                    {timeAgo(item.time)}
+                  </span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-label-md font-label-md text-on-surface mb-1">
-                    {action.label}
-                  </h3>
-                  <p className="text-body-sm text-on-surface-variant">
-                    {action.desc}
-                  </p>
-                </div>
-                <ChevronRight className="w-5 h-5 text-on-surface-variant flex-shrink-0 mt-1 group-hover:text-secondary group-hover:translate-x-0.5 transition-all" />
-              </Link>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      )}
 
-      {/* Quick Links */}
-      <div>
-        <h2 className="text-headline-md font-headline-md text-on-surface mb-6">
-          Acceso Rápido
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: "Auth Lab", href: "/auth-lab", icon: Shield },
-            { label: "Documentación", href: "/docs", icon: Database },
-            { label: "Ajustes", href: "/settings", icon: Activity },
-            ...(isAdmin
-              ? [{ label: "Admin", href: "/admin/usuarios", icon: Users }]
-              : []),
-          ].map((link) => (
-            <Link
-              key={link.label}
-              to={link.href}
-              className="flex flex-col items-center gap-2 p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/20 hover:border-secondary/30 transition-all group"
-            >
-              <link.icon className="w-6 h-6 text-secondary group-hover:scale-110 transition-transform" />
-              <span className="text-body-sm font-medium text-on-surface">
-                {link.label}
-              </span>
-            </Link>
-          ))}
+        {/* Quick Actions */}
+        <div>
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/20 overflow-hidden">
+            <div className="px-5 py-4 border-b border-outline-variant/10">
+              <h2 className="text-sm font-semibold text-on-surface">Accesos Directos</h2>
+            </div>
+            <div className="p-2">
+              {quickActions.map((action) => (
+                <Link
+                  key={action.label}
+                  to={action.href}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-container transition-all duration-150 group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0 group-hover:bg-secondary/20 transition-colors duration-150">
+                    <action.icon className="w-4 h-4 text-secondary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-on-surface truncate">{action.label}</p>
+                    <p className="text-[11px] text-on-surface-variant/70 truncate">{action.desc}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-on-surface-variant/30 group-hover:text-secondary group-hover:translate-x-0.5 transition-all duration-150 shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </DashboardLayout>

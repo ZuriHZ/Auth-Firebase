@@ -1,29 +1,4 @@
-// ------------------------------------------------
-// DASHBOARD LAYOUT — Estructura base del dashboard
-// ------------------------------------------------
-//
-// Layout principal para todas las páginas protegidas.
-// Estructura: Sidebar | TopBar + Content (flex row)
-//
-// COMPONENTES:
-//   - Sidebar: navegación lateral (colapsable)
-//   - TopBar: barra superior con logo mobile + avatar + dropdown
-//   - main: área de contenido donde se renderiza children
-//
-// DROPDOWN DE USUARIO:
-//   - Muestra avatar (foto de Google o icono por defecto)
-//   - Nombre, email, rol
-//   - Links a Perfil, Ajustes, Documentación
-//   - Botón de Cerrar Sesión
-//   - Se cierra al hacer clic fuera (useRef + event listener)
-//
-// CLICK OUTSIDE PATTERN:
-//   Se usa un useRef para el dropdown y un event listener en
-//   document que verifica si el clic fue fuera del dropdown.
-//   Si fue fuera, cierra el menú. El cleanup en el useEffect
-//   remueve el listener al desmontar.
-
-import { BookOpen, Flame, LogOut, PanelLeft, PanelLeftClose, PanelRightClose, PanelRightOpen, Settings, User as UserIcon } from "lucide-react";
+import { BookOpen, Flame, LogOut, PanelLeft, PanelLeftClose, PanelRightClose, PanelRightOpen, Settings, User as UserIcon, Search, Bell, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -34,10 +9,20 @@ interface DashboardLayoutProps {
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(() => {
+        const saved = localStorage.getItem("firelabs-sidebar");
+        if (saved !== null) return saved === "true";
+        const appearance = localStorage.getItem("firelabs-appearance");
+        if (appearance) {
+            try { return !JSON.parse(appearance).sidebarCollapsed; } catch {
+                // ignore malformed data
+            }
+        }
+        return true;
+    });
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const { user, userRole, logout } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -45,7 +30,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
         navigate("/");
     };
 
-    const isAdmin = userRole === "admin";
+    useEffect(() => {
+        localStorage.setItem("firelabs-sidebar", String(sidebarOpen));
+    }, [sidebarOpen]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -61,34 +48,67 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
         <div className="h-screen bg-background flex overflow-hidden">
             <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
-            {/* Toggle button - flota en la orilla entre sidebar y contenido */}
-            <button type="button" onClick={() => setSidebarOpen(!sidebarOpen)} className="hidden md:flex fixed z-70 px-2 rounded-lg transition-all" style={{ left: sidebarOpen ? "16rem" : "3rem", top: "20px" }} title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}>
-                {sidebarOpen ? <PanelRightOpen className="w-5 h-5 text-on-surface-variant cursor-pointer rounded-sm" /> : <PanelRightClose className="w-5 h-5  cursor-pointer rounded-sm" />}
+            {/* Toggle button */}
+            <button
+                type="button"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="hidden md:flex fixed z-70 items-center justify-center transition-all duration-200 hover:scale-110 active:scale-90"
+                style={{ left: sidebarOpen ? "16rem" : "4rem", top: "20px" }}
+                title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}
+            >
+                {sidebarOpen ? <PanelRightOpen className="w-6 h-6 text-on-surface-variant/40 hover:text-on-surface-variant" /> : <PanelRightClose className="w-6 h-6 text-on-surface-variant/40 hover:text-on-surface-variant" />}
             </button>
 
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
                 <header className="sticky top-0 z-60 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-                    <div className="flex items-center justify-between h-16 px-4 md:px-6">
-                        <div className="flex items-center gap-3 md:hidden">
-                            <button type="button" onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg hover:bg-surface-container-low transition-colors" title={sidebarOpen ? "Cerrar sidebar" : "Abrir sidebar"}>
+                    <div className="flex items-center justify-between h-16 px-4 md:px-6 gap-3">
+                        {/* Mobile: logo + menu */}
+                        <div className="flex items-center gap-2 md:hidden">
+                            <button type="button" onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg hover:bg-surface-container-low transition-colors">
                                 {sidebarOpen ? <PanelLeftClose className="w-5 h-5 text-on-surface-variant" /> : <PanelLeft className="w-5 h-5 text-on-surface-variant" />}
                             </button>
                             <Flame className="w-5 h-5 text-secondary" />
                             <span className="text-headline-md font-headline-lg text-on-surface">FireLabs</span>
                         </div>
-                        {/* Spacer en desktop para equilibrar el botón flotante y mantener avatar a la derecha */}
-                        <div className="hidden md:block w-10 shrink-0" />
 
-                        <div className="flex items-center gap-4">
+                        {/* Search bar */}
+                        <div className="hidden md:flex flex-1 max-w-md mx-auto">
+                            <div className="relative w-full">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant/40" />
+                                <input
+                                    type="text"
+                                    placeholder="Buscar..."
+                                    className="w-full h-9 pl-9 pr-12 rounded-lg bg-surface-container-low border border-outline-variant/20 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-primary/30 focus:ring-1 focus:ring-primary/10 transition-all duration-200"
+                                />
+                                <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded-md bg-surface-container text-[10px] font-medium text-on-surface-variant/50 border border-outline-variant/20 leading-none">⌘K</kbd>
+                            </div>
+                        </div>
+
+                        {/* Right section */}
+                        <div className="flex items-center gap-1.5">
+                            {/* New project button */}
+                            <Link to="/projects" className="hidden md:inline-flex items-center gap-1.5 px-3.5 h-9 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90 active:scale-[0.97] transition-all duration-150 shadow-sm shadow-primary/20">
+                                <Plus className="w-4 h-4" />
+                                Nuevo Proyecto
+                            </Link>
+
+                            {/* Mobile: New project icon */}
+                            <Link to="/projects" className="md:hidden p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+                                <Plus className="w-5 h-5 text-on-surface-variant" />
+                            </Link>
+
+                            {/* Notifications */}
+                            <button type="button" className="relative p-2 rounded-lg hover:bg-surface-container-low transition-colors" title="Notificaciones">
+                                <Bell className="w-5 h-5 text-on-surface-variant" />
+                                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface" />
+                            </button>
+
+                            {/* Avatar dropdown */}
                             {user && (
                                 <div className="relative" ref={dropdownRef}>
-                                    <button type="button" onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-3 hover:bg-surface-container-low p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-outline-variant/20">
-                                        <div className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center border border-outline-variant/30 overflow-hidden">
-                                            {user.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover" /> : <span className="material-symbols-outlined text-secondary text-xl">{isAdmin ? "admin_panel_settings" : "person"}</span>}
-                                        </div>
-                                        <div className="hidden sm:flex flex-col items-start">
-                                            <span className="text-body-sm font-medium text-on-surface leading-tight">{user.displayName || "Usuario"}</span>
-                                            <span className="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider leading-tight">{isAdmin ? "Admin" : "Usuario"}</span>
+                                    <button type="button" onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-2 hover:bg-surface-container-low p-1.5 pr-2 rounded-full transition-colors duration-150 border border-transparent hover:border-outline-variant/20">
+                                        <div className="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center border border-outline-variant/30 overflow-hidden">
+                                            {user.photoURL ? <img src={user.photoURL} alt="" className="w-full h-full object-cover" /> : <UserIcon className="w-4 h-4 text-secondary" />}
                                         </div>
                                     </button>
 
@@ -112,7 +132,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                                                 Documentación
                                             </Link>
 
-                                            <div className="h-px bg-outline-variant/10 my-2"></div>
+                                            <div className="h-px bg-outline-variant/10 my-2" />
 
                                             <div className="px-2 pb-2">
                                                 <button type="button" onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 rounded-lg hover:bg-red-500/10 transition-colors">

@@ -82,6 +82,10 @@
     --text-body-md: 1rem;
     --text-body-sm: 0.875rem;
     --text-label-md: 0.75rem;
+    --text-label-sm: 0.625rem;
+    --text-title-lg: 1.375rem;
+    --text-title-md: 1.125rem;
+    --text-body-xs: 0.75rem;
 
     /* Shadcn semantic tokens (mapped from :root vars) */
     --color-foreground: var(--foreground);
@@ -157,18 +161,59 @@
     --sidebar-border: #3d3b5a;
     --sidebar-ring: #fb923c;
 
+    /* FireLabs surface tokens — default dark */
+    --color-surface: #1a1a2e;
+    --color-surface-container-lowest: #121220;
+    --color-surface-container-low: #24243a;
+    --color-surface-container: #2c2c44;
+    --color-surface-container-high: #353551;
+    --color-surface-container-highest: #3d3d5a;
+    --color-on-surface: #f0eff5;
+    --color-on-surface-variant: #b8b6cc;
+    --color-inverse-surface: #f0eff5;
+    --color-outline: #5a5880;
+    --color-outline-variant: #3d3b5a;
+    --color-background: #0d0d18;
+    --color-on-background: #f0eff5;
+    --color-primary: #ff6b1a;
+    --color-secondary: #fb923c;
+    --color-on-secondary: #000000;
+    --color-secondary-container: #c2410c;
+    --color-on-secondary-container: #fff7ed;
+    --color-fire-accent: #22d3ee;
+    --color-fire-accent-dim: #0891b2;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+    --color-on-warning: #000000;
+    --color-on-error: #ffffff;
     /* FireLabs custom vars */
     --fire-glow: rgba(251, 146, 60, 0.15);
     --fire-glow-strong: rgba(251, 146, 60, 0.3);
     --fire-gradient: linear-gradient(135deg, #fb923c, #ea580c, #dc2626);
     --fire-gradient-subtle: linear-gradient(135deg, rgba(251, 146, 60, 0.1), rgba(234, 88, 12, 0.05));
+    --fire-text-gradient: linear-gradient(135deg, #f97316, #fb923c, #fbbf24);
+    --fire-border-color: rgba(249, 115, 22, 0.2);
+    --fire-border-color-hover: rgba(249, 115, 22, 0.4);
+    --fire-shadow-color: rgba(249, 115, 22, 0.05);
+    --fire-shadow-inset: rgba(249, 115, 22, 0.02);
+    --fire-shadow-color-hover: rgba(249, 115, 22, 0.1);
+    --fire-shadow-inset-hover: rgba(249, 115, 22, 0.03);
+    --pattern-dot: rgba(249, 115, 22, 0.06);
+    --pattern-line: rgba(249, 115, 22, 0.03);
     --cyan-glow: rgba(34, 211, 238, 0.15);
+    --cyan-border-color: rgba(34, 211, 238, 0.15);
+    --cyan-border-color-hover: rgba(34, 211, 238, 0.3);
+    --cyan-shadow-color: rgba(34, 211, 238, 0.03);
+    --cyan-shadow-color-hover: rgba(34, 211, 238, 0.08);
     --glass-bg: rgba(26, 26, 46, 0.8);
     --glass-border: rgba(255, 255, 255, 0.08);
 }
 
-/* Light mode override (optional, if needed in future) */
+/* ========================================
+   Light Mode Override — Full Design System
+   ======================================== */
 .light {
+    /* Shadcn semantic tokens */
     --background: #fafafa;
     --foreground: #0a0a0f;
     --card: #ffffff;
@@ -177,26 +222,82 @@
     --popover-foreground: #0a0a0f;
     --primary: #ea580c;
     --primary-foreground: #ffffff;
-    --secondary: #f5f5f4;
-    --secondary-foreground: #0a0a0f;
+    --secondary: #ea580c;
+    --secondary-foreground: #ffffff;
     --muted: #f5f5f4;
     --muted-foreground: #78716c;
-    --accent: #f5f5f4;
+    --accent: #f0ede8;
     --accent-foreground: #0a0a0f;
     --destructive: #ef4444;
     --destructive-foreground: #ffffff;
     --border: #e7e5e4;
     --input: #e7e5e4;
     --ring: #ea580c;
+    --chart-1: #ea580c;
+    --chart-2: #0891b2;
+    --chart-3: #9333ea;
+    --chart-4: #059669;
+    --chart-5: #e11d48;
+
     /* Sidebar */
     --sidebar: #f5f5f4;
     --sidebar-foreground: #0a0a0f;
     --sidebar-primary: #ea580c;
-    --sidebar-primary-foreground: #000000;
+    --sidebar-primary-foreground: #ffffff;
     --sidebar-accent: #e7e5e4;
     --sidebar-accent-foreground: #0a0a0f;
     --sidebar-border: #d6d3d1;
     --sidebar-ring: #ea580c;
+
+    /* FireLabs custom vars — light mode */
+    --fire-glow: rgba(234, 88, 12, 0.1);
+    --fire-glow-strong: rgba(234, 88, 12, 0.2);
+    --fire-gradient: linear-gradient(135deg, #ea580c, #dc2626, #b91c1c);
+    --fire-gradient-subtle: linear-gradient(135deg, rgba(234, 88, 12, 0.08), rgba(220, 38, 38, 0.04));
+    --cyan-glow: rgba(8, 145, 178, 0.1);
+    --fire-text-gradient: linear-gradient(135deg, #ea580c, #f97316, #f59e0b);
+    --fire-border-color: rgba(234, 88, 12, 0.2);
+    --fire-border-color-hover: rgba(234, 88, 12, 0.4);
+    --fire-shadow-color: rgba(234, 88, 12, 0.06);
+    --fire-shadow-inset: rgba(234, 88, 12, 0.03);
+    --fire-shadow-color-hover: rgba(234, 88, 12, 0.12);
+    --fire-shadow-inset-hover: rgba(234, 88, 12, 0.04);
+    --pattern-dot: rgba(234, 88, 12, 0.08);
+    --pattern-line: rgba(234, 88, 12, 0.04);
+    --cyan-border-color: rgba(8, 145, 178, 0.2);
+    --cyan-border-color-hover: rgba(8, 145, 178, 0.4);
+    --cyan-shadow-color: rgba(8, 145, 178, 0.04);
+    --cyan-shadow-color-hover: rgba(8, 145, 178, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+/* FireLabs surface tokens — light mode overrides */
+.light {
+    --color-surface: #ffffff;
+    --color-surface-container-lowest: #f5f5f4;
+    --color-surface-container-low: #fafaf9;
+    --color-surface-container: #f0efed;
+    --color-surface-container-high: #e7e5e3;
+    --color-surface-container-highest: #d6d3d1;
+    --color-on-surface: #0a0a0f;
+    --color-on-surface-variant: #57534e;
+    --color-inverse-surface: #1a1a2e;
+    --color-outline: #a8a29e;
+    --color-outline-variant: #d6d3d1;
+    --color-background: #fafafa;
+    --color-on-background: #0a0a0f;
+    --color-primary: #ea580c;
+    --color-secondary: #ea580c;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #fed7aa;
+    --color-on-secondary-container: #7c2d12;
+    --color-fire-accent: #0891b2;
+    --color-fire-accent-dim: #155e75;
+    --color-error: #dc2626;
+    --color-warning: #d97706;
+    --color-on-warning: #ffffff;
+    --color-on-error: #ffffff;
 }
 
 @layer base {
@@ -229,33 +330,33 @@
 
 /* Fire glow border effect */
 .fire-border {
-    border: 1px solid rgba(249, 115, 22, 0.2);
-    box-shadow: 0 0 15px rgba(249, 115, 22, 0.05),
-        inset 0 0 15px rgba(249, 115, 22, 0.02);
+    border: 1px solid var(--fire-border-color);
+    box-shadow: 0 0 15px var(--fire-shadow-color),
+        inset 0 0 15px var(--fire-shadow-inset);
 }
 
 .fire-border:hover {
-    border-color: rgba(249, 115, 22, 0.4);
-    box-shadow: 0 0 25px rgba(249, 115, 22, 0.1),
-        inset 0 0 25px rgba(249, 115, 22, 0.03);
+    border-color: var(--fire-border-color-hover);
+    box-shadow: 0 0 25px var(--fire-shadow-color-hover),
+        inset 0 0 25px var(--fire-shadow-inset-hover);
 }
 
 /* Cyan glow border for secondary cards */
 .cyan-border {
-    border: 1px solid rgba(34, 211, 238, 0.15);
-    box-shadow: 0 0 15px rgba(34, 211, 238, 0.03);
+    border: 1px solid var(--cyan-border-color);
+    box-shadow: 0 0 15px var(--cyan-shadow-color);
 }
 
 .cyan-border:hover {
-    border-color: rgba(34, 211, 238, 0.3);
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
+    border-color: var(--cyan-border-color-hover);
+    box-shadow: 0 0 20px var(--cyan-shadow-color-hover);
 }
 
-/* Hero dot pattern — dark variant */
+/* Hero dot pattern */
 .hero-pattern {
     background-image: radial-gradient(
         circle at 2px 2px,
-        rgba(249, 115, 22, 0.06) 1px,
+        var(--pattern-dot) 1px,
         transparent 0
     );
     background-size: 32px 32px;
@@ -264,8 +365,8 @@
 /* Circuit board pattern for backgrounds */
 .circuit-pattern {
     background-image:
-        linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+        linear-gradient(var(--pattern-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--pattern-line) 1px, transparent 1px);
     background-size: 40px 40px;
 }
 
@@ -282,7 +383,7 @@
 
 /* Fire text gradient */
 .fire-text {
-    background: linear-gradient(135deg, #f97316, #fb923c, #fbbf24);
+    background: var(--fire-text-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "public" }) => {
                   className="flex items-center gap-3 hover:bg-surface-container-low p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-outline-variant/20"
                 >
                   <div className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center border border-outline-variant/30 overflow-hidden">
-                    {user.photoURL ? (
+                    {user?.photoURL ? (
                       <img
                         src={user.photoURL}
                         alt="Avatar"

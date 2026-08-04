@@ -11,6 +11,7 @@ import {
   Cloud,
 } from "lucide-react";
 import { Navbar } from "../../components/layout/Navbar";
+import { Footer } from "../../components/layout/Footer";
 import { useAuth } from "../../context/AuthContext";
 
 const containerVariants = {
@@ -62,27 +63,6 @@ const stats = [
   { label: "Disponibilidad", value: "99.9%" },
   { label: "Países", value: "25+" },
 ];
-
-const footerLinks: Record<string, { name: string; href: string }[]> = {
-  Recursos: [
-    { name: "Documentación", href: "/docs" },
-    { name: "API Reference", href: "/docs" },
-    { name: "Precios", href: "/pricing" },
-    { name: "Soporte", href: "#" },
-  ],
-  Empresa: [
-    { name: "Nosotros", href: "/about" },
-    { name: "Blog", href: "#" },
-    { name: "Enterprise", href: "/enterprise" },
-    { name: "Contacto", href: "#" },
-  ],
-  Legal: [
-    { name: "Privacidad", href: "/privacy" },
-    { name: "Términos", href: "/terms" },
-    { name: "Seguridad", href: "#" },
-    { name: "Cookies", href: "#" },
-  ],
-};
 
 export const Home = () => {
   const { user } = useAuth();
@@ -277,7 +257,7 @@ export const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-secondary via-secondary-container to-error/80 p-12 md:p-20 text-center"
+              className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-secondary via-secondary-container to-primary p-12 md:p-20 text-center"
             >
               <div className="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full -mr-36 -mt-36 blur-3xl" />
               <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/5 rounded-full -ml-36 -mb-36 blur-3xl" />
@@ -303,78 +283,7 @@ export const Home = () => {
         </section>
 
         {/* Footer */}
-        <footer className="bg-surface-container-lowest border-t border-outline-variant/20 py-16">
-          <div className="max-w-7xl mx-auto px-6 md:px-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-              <div className="col-span-2 md:col-span-1">
-                <Link
-                  to="/"
-                  className="flex items-center gap-2.5 mb-4 group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-secondary/15 flex items-center justify-center group-hover:bg-secondary/25 transition-colors">
-                    <Flame className="w-6 h-6 text-secondary" />
-                  </div>
-                  <span className="text-headline-md font-headline-lg text-on-surface fire-text">
-                    FireLabs
-                  </span>
-                </Link>
-                <p className="text-body-sm text-on-surface-variant max-w-xs leading-relaxed">
-                  Una plataforma sandbox completa para que los desarrolladores
-                  prueben, exploren y dominen herramientas cloud.
-                </p>
-              </div>
-
-              {Object.entries(footerLinks).map(([category, links]) => (
-                <div key={category}>
-                  <h4 className="text-label-md font-label-md text-on-surface mb-4 uppercase tracking-wider">
-                    {category}
-                  </h4>
-                  <ul className="space-y-3">
-                    {links.map((link) => (
-                      <li key={link.name}>
-                        {link.href.startsWith("/") ? (
-                          <Link
-                            to={link.href}
-                            className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
-                          >
-                            {link.name}
-                          </Link>
-                        ) : (
-                          <a
-                            href={link.href}
-                            className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
-                          >
-                            {link.name}
-                          </a>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-body-sm text-on-surface-variant">
-                &copy; 2026 FireLabs. Todos los derechos reservados.
-              </p>
-              <div className="flex items-center gap-4">
-                <a
-                  href="#"
-                  className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
-                >
-                  Política de Privacidad
-                </a>
-                <a
-                  href="#"
-                  className="text-body-sm text-on-surface-variant hover:text-secondary transition-colors"
-                >
-                  Términos del Servicio
-                </a>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );
