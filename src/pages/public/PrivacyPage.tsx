@@ -1,4 +1,5 @@
 import { Navbar } from "../../components/layout/Navbar";
+import { Footer } from "../../components/layout/Footer";
 import { Shield } from "lucide-react";
 
 export const Privacy = () => {
@@ -78,11 +79,7 @@ export const Privacy = () => {
           </section>
         </div>
       </main>
-      <footer className="border-t border-outline-variant/20 py-8 text-center">
-        <p className="text-body-sm text-on-surface-variant">
-          &copy; 2026 FireLabs. Todos los derechos reservados.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 };

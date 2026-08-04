@@ -1,7 +1,7 @@
 # 🔥 FireLabs
 
 > **Firebase + React 19 + Dark/Fire Design System**
-> Panel de administración tipo Firebase Console con identidad visual dark/fire.
+> Panel de administración SaaS con identidad dark/fire — UX inspirada en Vercel, Linear y Supabase.
 
 ---
 
@@ -55,10 +55,14 @@ Paleta oscura con acentos naranja/fuego y cian de contraste.
 - Recuperación de contraseña
 - Roles en Realtime DB: `admin` / `usuario`
 
-### Navegación FireLabs
-- **Navbar público** — Links a Características, Precios, Docs, Empresa
-- **Sidebar colapsable** — Framer Motion, filtrada por rol
-- **DashboardLayout** — Sidebar + TopBar + Content Area
+### Dashboard Premium
+- **Header** con barra de búsqueda ⌘K, notificaciones y CTA "Nuevo Proyecto"
+- **Sidebar colapsable** con persistencia en localStorage, secciones por rol e indicador activo tipo Linear
+- **Stats compactas** en formato horizontal con micro-interacciones
+- **Feed de actividad reciente** con timestamps relativos
+- **Accesos directos** contextuales según el rol del usuario
+- **CTAs principales** duplicados (header + página) siguiendo la Ley de Fitts
+- Transiciones suaves (150-200ms) en todas las interacciones
 
 ### Páginas Públicas
 | Ruta | Descripción |
@@ -74,7 +78,7 @@ Paleta oscura con acentos naranja/fuego y cian de contraste.
 ### Dashboard y Features (con mock data)
 | Ruta | Feature | Descripción |
 |------|---------|-------------|
-| `/dashboard` | Dashboard | Stats por rol + atajos |
+| `/dashboard` | Dashboard | Stats por rol, actividad reciente, accesos directos |
 | `/auth-lab` | Auth Lab | Cards: sesión activa, token JWT, claims, providers |
 | `/projects` | Proyectos | Grid con filtros por estado + búsqueda |
 | `/functions` | Funciones | Listado de Cloud Functions (admin) |
@@ -93,6 +97,7 @@ Paleta oscura con acentos naranja/fuego y cian de contraste.
 | `/register` | Registro |
 | `/verify-email` | Verificación de email |
 | `/profile` | Perfil de usuario |
+| `/dashboard/docs` | Documentación interna del dashboard |
 | `*` | 404 |
 
 ---
@@ -113,26 +118,38 @@ Paleta oscura con acentos naranja/fuego y cian de contraste.
 ```
 src/
 ├── components/
-│   ├── layouts/DashboardLayout.tsx   # Sidebar + TopBar + Content
-│   ├── Sidebar.tsx                    # Nav colapsable (Framer Motion)
-│   ├── Navbar.tsx                     # Navbar público/auth
-│   ├── AdminRoute.jsx, ProtectedRoute.jsx ...  # Guards
-│   ├── Usuarios.tsx                   # Tabla usuarios (/database)
-│   ├── Dashboard.jsx                  # Panel principal
-│   └── ui/                            # Shadcn/ui components
+│   ├── layout/
+│   │   ├── DashboardLayout.tsx    # Header (search, notificaciones, CTA) + Content
+│   │   ├── Sidebar.tsx             # Nav colapsable con secciones e indicador activo
+│   │   └── Navbar.tsx              # Navbar público/auth
+│   └── ui/                         # Shadcn/ui components (button, card, dialog...)
+├── guards/
+│   ├── ProtectedRoute.tsx
+│   ├── ProtectedAdminRoute.tsx
+│   ├── ProtectedDatabaseRoute.tsx
+│   └── PublicRoute.tsx
 ├── features/
 │   ├── auth-lab/   → components/, data/  (mock)
 │   ├── projects/   → components/, data/  (mock)
 │   ├── functions/  → components/, data/  (mock)
 │   ├── settings/   → components/, data/  (mock + UI)
 │   └── profile/                        # Feature completo
-├── pages/             # Lazy-loaded pages
-├── context/           # AuthContext
-├── firebase/          # Firebase config
-├── routers/           # routes.tsx
-├── styles/            # global.css
-├── index.css          # Tailwind + Design System
-└── index.ts           # Barrel exports
+├── pages/
+│   ├── app/
+│   │   ├── DashboardPage.tsx       # Panel principal rediseñado
+│   │   ├── DashboardDocsPage.tsx   # Docs internos
+│   │   └── ...                     # Otras páginas lazy-loaded
+│   └── public/                     # Páginas públicas
+├── context/
+│   └── AuthContext.jsx             # Auth + roles
+├── firebase/
+│   └── firebase.jsx                # Firebase config
+├── routers/
+│   └── routes.tsx                   # Lazy-loaded routes
+├── styles/
+│   └── global.css                  # Ajustes mobile-first
+├── index.css                       # Tailwind + Design System tokens
+└── index.ts                        # Barrel exports
 ```
 
 ---
