@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "public" }) => {
                   </div>
                   <div className="hidden sm:flex flex-col items-start">
                     <span className="text-body-sm font-medium text-on-surface leading-tight">
-                      {user.displayName || "Usuario"}
+                      {user?.displayName || "Usuario"}
                     </span>
                     <span className="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider leading-tight">
                       {isAdmin ? "Admin" : "Usuario"}
@@ -132,8 +132,8 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "public" }) => {
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 bg-surface-container-lowest border border-outline-variant/20 rounded-xl shadow-lg py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-2 border-b border-outline-variant/10 mb-2">
-                      <p className="text-sm font-medium text-on-surface truncate">{user.displayName || "Usuario"}</p>
-                      <p className="text-xs text-on-surface-variant truncate">{user.email}</p>
+                      <p className="text-sm font-medium text-on-surface truncate">{user?.displayName || "Usuario"}</p>
+                      <p className="text-xs text-on-surface-variant truncate">{user?.email}</p>
                     </div>
                     
                     <Link 

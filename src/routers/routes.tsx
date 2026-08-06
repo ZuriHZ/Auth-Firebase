@@ -54,6 +54,9 @@ const Login = lazy(() =>
 const Register = lazy(() =>
     import("../pages/auth/RegisterPage").then((m) => ({ default: m.Register }))
 );
+const ResetPassword = lazy(() =>
+    import("../pages/auth/ResetPasswordPage").then((m) => ({ default: m.ResetPassword }))
+);
 const Dashboard = lazy(() =>
     import("../pages/app/DashboardPage").then((m) => ({
         default: m.Dashboard,
@@ -190,6 +193,14 @@ export const AppRoutes = () => {
                         }
                     />
                     <Route path="/verify-email" element={<VerifyEmail />} />
+                    <Route
+                        path="/reset-password"
+                        element={
+                            <PublicRoute>
+                                <ResetPassword />
+                            </PublicRoute>
+                        }
+                    />
                     <Route
                         path="/profile"
                         element={

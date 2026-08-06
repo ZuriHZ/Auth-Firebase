@@ -1,7 +1,27 @@
 import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { DEMO_ACCOUNTS, loginDemo, type DemoAccount } from "../../lib/demoAuth";
+import { auth } from "../../firebase/firebase";
+
+const DEMO_ACCOUNTS = [
+  {
+    id: "admin",
+    label: "Admin Demo",
+    email: "admin@firelabs.dev",
+    password: "Firelabs-Admin-2026",
+    icon: "👑",
+  },
+  {
+    id: "usuario",
+    label: "Usuario Demo",
+    email: "usuario@firelabs.dev",
+    password: "Firelabs-Demo-2026",
+    icon: "👤",
+  },
+] as const;
+
+type DemoAccountId = (typeof DEMO_ACCOUNTS)[number]["id"];
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,9 +30,28 @@ export const Login = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState<DemoAccountId | null>(null);
 
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+
+  const getErrorMessage = (error: unknown) => {
+    const msg = error instanceof Error ? error.message : "Error desconocido";
+    const code = (error as { code?: string }).code;
+    if (code === "auth/invalid-credential") {
+      return "Email o contraseña incorrectos";
+    }
+    if (code === "auth/user-not-found") {
+      return "Usuario no encontrado";
+    }
+    if (code === "auth/wrong-password") {
+      return "Contraseña incorrecta";
+    }
+    if (code === "auth/too-many-requests") {
+      return "Demasiados intentos. Intenta más tarde";
+    }
+    return "Error al iniciar sesión: " + msg;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,19 +65,7 @@ export const Login = () => {
       await login(formData.email, formData.password);
       navigate("/dashboard");
     } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : "Error desconocido";
-      const code = (error as { code?: string }).code;
-      if (code === "auth/invalid-credential") {
-        setError("Email o contraseña incorrectos");
-      } else if (code === "auth/user-not-found") {
-        setError("Usuario no encontrado");
-      } else if (code === "auth/wrong-password") {
-        setError("Contraseña incorrecta");
-      } else if (code === "auth/too-many-requests") {
-        setError("Demasiados intentos. Intenta más tarde");
-      } else {
-        setError("Error al iniciar sesión: " + msg);
-      }
+      setError(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -58,25 +85,26 @@ export const Login = () => {
     }
   };
 
-  const handleDemoLogin = async (account: DemoAccount) => {
+  const handleDemoLogin = async (accountId: DemoAccountId) => {
+    const account = DEMO_ACCOUNTS.find((a) => a.id === accountId);
+    if (!account) return;
     try {
       setError("");
-      setLoading(true);
-      await loginDemo(account);
+      setDemoLoading(accountId);
+      await signInWithEmailAndPassword(auth, account.email, account.password);
       navigate("/dashboard");
     } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : "Error desconocido";
-      setError("Error con demo: " + msg);
+      setError(getErrorMessage(error));
     } finally {
-      setLoading(false);
+      setDemoLoading(null);
     }
   };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 hero-pattern">
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-md">
         {/* Brand Header */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-1.5 mb-2">
             <span className="material-symbols-outlined text-secondary text-3xl">local_fire_department</span>
             <span className="text-title-lg font-headline-lg tracking-tight text-on-surface fire-text">FireLabs</span>
@@ -85,36 +113,8 @@ export const Login = () => {
           <p className="text-body-xs text-on-surface-variant mt-0.5">Accede a tu cuenta para continuar</p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_1.5fr] gap-4 items-start">
-          {/* Demo Accounts Card */}
-          <div className="bg-surface-container-lowest p-4 rounded-xl border border-secondary/25 shadow-level-1">
-            <div className="flex items-center gap-1.5 mb-2">
-              <span className="material-symbols-outlined text-secondary text-lg">science</span>
-              <span className="text-label-sm font-label-md text-on-surface uppercase tracking-wider">Acceso Demo</span>
-            </div>
-            <p className="text-body-xs text-on-surface-variant mb-3">
-              Prueba sin registrarte. Se crean al primer click.
-            </p>
-            <div className="flex flex-col gap-2">
-              {DEMO_ACCOUNTS.map((account) => (
-                <button
-                  key={account.id}
-                  onClick={() => handleDemoLogin(account)}
-                  disabled={loading}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container hover:border-secondary/40 transition-all disabled:opacity-50 active:scale-[0.97]"
-                >
-                  <span className="material-symbols-outlined text-secondary text-2xl">{account.icon}</span>
-                  <div className="text-left">
-                    <span className="text-body-xs font-medium text-on-surface block">{account.label}</span>
-                    <span className="text-[10px] text-on-surface-variant font-mono">{account.email}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Login Form */}
-          <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-level-1">
+        {/* Login Form */}
+        <div className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-level-1">
           {error && (
             <div className="mb-3 p-2.5 rounded-lg bg-error/10 border border-error/20 text-error text-body-xs">{error}</div>
           )}
@@ -181,7 +181,39 @@ export const Login = () => {
           <div className="text-center mt-4">
             <Link to="/register" className="text-body-xs text-secondary hover:underline">¿No tienes cuenta? Regístrate</Link>
           </div>
+        </div>
+
+        {/* Modo Demo */}
+        <div className="mt-4 bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30 shadow-level-1">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="material-symbols-outlined text-secondary text-lg">science</span>
+            <h3 className="text-title-md font-headline-md text-on-surface">Modo Demo</h3>
           </div>
+          <p className="text-body-xs text-on-surface-variant mb-3">
+            Probá FireLabs sin registrarte con una cuenta de prueba.
+          </p>
+          <div className="space-y-2">
+            {DEMO_ACCOUNTS.map((account) => (
+              <button
+                key={account.id}
+                type="button"
+                onClick={() => handleDemoLogin(account.id)}
+                disabled={demoLoading !== null || loading}
+                className="w-full flex items-center justify-between gap-2 py-2 px-3 border border-outline-variant/50 bg-surface-container-lowest text-on-surface rounded-lg text-body-sm font-medium hover:bg-surface-container-low active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="flex items-center gap-2">
+                  <span aria-hidden="true">{account.icon}</span>
+                  {account.label}
+                </span>
+                <span className="text-body-xs text-on-surface-variant truncate">
+                  {demoLoading === account.id ? "Ingresando..." : account.email}
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="text-body-xs text-on-surface-variant mt-3">
+            Credenciales visibles a propósito: son cuentas de demostración, no secretos.
+          </p>
         </div>
       </div>
     </div>

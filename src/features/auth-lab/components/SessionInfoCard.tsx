@@ -8,14 +8,16 @@ interface SessionInfoCardProps {
 }
 
 export const SessionInfoCard: React.FC<SessionInfoCardProps> = ({ session, delay = 0 }) => {
-  const formatDate = (dateStr: string) =>
-    new Date(dateStr).toLocaleDateString("es-ES", {
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleDateString("es-ES", {
       year: "numeric",
       month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
 
   return (
     <motion.div

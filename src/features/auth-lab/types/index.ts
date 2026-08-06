@@ -31,5 +31,4 @@ export interface ProviderInfo {
   name: string;
   icon: string;
   connected: boolean;
-  lastUsed: string;
 }

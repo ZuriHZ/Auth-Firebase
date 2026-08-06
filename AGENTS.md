@@ -55,11 +55,11 @@ Add: `npx shadcn@latest add <component>`. Schema: `components.json`. CSS entry: 
 - Guards in `src/components/`: `ProtectedRoute`, `ProtectedAdminRoute`, `ProtectedDatabaseRoute`, `PublicRoute`
 
 ## Auth / Firebase
-- Config: `src/firebase/firebase.jsx` (reads `VITE_FIREBASE_*` env vars)
+- Config: `src/firebase/firebase.ts` (reads `VITE_FIREBASE_*` env vars)
 - Context: `src/context/AuthContext.jsx` → `useAuth()` hook
-- Roles stored in Realtime DB at `usuarios/{uid}/rol` (values: `admin`, `usuario`)
-- On signup: auto-creates DB node + sends email verification
-- Demo accounts: `admin@firelabs.dev` / `user@firelabs.dev`
+- Roles stored in Realtime DB at `usuarios/{uid}/rol` (values: `admin`, `usuario`) — informational only for the UI
+- **Admin authority lives in `database.rules.json` (`ADMIN_UIDS` explicit UID list)** — the DB is never the source of truth for admin
+- Admin creation: manual via Firebase Console + `ADMIN_UIDS` (see README "Alta de Admin"); no demo credentials exist
 
 ## Layout Pattern
 Pages use `DashboardLayout` (`src/components/layouts/DashboardLayout.tsx`) which wraps:
@@ -76,7 +76,8 @@ data/           # Mock data or Firebase queries
 types/          # TypeScript interfaces
 index.tsx       # Main export
 ```
-Features with mock data: `auth-lab`, `projects`, `functions`, `settings`.
+Features with mock data: `projects`, `functions`, `settings`.
+`auth-lab` shows real session data (ID token claims, providers, metadata).
 Settings also has partial real functionality (profile form, password change).
 
 ## Barrel Export

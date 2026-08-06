@@ -20,15 +20,6 @@ const providerColors: Record<string, string> = {
 };
 
 export const ProvidersCard: React.FC<ProvidersCardProps> = ({ providers, delay = 0 }) => {
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return "—";
-    return new Date(dateStr).toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -64,9 +55,6 @@ export const ProvidersCard: React.FC<ProvidersCardProps> = ({ providers, delay =
             <div className="flex-1 min-w-0">
               <p className="text-body-sm font-semibold text-on-surface">
                 {provider.name}
-              </p>
-              <p className="text-label-md text-on-surface-variant mt-0.5">
-                Último uso: {formatDate(provider.lastUsed)}
               </p>
             </div>
 

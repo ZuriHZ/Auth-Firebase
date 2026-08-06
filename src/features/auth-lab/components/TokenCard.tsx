@@ -3,19 +3,21 @@ import { Shield } from "lucide-react";
 import type { AuthToken } from "../types";
 
 interface TokenCardProps {
-  token: AuthToken;
+  token: AuthToken | null;
   delay?: number;
 }
 
 export const TokenCard: React.FC<TokenCardProps> = ({ token, delay = 0 }) => {
-  const formatDate = (dateStr: string) =>
-    new Date(dateStr).toLocaleDateString("es-ES", {
+  const formatDate = (dateStr?: string) => {
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleDateString("es-ES", {
       year: "numeric",
       month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
 
   return (
     <motion.div
@@ -34,12 +36,12 @@ export const TokenCard: React.FC<TokenCardProps> = ({ token, delay = 0 }) => {
       </div>
 
       <div className="space-y-0 mb-4">
-        <InfoRow label="Tipo" value={token.type} />
-        <InfoRow label="Issuer" value={token.issuer} />
-        <InfoRow label="Emitido" value={formatDate(token.issuedAt)} />
+        <InfoRow label="Tipo" value={token?.type ?? "—"} />
+        <InfoRow label="Issuer" value={token?.issuer ?? "—"} />
+        <InfoRow label="Emitido" value={formatDate(token?.issuedAt)} />
         <InfoRow
           label="Expira"
-          value={formatDate(token.expiresAt)}
+          value={formatDate(token?.expiresAt)}
           isLast
         />
       </div>
@@ -48,12 +50,18 @@ export const TokenCard: React.FC<TokenCardProps> = ({ token, delay = 0 }) => {
         <span className="text-body-sm text-on-surface-variant">Estado:</span>
         <span
           className={`text-body-xs px-2 py-0.5 rounded-full font-medium ${
-            token.isExpired
-              ? "bg-error/10 text-error"
-              : "bg-success/10 text-success"
+            token === null
+              ? "bg-surface-container-low text-on-surface-variant"
+              : token.isExpired
+                ? "bg-error/10 text-error"
+                : "bg-success/10 text-success"
           }`}
         >
-          {token.isExpired ? "Expirado" : "Vigente"}
+          {token === null
+            ? "Cargando..."
+            : token.isExpired
+              ? "Expirado"
+              : "Vigente"}
         </span>
       </div>
 
@@ -62,7 +70,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ token, delay = 0 }) => {
           Raw Token
         </span>
         <div className="font-mono text-body-xs bg-surface rounded-lg p-3 break-all select-all border border-outline-variant/10 max-h-24 overflow-y-auto">
-          {token.raw}
+          {token?.raw ?? "—"}
         </div>
       </div>
     </motion.div>
