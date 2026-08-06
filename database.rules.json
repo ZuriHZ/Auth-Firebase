@@ -1,10 +1,11 @@
 {
   "rules": {
     "usuarios": {
-      ".read": "auth != null",
+      ".read": "auth != null && (auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92')",
       "$uid": {
-        ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() === 'admin' || auth.uid === $uid)",
-        ".validate": "newData.hasChildren(['email', 'nombre', 'rol', 'activo']) && newData.child('email').isString() && newData.child('nombre').isString() && newData.child('nombre').val().length > 0",
+        ".read": "auth != null && (auth.uid == $uid || auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92')",
+        ".write": "auth != null && ((auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92') || auth.uid == $uid)",
+        ".validate": "(auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92') || ((!data.exists() && newData.child('rol').val() == 'usuario') || (data.exists() && newData.child('rol').val() == data.child('rol').val()))",
         "email": {
           ".validate": "newData.isString() && newData.val().matches(/^[^@]+@[^@]+\\./)"
         },
@@ -12,12 +13,9 @@
           ".validate": "newData.isString() && newData.val().length > 0"
         },
         "rol": {
-          ".validate": "newData.val() === 'admin' || newData.val() === 'usuario'"
+          ".validate": "newData.val() == 'admin' || newData.val() == 'usuario'"
         },
         "activo": {
-          ".validate": "newData.isBoolean()"
-        },
-        "demo": {
           ".validate": "newData.isBoolean()"
         },
         "$other": {
