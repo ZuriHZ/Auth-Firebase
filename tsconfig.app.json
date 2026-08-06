@@ -7,7 +7,7 @@
         "module": "ESNext",
         "types": ["vite/client", "react", "react-dom"],
         "skipLibCheck": true,
-        "allowJs": true,
+        "allowJs": false,
         "forceConsistentCasingInFileNames": true,
 
         /* Bundler mode */
