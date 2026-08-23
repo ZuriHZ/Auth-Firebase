@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { initializeTestEnvironment, assertFails, assertSucceeds } from "@firebase/rules-unit-testing";
 import { setLogLevel } from "firebase/app";
-import { ref, set, get } from "firebase/database";
+import { ref, set, get, update, remove } from "firebase/database";
 
 setLogLevel("silent");
 
@@ -20,13 +20,33 @@ const rulesSource = JSON.parse(
   readFileSync(join(__dirname, "..", "database.rules.json"), "utf-8")
 );
 
-// El admin de las pruebas es el UID hardcodeado en la regla .read de
-// /usuarios (el emulador de RTDB no soporta funciones en rules, por eso
-// la lista admin va inline). Se extrae por regex para que la suite siga
-// funcionando al reemplazar el placeholder por el UID real.
+// El admin de las pruebas es el UID hardcodeado en las reglas (el emulador
+// de RTDB no soporta funciones en rules, por eso la lista admin va inline).
+// Se extrae recorriendo TODOS los strings de reglas y tomando el token
+// alfanumérico largo que más se repite (el UID real aparece en varias
+// reglas; los UIDs sintéticos de los tests no están en las reglas). Es
+// robusto ante cambios de estructura de database.rules.json.
+function collectRuleStrings(node, out) {
+  for (const [key, value] of Object.entries(node)) {
+    if (key.startsWith(".") && typeof value === "string") {
+      out.push(value);
+    } else if (value && typeof value === "object") {
+      collectRuleStrings(value, out);
+    }
+  }
+}
+
+const ruleStrings = [];
+collectRuleStrings(rulesSource.rules, ruleStrings);
+const uidCounts = new Map();
+for (const rule of ruleStrings) {
+  for (const match of rule.matchAll(/[0-9A-Za-z]{20,}/g)) {
+    const uid = match[0];
+    uidCounts.set(uid, (uidCounts.get(uid) ?? 0) + 1);
+  }
+}
 const ADMIN_UID =
-  rulesSource.rules.usuarios[".read"].match(/auth\.uid\s*==\s*'([^']+)'/)?.[1] ??
-  "";
+  [...uidCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
 
 const PROJECT_ID = "firelabs-dev";
 const DATABASE_HOST = "127.0.0.1";
@@ -38,6 +58,16 @@ const NODO_VALIDO = {
   rol: "usuario",
   activo: true,
 };
+
+// UIDs sintéticos para los tests de usuarios normales:
+//   uidNormal1   -> el usuario "normal" protagonista
+//   uidNormal2   -> otro usuario (ajeno)
+//   uidAdminFake -> nodo con rol 'admin' en datos pero SIN el UID
+//                   hardcodeado: verifica que el rol de DB no otorga
+//                   privilegios reales.
+const UID_NORMAL = "uidNormal1";
+const UID_OTRO = "uidNormal2";
+const UID_ADMIN_FAKE = "uidAdminFake";
 
 let testEnv;
 
@@ -199,8 +229,228 @@ await test("12. Usuario SÍ puede leer su propio nodo", async () => {
   );
 });
 
+// ============================================================
+// SUITE AMPLIADA — tests con nombres exactos (snake_case)
+// ============================================================
+
+// ---------- No autenticado ----------
+await test("anonymous_read_denied", async () => {
+  const anon = testEnv.unauthenticatedContext();
+  await assertFails(get(ref(anon.database(), "usuarios")));
+  await assertFails(get(ref(anon.database(), `usuarios/${UID_NORMAL}`)));
+});
+
+await test("anonymous_write_denied", async () => {
+  const anon = testEnv.unauthenticatedContext();
+  await assertFails(
+    set(ref(anon.database(), `usuarios/anon-${Date.now()}`), NODO_VALIDO)
+  );
+});
+
+// ---------- Lecturas del usuario normal ----------
+await test("user_read_own_allowed", async () => {
+  await seedUsuario(UID_NORMAL);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertSucceeds(get(ref(user.database(), `usuarios/${UID_NORMAL}`)));
+});
+
+await test("user_read_other_denied", async () => {
+  await seedUsuario(UID_OTRO);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(get(ref(user.database(), `usuarios/${UID_OTRO}`)));
+});
+
+await test("user_read_collection_denied", async () => {
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(get(ref(user.database(), "usuarios")));
+});
+
+// ---------- Escrituras del usuario normal ----------
+await test("user_write_own_allowed", async () => {
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertSucceeds(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}`), {
+      nombre: "Normal User",
+      email: "normal@test.com",
+      rol: "usuario",
+      activo: true,
+    })
+  );
+});
+
+await test("user_write_other_denied", async () => {
+  await seedUsuario(UID_OTRO);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_OTRO}`), NODO_VALIDO)
+  );
+});
+
+await test("user_cannot_promote_self", async () => {
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}`), {
+      ...NODO_VALIDO,
+      rol: "admin",
+    })
+  );
+});
+
+await test("user_cannot_change_existing_role", async () => {
+  await seedUsuario(UID_NORMAL);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}/rol`), "admin")
+  );
+  await assertFails(
+    update(ref(user.database(), `usuarios/${UID_NORMAL}`), { rol: "admin" })
+  );
+});
+
+await test("user_cannot_change_active", async () => {
+  await seedUsuario(UID_NORMAL);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}/activo`), false)
+  );
+  await assertFails(
+    update(ref(user.database(), `usuarios/${UID_NORMAL}`), { activo: false })
+  );
+});
+
+await test("user_cannot_create_extra_fields", async () => {
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}`), {
+      ...NODO_VALIDO,
+      demo: true,
+    })
+  );
+});
+
+// ---------- Borrado ----------
+await test("user_cannot_delete_other_user", async () => {
+  await seedUsuario(UID_OTRO);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(remove(ref(user.database(), `usuarios/${UID_OTRO}`)));
+});
+
+await test("user_cannot_delete_self", async () => {
+  await seedUsuario(UID_NORMAL);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(remove(ref(user.database(), `usuarios/${UID_NORMAL}`)));
+});
+
+// ---------- Integridad de estructura ----------
+await test("user_cannot_overwrite_incomplete_node", async () => {
+  await seedUsuario(UID_NORMAL);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}`), { rol: "usuario" })
+  );
+});
+
+await test("user_cannot_create_incomplete_node", async () => {
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}`), { rol: "usuario" })
+  );
+});
+
+await test("user_cannot_write_scalar", async () => {
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(set(ref(user.database(), `usuarios/${UID_NORMAL}`), "hola"));
+});
+
+await test("user_cannot_change_own_email_to_invalid", async () => {
+  await seedUsuario(UID_NORMAL);
+  const user = testEnv.authenticatedContext(UID_NORMAL);
+  await assertFails(
+    set(ref(user.database(), `usuarios/${UID_NORMAL}/email`), "a@b.")
+  );
+});
+
+// ---------- El rol 'admin' en datos NO otorga privilegios ----------
+await test("user_with_fake_admin_role_gets_no_privileges", async () => {
+  await seedUsuario(UID_ADMIN_FAKE, { ...NODO_VALIDO, rol: "admin" });
+  const fake = testEnv.authenticatedContext(UID_ADMIN_FAKE);
+  await assertFails(get(ref(fake.database(), "usuarios")));
+  await assertFails(get(ref(fake.database(), `usuarios/${UID_NORMAL}`)));
+  await assertFails(
+    set(ref(fake.database(), `usuarios/${UID_NORMAL}`), NODO_VALIDO)
+  );
+});
+
+// ---------- Privilegios del admin (UID hardcodeado) ----------
+await test("admin_can_read_users", async () => {
+  await seedUsuario(UID_NORMAL);
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertSucceeds(get(ref(admin.database(), "usuarios")));
+  await assertSucceeds(get(ref(admin.database(), `usuarios/${UID_NORMAL}`)));
+});
+
+await test("admin_can_modify_users", async () => {
+  await seedUsuario(UID_OTRO);
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertSucceeds(
+    set(ref(admin.database(), `usuarios/${UID_OTRO}`), {
+      ...NODO_VALIDO,
+      nombre: "Modificado por Admin",
+    })
+  );
+});
+
+await test("admin_can_change_roles", async () => {
+  await seedUsuario(UID_OTRO);
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertSucceeds(
+    set(ref(admin.database(), `usuarios/${UID_OTRO}/rol`), "admin")
+  );
+  await assertSucceeds(
+    set(ref(admin.database(), `usuarios/${UID_OTRO}/rol`), "usuario")
+  );
+});
+
+await test("admin_can_change_active", async () => {
+  await seedUsuario(UID_OTRO);
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertSucceeds(
+    set(ref(admin.database(), `usuarios/${UID_OTRO}/activo`), false)
+  );
+  await assertSucceeds(
+    set(ref(admin.database(), `usuarios/${UID_OTRO}/activo`), true)
+  );
+});
+
+await test("admin_can_delete_users", async () => {
+  await seedUsuario(UID_OTRO);
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertSucceeds(remove(ref(admin.database(), `usuarios/${UID_OTRO}`)));
+});
+
+await test("admin_can_create_user_node", async () => {
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertSucceeds(
+    set(ref(admin.database(), `usuarios/uidCreadoPorAdmin`), {
+      ...NODO_VALIDO,
+      nombre: "Creado por Admin",
+      email: "admin-made@test.com",
+    })
+  );
+});
+
+// El .validate del nodo exige isObject() para TODOS (admin incluido),
+// para evitar corrupción de estructura con escalares.
+await test("admin_can_write_scalar", async () => {
+  const admin = testEnv.authenticatedContext(ADMIN_UID);
+  await assertFails(
+    set(ref(admin.database(), "usuarios/uidScalarAdmin"), "hola")
+  );
+});
+
 // ---------- Reporte ----------
-console.log(`\n=== Suite de reglas FireLabs: ${passed.length}/12 PASS ===\n`);
+const total = passed.length + failed.length;
+console.log(`\n=== Suite de reglas FireLabs: ${passed.length}/${total} PASS ===\n`);
 for (const p of passed) console.log(`  [PASS] ${p}`);
 if (failed.length) {
   console.log(`\nFALLARON ${failed.length} caso(s):`);

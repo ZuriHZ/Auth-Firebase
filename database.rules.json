@@ -1,22 +1,23 @@
 {
   "rules": {
     "usuarios": {
-      ".read": "auth != null && (auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92')",
+      ".read": "auth != null && auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92'",
       "$uid": {
         ".read": "auth != null && (auth.uid == $uid || auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92')",
-        ".write": "auth != null && ((auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92') || auth.uid == $uid)",
-        ".validate": "(auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92') || ((!data.exists() && newData.child('rol').val() == 'usuario') || (data.exists() && newData.child('rol').val() == data.child('rol').val()))",
-        "email": {
-          ".validate": "newData.isString() && newData.val().matches(/^[^@]+@[^@]+\\./)"
-        },
+        ".write": "auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92' || (auth.uid == $uid && newData.exists())",
+        ".validate": "(!newData.isString() && !newData.isNumber() && !newData.isBoolean()) && newData.hasChildren(['nombre','email','rol','activo'])",
         "nombre": {
-          ".validate": "newData.isString() && newData.val().length > 0"
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[^@]+@[^@]+\\.[^@]+$/)"
         },
         "rol": {
-          ".validate": "newData.val() == 'admin' || newData.val() == 'usuario'"
+          ".validate": "(newData.val() == 'admin' || newData.val() == 'usuario') && (auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92' || (!data.exists() && newData.val() == 'usuario') || (data.exists() && newData.val() == data.val()))"
         },
         "activo": {
-          ".validate": "newData.isBoolean()"
+          ".write": "auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92' || !data.exists()",
+          ".validate": "newData.isBoolean() && (auth.uid == 'xkSkF0DVSGfJuJlNA5vpqiAfVQ92' || !data.exists() || newData.val() == data.val())"
         },
         "$other": {
           ".validate": false
